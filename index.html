@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.I. FOR DESIGNERS — Aliou Diallo</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0B0912;--text:#D8DCE6;--accent:#C23A80}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Cinzel Decorative',serif;overflow-x:hidden}
+.main{max-width:1400px;margin:auto;padding:48px 24px;position:relative;z-index:2}
+.hero{height:420px;position:relative;background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat}
+.name{position:absolute;top:24px;left:24px;font-family:'Unifraktur Cook',cursive;font-size:4.5rem}
+h1,h2,h3{font-family:'Unifraktur Cook',cursive;line-height:1.1;margin:0 0 16px}
+h1{font-size:4.5rem;margin-top:48px}
+.subtitle,.email{margin-bottom:16px}
+.email a{color:var(--accent);text-decoration:none}
+.work-title{font-size:3rem;margin-top:48px}
+.grid{display:grid;grid-template-columns:1fr;gap:24px}
+.link{display:block;padding:12px 16px;border:2px solid var(--accent);color:var(--accent);text-decoration:none;font-weight:700;transition:.2s}
+.link:hover,.link:focus{background:var(--accent);color:var(--text)}
+.stars,.stars:before,.stars:after{position:fixed;inset:0;content:'';pointer-events:none;z-index:0}
+.stars{background-image:radial-gradient(circle,#D8DCE6 1px,transparent 1px),radial-gradient(circle,#C23A80 2px,transparent 2px);background-size:120px 120px,180px 180px;animation:drift 18s linear infinite;opacity:.4}
+.stars:before{background-image:radial-gradient(circle,#D8DCE6 2px,transparent 2px);background-size:140px 140px;animation:drift 12s linear infinite reverse;opacity:.3}
+.stars:after{background-image:radial-gradient(circle,#C23A80 1px,transparent 1px);background-size:90px 90px;animation:drift 8s linear infinite;opacity:.25}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-300px)}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:899px){.hero{height:280px}.name,h1{font-size:3rem}.work-title{font-size:2.25rem}}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<header class="hero"><div class="name">Aliou Diallo</div></header>
+<main class="main">
+<h1>A.I. FOR DESIGNERS — Aliou Diallo[cite: 1]</h1>
+<div class="subtitle">ART 3041 · Fall 2026[cite: 1]</div>
+<div class="email"><a href="mailto:aliou.b.diallo@outlook.com">aliou.b.diallo@outlook.com</a>[cite: 1]</div>
+<h2 class="work-title">Work[cite: 1]</h2>
+<div class="grid">
+<a class="link" href="#">01 Custom Instructions[cite: 1]</a>
+<a class="link" href="#">02 A Style Guide for Your AI[cite: 1]</a>
+<a class="link" href="#">03 Design a ___[cite: 1]</a>
+<a class="link" href="#">04 Commute Story[cite: 1]</a>
+<a class="link" href="#">05 Become a Crea(i)tive Director[cite: 1]</a>
+<a class="link" href="#">06 Experimental AI Interface[cite: 1]</a>
+<a class="link" href="poster-generator.html">07 Poster Generator</a>
+</div>
+</main>
+</body>
+</html>
