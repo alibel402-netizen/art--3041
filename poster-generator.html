@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ART 3041 — Parametric Poster Engine</title>
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;700;900&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Pirata+One&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-black: #0B0912;
+      --silver: #D8DCE6;
+      --dark-pink: #C23A80;
+      --dark-pink-glow: rgba(194, 58, 128, 0.35);
+      --font-gothic: 'UnifrakturCook', cursive;
+      --font-display: 'Pirata One', cursive;
+      --font-roman: 'Cinzel', serif;
+      --font-roman-dec: 'Cinzel Decorative', serif;
+      --font-editorial: 'Libre Caslon Text', serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0px !important;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--silver);
+      font-family: var(--font-roman-dec);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    #starfield-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 16px 28px;
+      border-bottom: 2px solid var(--dark-pink);
+      background: rgba(11, 9, 18, 0.95);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-title {
+      font-family: var(--font-gothic);
+      font-size: 1.85rem;
+      color: var(--silver);
+      letter-spacing: 1px;
+    }
+
+    .brand-subtitle {
+      font-family: var(--font-roman-dec);
+      font-size: 0.72rem;
+      color: var(--dark-pink);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .studio-workspace {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 73px);
+    }
+
+    .control-deck {
+      width: 440px;
+      min-width: 380px;
+      background: rgba(11, 9, 18, 0.96);
+      border-right: 2px solid var(--dark-pink);
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .viewport-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: radial-gradient(circle at center, rgba(194, 58, 128, 0.06) 0%, rgba(11, 9, 18, 0.9) 100%);
+      overflow: auto;
+    }
+
+    .control-group {
+      border: 2px solid var(--dark-pink);
+      padding: 16px;
+      background: rgba(11, 9, 18, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .group-label {
+      font-family: var(--font-gothic);
+      font-size: 1.25rem;
+      color: var(--silver);
+      border-bottom: 1px solid var(--dark-pink);
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      background: #000000;
+      border: 1px solid var(--dark-pink);
+      color: var(--silver);
+      padding: 8px 10px;
+      font-family: var(--font-roman);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--silver);
+      box-shadow: 0 0 8px var(--dark-pink-glow);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: #000;
+      height: 6px;
+      border: 1px solid var(--dark-pink);
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--dark-pink);
+      cursor: pointer;
+      border: 1px solid var(--silver);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .action-btn {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      background: transparent;
+      color: var(--dark-pink);
+      border: 2px solid var(--dark-pink);
+      padding: 12px 16px;
+      font-family: var(--font-roman-dec);
+      font-size: 0.85rem;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 200ms ease;
+      text-transform: uppercase;
+    }
+
+    .action-btn:hover {
+      background: var(--dark-pink);
+      color: var(--silver);
+      box-shadow: 0 0 14px var(--dark-pink-glow);
+    }
+
+    .action-btn.secondary {
+      border-color: var(--silver);
+      color: var(--silver);
+    }
+
+    .action-btn.secondary:hover {
+      background: var(--silver);
+      color: var(--bg-black);
+    }
+
+    .poster-frame {
+      box-shadow: 0 0 45px rgba(0, 0, 0, 0.95), 0 0 1px 2px var(--dark-pink);
+      max-height: 88vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    #poster-svg {
+      width: 540px;
+      height: 720px;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .studio-workspace {
+        flex-direction: column;
+        height: auto;
+      }
+      .control-deck {
+        width: 100%;
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--dark-pink);
+      }
+      #poster-svg {
+        width: 100%;
+        max-width: 420px;
+        height: auto;
+        aspect-ratio: 3/4;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="starfield-canvas"></canvas>
+
+  <header>
+    <div>
+      <div class="brand-title">ART 3041 · Poster Generator</div>
+      <div class="brand-subtitle">David Rudnick · Pure 2017 Parametric Engine</div>
+    </div>
+    <div style="font-size: 0.75rem; color: var(--silver); letter-spacing: 1px;">
+      ALIOU DIALLO · FALL 2026
+    </div>
+  </header>
+
+  <div class="studio-workspace">
+
+    <aside class="control-deck">
+
+      <div class="control-group" style="border-color: var(--silver);">
+        <button id="btn-export-svg" class="action-btn">Export Illustrator SVG</button>
+        <button id="btn-mutate" class="action-btn secondary" style="margin-top: 8px;">Mutate Permutation</button>
+      </div>
+
+      <!-- Color Palettes -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Palette & Discipline</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">CANON</span>
+        </div>
+
+        <div class="field-row">
+          <label for="palette-preset">Archival Color Mode</label>
+          <select id="palette-preset">
+            <option value="rudnick-pure" selected>Pure 2017 Void (Monochrome Bone on Void Black)</option>
+            <option value="class-palette">Class Canon (Blackberry Black / Dark Pink / Silver)</option>
+            <option value="aged-parchment">Aged Litho & Ink (#D6CEBD / #181513)</option>
+            <option value="burgundy-relic">Dried Blood Burgundy & Gold (#380E18 / #C9A96E)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 1. Center Illustration Cutout Engine -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Center Illustration Plate</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">ISOLATED</span>
+        </div>
+
+        <div class="field-row">
+          <label for="plate-select">Archival Specimen</label>
+          <select id="plate-select">
+            <option value="embedded-tarot" selected>Tarot Steed & Reaper (Procedural Linework Silhouette)</option>
+            <option value="poster/dore 3.webp">Gustave Doré — The Chasm (Plate III)</option>
+            <option value="poster/dore 2.webp">Gustave Doré — Celestial Choir (Plate II)</option>
+            <option value="poster/booth 1.jpeg">Franklin Booth — Monolithic Horizon</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="plate-upload">Upload Any Scan / Drawing (Auto Background Cutout)</label>
+          <input type="file" id="plate-upload" accept="image/*" style="font-size: 0.7rem; color: var(--silver);">
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-autocut">Cut Out Paper Background</label>
+          <input type="checkbox" id="toggle-autocut" checked>
+        </div>
+
+        <div class="field-row">
+          <label for="plate-threshold">Paper Cutout Threshold: <span id="val-plate-threshold">140</span></label>
+          <input type="range" id="plate-threshold" min="40" max="230" value="140">
+        </div>
+
+        <div class="field-row">
+          <label for="plate-scale">Illustration Scale: <span id="val-plate-scale">58%</span></label>
+          <input type="range" id="plate-scale" min="30" max="82" value="58">
+        </div>
+
+        <div class="field-row">
+          <label for="plate-y-offset">Vertical Center Shift: <span id="val-plate-y-offset">0px</span></label>
+          <input type="range" id="plate-y-offset" min="-120" max="120" value="0">
+        </div>
+      </div>
+
+      <!-- 2. Border Constructivist Shapes Engine -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Border Geometric Shapes</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">PERIPHERY</span>
+        </div>
+
+        <div class="field-row">
+          <label for="border-shape-mode">Marginal Shard Architecture</label>
+          <select id="border-shape-mode">
+            <option value="rudnick-canon" selected>Rudnick Canon (Faceted Corner Shards + Flanking Rails)</option>
+            <option value="stepped-flanks">Stepped Isometric Margins Only (Left/Right)</option>
+            <option value="corner-prisms">Heavy Crystalline Corner Prisms Only</option>
+            <option value="full-enclosure">Full Constructivist Perimeter Enclosure</option>
+            <option value="none">Zero Border Shapes (Void Margins)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="border-depth">Border Breadth / Inset (px): <span id="val-border-depth">120px</span></label>
+          <input type="range" id="border-depth" min="60" max="180" value="120">
+        </div>
+
+        <div class="field-row">
+          <label for="hatch-pitch">Ruling Line Hatch Pitch (px): <span id="val-hatch-pitch">7px</span></label>
+          <input type="range" id="hatch-pitch" min="4" max="18" value="7">
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-border-accent">Accent Color on Border Shapes</label>
+          <input type="checkbox" id="toggle-border-accent" checked>
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-grid-lines">Swiss 12-Column Hairlines</label>
+          <input type="checkbox" id="toggle-grid-lines" checked>
+        </div>
+      </div>
+
+      <!-- 3. Monumental Typography (Center) -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Monumental Title (Center)</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">LEVEL 2</span>
+        </div>
+
+        <div class="field-row">
+          <label for="text-h1">Primary Inscription</label>
+          <input type="text" id="text-h1" value="PURE 2017">
+        </div>
+
+        <div class="field-row">
+          <label for="font-h1">Typeface</label>
+          <select id="font-h1">
+            <option value="modular-vector" selected>Modular Algorithmic Blackletter (45° Chamfered)</option>
+            <option value="UnifrakturCook">UnifrakturCook (Fraktur Gothic)</option>
+            <option value="Pirata One">Pirata One (Gothic Display)</option>
+            <option value="Cinzel">Cinzel (Imperial Roman)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="size-h1">Type Scale (px): <span id="val-size-h1">96</span></label>
+          <input type="range" id="size-h1" min="50" max="140" value="96">
+        </div>
+
+        <div class="field-row">
+          <label for="y-h1">Title Vertical Horizon: <span id="val-y-h1">44%</span></label>
+          <input type="range" id="y-h1" min="15" max="85" value="44">
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-behind">Interlace Title Behind Illustration</label>
+          <input type="checkbox" id="toggle-behind" checked>
+        </div>
+      </div>
+
+      <!-- 4. Marginalia & Micro-Branding (Edges) -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Border Badges & Symbols</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">MICRO</span>
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-glyph-bar">Vertical Archaic Glyph Cassette</label>
+          <input type="checkbox" id="toggle-glyph-bar" checked>
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-micro-star">Heineken Micro-Star Badge</label>
+          <input type="checkbox" id="toggle-micro-star" checked>
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-barcode">Technical Barcode Strip</label>
+          <input type="checkbox" id="toggle-barcode" checked>
+        </div>
+      </div>
+
+      <!-- 5. Header & Footer Metadata -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Architectural Text</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">LEVEL 3</span>
+        </div>
+
+        <div class="field-row">
+          <label for="text-h2">Architectural Top Header (H2)</label>
+          <input type="text" id="text-h2" value="OPUS MATHEMATICA · PURE TRANSMISSION">
+        </div>
+
+        <div class="field-row">
+          <label for="text-meta">Information Group (Bottom Left)</label>
+          <textarea id="text-meta" rows="3">CONCLAVE OF EXPERIMENTAL SOUND · 2026.10.05
+LOCUS: 40°42'46"N 74°00'22"W · HALL ARCHIVE
+DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="viewport-panel">
+      <div class="poster-frame">
+        <svg id="poster-svg" viewBox="0 0 900 1200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <defs>
+            <style>
+              @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Pirata+One&amp;family=UnifrakturCook:wght@700&amp;display=swap');
+
+              .svg-h1 {
+                text-anchor: middle;
+                letter-spacing: 6px;
+              }
+              .svg-h2 {
+                font-family: 'Cinzel', serif;
+                font-size: 14px;
+                letter-spacing: 7px;
+                text-anchor: middle;
+              }
+              .svg-meta {
+                font-family: 'Cinzel', serif;
+                font-size: 9.5px;
+                letter-spacing: 2.8px;
+                line-height: 1.6;
+              }
+              .hairline-grid {
+                stroke-width: 1px;
+                stroke-dasharray: 2 4;
+              }
+            </style>
+          </defs>
+
+          <!-- Layer Hierarchy -->
+          <rect id="svg-bg" width="900" height="1200" fill="#060509" />
+          <g id="svg-grid-layer"></g>
+
+          <!-- BORDER GEOMETRY (Confined to periphery) -->
+          <g id="svg-border-shapes-layer"></g>
+
+          <!-- CENTER TITLE & CUTOUT ILLUSTRATION -->
+          <g id="svg-behind-title-layer"></g>
+          <g id="svg-artwork-layer"></g>
+          <g id="svg-fore-title-layer"></g>
+
+          <!-- BORDER MARGINALIA & METADATA -->
+          <g id="svg-marginalia-layer"></g>
+          <g id="svg-metadata-layer"></g>
+          <g id="svg-frame-layer"></g>
+        </svg>
+      </div>
+    </main>
+
+  </div>
+
+  <canvas id="cutout-canvas" style="display: none;"></canvas>
+
+  <script>
+    /* ==========================================================================
+       1. STARFIELD DRIFT BACKGROUND
+       ========================================================================== */
+    const starCanvas = document.getElementById('starfield-canvas');
+    const starCtx = starCanvas.getContext('2d');
+    let stars = [];
+    const NUM_STARS = 140;
+
+    function resizeStarCanvas() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeStarCanvas);
+    resizeStarCanvas();
+
+    for (let i = 0; i < NUM_STARS; i++) {
+      stars.push({
+        x: Math.random() * starCanvas.width,
+        y: Math.random() * starCanvas.height,
+        size: Math.random() * 2 + 0.8,
+        speedX: (Math.random() - 0.5) * 1.5,
+        speedY: -(Math.random() * 2 + 1),
+        alpha: Math.random() * 0.7 + 0.3,
+        twinkleRate: Math.random() * 0.03 + 0.01,
+        isPink: Math.random() > 0.8
+      });
+    }
+
+    function animateStars() {
+      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      for (let s of stars) {
+        s.y += s.speedY;
+        s.x += s.speedX;
+        s.alpha += Math.sin(Date.now() * s.twinkleRate) * 0.01;
+        if (s.y < 0) s.y = starCanvas.height;
+        if (s.x < 0) s.x = starCanvas.width;
+        if (s.x > starCanvas.width) s.x = 0;
+
+        starCtx.fillStyle = s.isPink
+          ? `rgba(194, 58, 128, ${Math.max(0.1, Math.min(1, s.alpha))})`
+          : `rgba(216, 220, 230, ${Math.max(0.1, Math.min(1, s.alpha))})`;
+        starCtx.fillRect(s.x, s.y, s.size, s.size);
+      }
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    /* ==========================================================================
+       2. SVG HELPER & DOM CLEANUP
+       ========================================================================== */
+    function createSvg(tag, attrs = {}) {
+      const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+      for (const [key, val] of Object.entries(attrs)) {
+        if (key === 'text') {
+          el.textContent = val;
+        } else if (key === 'href' || key === 'xlink:href') {
+          el.setAttribute('href', val);
+          el.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', val);
+        } else {
+          el.setAttribute(key, val);
+        }
+      }
+      return el;
+    }
+
+    function clearLayer(layer) {
+      while (layer.firstChild) {
+        layer.removeChild(layer.firstChild);
+      }
+    }
+
+    /* ==========================================================================
+       3. DOM ELEMENTS & PALETTES
+       ========================================================================== */
+    const palettePreset = document.getElementById('palette-preset');
+    const plateSelect = document.getElementById('plate-select');
+    const plateUpload = document.getElementById('plate-upload');
+    const toggleAutocut = document.getElementById('toggle-autocut');
+    const plateThreshold = document.getElementById('plate-threshold');
+    const valPlateThreshold = document.getElementById('val-plate-threshold');
+    const plateScale = document.getElementById('plate-scale');
+    const valPlateScale = document.getElementById('val-plate-scale');
+    const plateYOffset = document.getElementById('plate-y-offset');
+    const valPlateYOffset = document.getElementById('val-plate-y-offset');
+
+    const borderShapeMode = document.getElementById('border-shape-mode');
+    const borderDepth = document.getElementById('border-depth');
+    const valBorderDepth = document.getElementById('val-border-depth');
+    const hatchPitch = document.getElementById('hatch-pitch');
+    const valHatchPitch = document.getElementById('val-hatch-pitch');
+    const toggleBorderAccent = document.getElementById('toggle-border-accent');
+    const toggleGridLines = document.getElementById('toggle-grid-lines');
+
+    const textH1 = document.getElementById('text-h1');
+    const fontH1 = document.getElementById('font-h1');
+    const sizeH1 = document.getElementById('size-h1');
+    const valSizeH1 = document.getElementById('val-size-h1');
+    const yH1 = document.getElementById('y-h1');
+    const valYH1 = document.getElementById('val-y-h1');
+    const toggleBehind = document.getElementById('toggle-behind');
+
+    const toggleGlyphBar = document.getElementById('toggle-glyph-bar');
+    const toggleMicroStar = document.getElementById('toggle-micro-star');
+    const toggleBarcode = document.getElementById('toggle-barcode');
+
+    const textH2 = document.getElementById('text-h2');
+    const textMeta = document.getElementById('text-meta');
+
+    const btnMutate = document.getElementById('btn-mutate');
+    const btnExportSvg = document.getElementById('btn-export-svg');
+
+    // Layers
+    const svgBg = document.getElementById('svg-bg');
+    const gridLayer = document.getElementById('svg-grid-layer');
+    const borderShapesLayer = document.getElementById('svg-border-shapes-layer');
+    const behindTitleLayer = document.getElementById('svg-behind-title-layer');
+    const artworkLayer = document.getElementById('svg-artwork-layer');
+    const foreTitleLayer = document.getElementById('svg-fore-title-layer');
+    const marginaliaLayer = document.getElementById('svg-marginalia-layer');
+    const metadataLayer = document.getElementById('svg-metadata-layer');
+    const frameLayer = document.getElementById('svg-frame-layer');
+
+    const cutoutCanvas = document.getElementById('cutout-canvas');
+    const cutoutCtx = cutoutCanvas.getContext('2d');
+
+    let rawUploadedImg = null;
+    let cutoutDataUrl = null;
+
+    const PALETTES = {
+      'rudnick-pure': {
+        bg: '#060509',
+        accent: '#D8DCE6',
+        text: '#EAEAEA',
+        grid: 'rgba(216, 220, 230, 0.16)',
+        borderFill: 'rgba(216, 220, 230, 0.05)',
+        hatchStroke: 'rgba(216, 220, 230, 0.45)',
+        starCircle: '#007A33',
+        starFill: '#E31B23'
+      },
+      'class-palette': {
+        bg: '#0B0912',
+        accent: '#C23A80',
+        text: '#D8DCE6',
+        grid: 'rgba(194, 58, 128, 0.22)',
+        borderFill: 'rgba(194, 58, 128, 0.06)',
+        hatchStroke: 'rgba(194, 58, 128, 0.45)',
+        starCircle: '#C23A80',
+        starFill: '#D8DCE6'
+      },
+      'aged-parchment': {
+        bg: '#D6CEBD',
+        accent: '#3B1812',
+        text: '#181513',
+        grid: 'rgba(59, 24, 18, 0.22)',
+        borderFill: 'rgba(59, 24, 18, 0.05)',
+        hatchStroke: 'rgba(59, 24, 18, 0.4)',
+        starCircle: '#3B1812',
+        starFill: '#8B2616'
+      },
+      'burgundy-relic': {
+        bg: '#380E18',
+        accent: '#C9A96E',
+        text: '#EAE2D5',
+        grid: 'rgba(201, 169, 110, 0.25)',
+        borderFill: 'rgba(201, 169, 110, 0.08)',
+        hatchStroke: 'rgba(201, 169, 110, 0.45)',
+        starCircle: '#C9A96E',
+        starFill: '#380E18'
+      }
+    };
+
+    /* ==========================================================================
+       4. AUTO-CUTOUT PROCESSOR: REMOVES WHITE BACKGROUND FROM USER SCANS
+       ========================================================================== */
+    function processImageBackgroundCutout() {
+      if (!rawUploadedImg) {
+        cutoutDataUrl = null;
+        renderPoster();
+        return;
+      }
+
+      if (!toggleAutocut.checked) {
+        cutoutDataUrl = rawUploadedImg.src;
+        renderPoster();
+        return;
+      }
+
+      // Max size for smooth rendering
+      const maxDim = 800;
+      let w = rawUploadedImg.naturalWidth || 600;
+      let h = rawUploadedImg.naturalHeight || 800;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) {
+          h = Math.round((h * maxDim) / w);
+          w = maxDim;
+        } else {
+          w = Math.round((w * maxDim) / h);
+          h = maxDim;
+        }
+      }
+
+      cutoutCanvas.width = w;
+      cutoutCanvas.height = h;
+      cutoutCtx.clearRect(0, 0, w, h);
+      cutoutCtx.drawImage(rawUploadedImg, 0, 0, w, h);
+
+      try {
+        const imgData = cutoutCtx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        const threshold = parseInt(plateThreshold.value, 10);
+
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+
+          if (luminance >= threshold) {
+            // Cut out paper background completely
+            data[i + 3] = 0;
+          } else {
+            // Remap linework to crisp Moonlight Silver
+            const inkAlpha = Math.min(255, 255 - (luminance / threshold) * 70);
+            data[i] = 216;     // R
+            data[i + 1] = 220; // G
+            data[i + 2] = 230; // B
+            data[i + 3] = inkAlpha;
+          }
+        }
+
+        cutoutCtx.putImageData(imgData, 0, 0);
+        cutoutDataUrl = cutoutCanvas.toDataURL('image/png');
+      } catch (err) {
+        cutoutDataUrl = rawUploadedImg.src;
+      }
+
+      renderPoster();
+    }
+
+    /* ==========================================================================
+       5. EMBEDDED HIGH-CONTRAST TAROT LINERWORK (CENTER ENGRAVING)
+       ========================================================================== */
+    function buildCenterTarotEngraving(theme) {
+      const g = createSvg('g', {
+        fill: 'none',
+        stroke: theme.text,
+        'stroke-width': '1.8',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      });
+
+      // Backbone, Ribs & Skeletal Steed Body
+      g.appendChild(createSvg('path', { d: 'M 450,310 Q 420,350 390,400 Q 350,480 380,580 Q 390,610 420,650 Q 460,700 470,790 L 440,880', 'stroke-width': '3.2' }));
+      g.appendChild(createSvg('path', { d: 'M 420,410 Q 500,430 550,490 Q 590,550 570,640 Q 540,730 500,800 L 530,880', 'stroke-width': '2' }));
+
+      // Horse Skull & Jaw
+      g.appendChild(createSvg('polygon', { points: '390,400 330,360 290,390 310,430 360,440', 'stroke-width': '2.5' }));
+      g.appendChild(createSvg('circle', { cx: '315', cy: '395', r: '6', fill: theme.text }));
+      g.appendChild(createSvg('path', { d: 'M 290,390 L 230,430 L 210,480 L 260,490 L 320,440' }));
+      g.appendChild(createSvg('path', { d: 'M 230,430 L 210,450 L 220,480' }));
+
+      // Grim Reaper Hood, Cowl & Scythe
+      g.appendChild(createSvg('path', { d: 'M 470,300 Q 580,250 630,340 Q 660,400 600,430', 'stroke-width': '3' }));
+      g.appendChild(createSvg('line', { x1: '420', y1: '410', x2: '630', y2: '340', 'stroke-dasharray': '2 4' }));
+      g.appendChild(createSvg('path', { d: 'M 470,360 C 510,350 550,380 540,430 C 530,460 490,480 460,480 Z' }));
+      g.appendChild(createSvg('circle', { cx: '500', cy: '395', r: '5', fill: theme.text }));
+
+      // Crescent Scythe Blade
+      g.appendChild(createSvg('polygon', { points: '440,290 650,220 665,235 460,305', fill: theme.text }));
+      g.appendChild(createSvg('path', { d: 'M 650,220 Q 700,280 680,410 Q 650,500 560,550', 'stroke-width': '3.8' }));
+
+      // Woodcut Shading Hatches
+      const hatchGroup = createSvg('g', { 'stroke-width': '1.1', opacity: '0.65' });
+      const lines = [
+        [380, 440, 420, 500], [370, 460, 410, 520], [350, 510, 400, 560],
+        [330, 560, 380, 610], [400, 620, 450, 660], [440, 520, 490, 550],
+        [470, 560, 520, 600], [510, 490, 570, 520], [530, 530, 580, 570]
+      ];
+      lines.forEach(([x1, y1, x2, y2]) => {
+        hatchGroup.appendChild(createSvg('line', { x1, y1, x2, y2 }));
+      });
+      g.appendChild(hatchGroup);
+
+      return g;
+    }
+
+    /* ==========================================================================
+       6. MODULAR CHAMFERED BLACKLETTER TITLE (CENTER)
+       ========================================================================== */
+    function renderModularVectorWord(text, yPos, scalePx, theme) {
+      const g = createSvg('g');
+      const clean = text.toUpperCase().trim();
+      const glyphWidth = scalePx * 0.72;
+      const glyphHeight = scalePx * 1.15;
+      const spacing = scalePx * 0.28;
+      const totalWidth = clean.length * glyphWidth + (clean.length - 1) * spacing;
+      let startX = 450 - totalWidth / 2;
+      const th = Math.max(8, scalePx * 0.2);
+
+      for (let i = 0; i < clean.length; i++) {
+        const ch = clean[i];
+        const gx = startX + i * (glyphWidth + spacing);
+        const gy = yPos - glyphHeight / 2;
+
+        const path = createSvg('path', {
+          fill: theme.text,
+          'fill-rule': 'evenodd'
+        });
+
+        let d = '';
+        if (ch === 'P') {
+          d = `M ${gx},${gy} L ${gx + glyphWidth - th},${gy} L ${gx + glyphWidth},${gy + th} L ${gx + glyphWidth},${gy + glyphHeight * 0.55} L ${gx + glyphWidth - th},${gy + glyphHeight * 0.65} L ${gx + th},${gy + glyphHeight * 0.65} L ${gx + th},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z ` +
+              `M ${gx + th},${gy + th} L ${gx + glyphWidth - th},${gy + th} L ${gx + glyphWidth - th},${gy + glyphHeight * 0.55 - th * 0.2} L ${gx + th},${gy + glyphHeight * 0.55 - th * 0.2} Z`;
+        } else if (ch === 'U') {
+          d = `M ${gx},${gy} L ${gx + th},${gy} L ${gx + th},${gy + glyphHeight - th} L ${gx + glyphWidth - th},${gy + glyphHeight - th} L ${gx + glyphWidth - th},${gy} L ${gx + glyphWidth},${gy} L ${gx + glyphWidth},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z`;
+        } else if (ch === 'R') {
+          d = `M ${gx},${gy} L ${gx + glyphWidth - th},${gy} L ${gx + glyphWidth},${gy + th} L ${gx + glyphWidth},${gy + glyphHeight * 0.5} L ${gx + glyphWidth - th},${gy + glyphHeight * 0.6} L ${gx + glyphWidth},${gy + glyphHeight} L ${gx + glyphWidth - th * 1.2},${gy + glyphHeight} L ${gx + th},${gy + glyphHeight * 0.6} L ${gx + th},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z ` +
+              `M ${gx + th},${gy + th} L ${gx + glyphWidth - th},${gy + th} L ${gx + glyphWidth - th},${gy + glyphHeight * 0.5} L ${gx + th},${gy + glyphHeight * 0.5} Z`;
+        } else if (ch === 'E') {
+          d = `M ${gx},${gy} L ${gx + glyphWidth},${gy} L ${gx + glyphWidth},${gy + th} L ${gx + th},${gy + th} L ${gx + th},${gy + glyphHeight * 0.45} L ${gx + glyphWidth * 0.8},${gy + glyphHeight * 0.45} L ${gx + glyphWidth * 0.8},${gy + glyphHeight * 0.45 + th} L ${gx + th},${gy + glyphHeight * 0.45 + th} L ${gx + th},${gy + glyphHeight - th} L ${gx + glyphWidth},${gy + glyphHeight - th} L ${gx + glyphWidth},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z`;
+        } else if (ch === '2') {
+          d = `M ${gx},${gy} L ${gx + glyphWidth},${gy} L ${gx + glyphWidth},${gy + glyphHeight * 0.5} L ${gx + th},${gy + glyphHeight - th} L ${gx + glyphWidth},${gy + glyphHeight - th} L ${gx + glyphWidth},${gy + glyphHeight} L ${gx},${gy + glyphHeight} L ${gx},${gy + glyphHeight * 0.6} L ${gx + glyphWidth - th},${gy + glyphHeight * 0.4} L ${gx + glyphWidth - th},${gy + th} L ${gx},${gy + th} Z`;
+        } else if (ch === '0') {
+          d = `M ${gx + th},${gy} L ${gx + glyphWidth - th},${gy} L ${gx + glyphWidth},${gy + th} L ${gx + glyphWidth},${gy + glyphHeight - th} L ${gx + glyphWidth - th},${gy + glyphHeight} L ${gx + th},${gy + glyphHeight} L ${gx},${gy + glyphHeight - th} L ${gx},${gy + th} Z ` +
+              `M ${gx + th},${gy + th} L ${gx + glyphWidth - th},${gy + th} L ${gx + glyphWidth - th},${gy + glyphHeight - th} L ${gx + th},${gy + glyphHeight - th} Z`;
+        } else if (ch === '1') {
+          d = `M ${gx + glyphWidth * 0.3},${gy + th} L ${gx + glyphWidth * 0.6},${gy} L ${gx + glyphWidth * 0.6 + th},${gy} L ${gx + glyphWidth * 0.6 + th},${gy + glyphHeight} L ${gx + glyphWidth * 0.6},${gy + glyphHeight} L ${gx + glyphWidth * 0.6},${gy + th} Z`;
+        } else if (ch === '7') {
+          d = `M ${gx},${gy} L ${gx + glyphWidth},${gy} L ${gx + glyphWidth},${gy + th} L ${gx + th * 1.5},${gy + glyphHeight} L ${gx},${gy + glyphHeight} L ${gx + glyphWidth - th * 1.2},${gy + th} L ${gx},${gy + th} Z`;
+        } else {
+          d = `M ${gx},${gy} L ${gx + glyphWidth},${gy} L ${gx + glyphWidth},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z`;
+        }
+
+        path.setAttribute('d', d);
+        g.appendChild(path);
+      }
+
+      return g;
+    }
+
+    /* ==========================================================================
+       7. BORDER GEOMETRIC SHAPES GENERATOR (CONFINED TO EDGES/MARGINS)
+       ========================================================================== */
+    function buildBorderShapes(theme, mode, depth, pitch, useAccent) {
+      const g = createSvg('g');
+      const strokeCol = useAccent ? theme.accent : theme.text;
+      const fillCol = theme.borderFill;
+      const hatchCol = theme.hatchStroke;
+
+      if (mode === 'none') return g;
+
+      // 1. CORNER FACETED PRISMS (Top-Left, Top-Right, Bottom-Left, Bottom-Right)
+      if (mode === 'rudnick-canon' || mode === 'corner-prisms' || mode === 'full-enclosure') {
+        const d = depth;
+
+        // Top-Left Corner Shard
+        g.appendChild(createSvg('polygon', {
+          points: `48,48 ${48 + d * 1.2},48 ${48 + d * 1.2},${48 + d * 0.4} ${48 + d * 0.5},${48 + d * 1.1} 48,${48 + d * 1.1}`,
+          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
+        }));
+        g.appendChild(createSvg('line', {
+          x1: '48', y1: '48', x2: `${48 + d * 0.5}`, y2: `${48 + d * 1.1}`,
+          stroke: theme.text, 'stroke-width': '0.9', opacity: '0.6'
+        }));
+
+        // Ruling Hatching in Top-Left Corner
+        for (let y = 56; y < 48 + d * 0.4; y += pitch) {
+          g.appendChild(createSvg('line', {
+            x1: '52', y1: y, x2: `${44 + d * 1.1}`, y2: y,
+            stroke: hatchCol, 'stroke-width': '1'
+          }));
+        }
+
+        // Top-Right Corner Shard
+        g.appendChild(createSvg('polygon', {
+          points: `852,48 ${852 - d * 1.2},48 ${852 - d * 1.2},${48 + d * 0.4} ${852 - d * 0.5},${48 + d * 1.1} 852,${48 + d * 1.1}`,
+          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
+        }));
+        g.appendChild(createSvg('line', {
+          x1: '852', y1: '48', x2: `${852 - d * 0.5}`, y2: `${48 + d * 1.1}`,
+          stroke: theme.text, 'stroke-width': '0.9', opacity: '0.6'
+        }));
+
+        // Bottom-Left Corner Shard
+        g.appendChild(createSvg('polygon', {
+          points: `48,1152 ${48 + d * 1.1},1152 ${48 + d * 1.1},${1152 - d * 0.4} ${48 + d * 0.4},${1152 - d * 1.1} 48,${1152 - d * 1.1}`,
+          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
+        }));
+        g.appendChild(createSvg('line', {
+          x1: '48', y1: '1152', x2: `${48 + d * 0.4}`, y2: `${1152 - d * 1.1}`,
+          stroke: strokeCol, 'stroke-width': '1'
+        }));
+
+        // Bottom-Right Corner Shard
+        g.appendChild(createSvg('polygon', {
+          points: `852,1152 ${852 - d * 1.1},1152 ${852 - d * 1.1},${1152 - d * 0.4} ${852 - d * 0.4},${1152 - d * 1.1} 852,${1152 - d * 1.1}`,
+          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
+        }));
+        g.appendChild(createSvg('line', {
+          x1: '852', y1: '1152', x2: `${852 - d * 0.4}`, y2: `${1152 - d * 1.1}`,
+          stroke: strokeCol, 'stroke-width': '1'
+        }));
+      }
+
+      // 2. LEFT MARGIN: STEPPED ISOMETRIC RAILS & PRISMS
+      if (mode === 'rudnick-canon' || mode === 'stepped-flanks' || mode === 'full-enclosure') {
+        const leftX = 48;
+        const railW = Math.min(80, depth * 0.65);
+
+        // Stepped polygon sequence along the left border
+        const numBlocks = 7;
+        const blockH = 65;
+        const startY = 320;
+
+        for (let i = 0; i < numBlocks; i++) {
+          const cy = startY + i * (blockH + 18);
+          // 45° sheared isometric rail
+          g.appendChild(createSvg('polygon', {
+            points: `${leftX},${cy} ${leftX + railW},${cy - 20} ${leftX + railW},${cy + blockH - 20} ${leftX},${cy + blockH}`,
+            fill: (i % 2 === 0) ? fillCol : 'none',
+            stroke: strokeCol,
+            'stroke-width': '1.2'
+          }));
+
+          // Interior ruling lines in alternating left blocks
+          if (i % 2 === 0) {
+            for (let hy = cy + 4; hy < cy + blockH - 4; hy += pitch) {
+              g.appendChild(createSvg('line', {
+                x1: `${leftX + 4}`, y1: hy,
+                x2: `${leftX + railW - 4}`, y2: hy - 20,
+                stroke: hatchCol, 'stroke-width': '0.9'
+              }));
+            }
+          }
+        }
+      }
+
+      // 3. RIGHT MARGIN: ISOMETRIC CHEVRONS & REGISTRATION COLUMNS
+      if (mode === 'rudnick-canon' || mode === 'stepped-flanks' || mode === 'full-enclosure') {
+        const rightX = 852;
+        const railW = Math.min(75, depth * 0.6);
+        const startY = 310;
+
+        for (let j = 0; j < 6; j++) {
+          const cy = startY + j * 90;
+          g.appendChild(createSvg('polygon', {
+            points: `${rightX},${cy} ${rightX - railW},${cy + 22} ${rightX - railW},${cy + 52} ${rightX},${cy + 30}`,
+            fill: (j === 1 || j === 4) ? fillCol : 'none',
+            stroke: strokeCol,
+            'stroke-width': '1.2'
+          }));
+        }
+      }
+
+      // 4. TOP & BOTTOM PERIMETER TABS & CROSSBARS (Full enclosure)
+      if (mode === 'full-enclosure') {
+        // Top architectural lintel
+        g.appendChild(createSvg('polygon', {
+          points: `220,48 240,68 660,68 680,48`,
+          fill: fillCol, stroke: strokeCol, 'stroke-width': '1'
+        }));
+        // Bottom registration rail
+        g.appendChild(createSvg('polygon', {
+          points: `220,1152 240,1132 660,1132 680,1152`,
+          fill: fillCol, stroke: strokeCol, 'stroke-width': '1'
+        }));
+      }
+
+      return g;
+    }
+
+    /* ==========================================================================
+       8. PRIMARY POSTER RENDER PIPELINE
+       ========================================================================== */
+    function renderPoster() {
+      const theme = PALETTES[palettePreset.value] || PALETTES['rudnick-pure'];
+      svgBg.setAttribute('fill', theme.bg);
+
+      // 1. Swiss 12-Column Hairline Grid
+      clearLayer(gridLayer);
+      if (toggleGridLines.checked) {
+        const margin = 48;
+        const cols = 12;
+        const colW = (900 - margin * 2) / cols;
+        for (let i = 0; i <= cols; i++) {
+          const x = margin + i * colW;
+          gridLayer.appendChild(createSvg('line', {
+            x1: x, y1: margin, x2: x, y2: 1200 - margin,
+            stroke: theme.grid, class: 'hairline-grid'
+          }));
+        }
+      }
+
+      // 2. Border Constructivist Shapes (Confined strictly to margins & edges)
+      clearLayer(borderShapesLayer);
+      const bMode = borderShapeMode.value;
+      const bDepth = parseInt(borderDepth.value, 10);
+      const bPitch = parseInt(hatchPitch.value, 10);
+      const useAccent = toggleBorderAccent.checked;
+
+      const borderGroup = buildBorderShapes(theme, bMode, bDepth, bPitch, useAccent);
+      borderShapesLayer.appendChild(borderGroup);
+
+      // 3. Center Illustration Plate (Cut Out From Background)
+      clearLayer(artworkLayer);
+      const scaleFrac = parseInt(plateScale.value, 10) / 100;
+      const yShift = parseInt(plateYOffset.value, 10);
+
+      if (!rawUploadedImg && plateSelect.value === 'embedded-tarot') {
+        // High-contrast vector engraving centered cleanly
+        const specimen = buildCenterTarotEngraving(theme);
+        specimen.setAttribute('transform', `translate(${450 * (1 - scaleFrac)}, ${ (600 + yShift) * (1 - scaleFrac) }) scale(${scaleFrac})`);
+        artworkLayer.appendChild(specimen);
+      } else {
+        // User upload or selected image (transparent silhouette via cutout canvas)
+        const imgSrc = cutoutDataUrl || (rawUploadedImg ? rawUploadedImg.src : plateSelect.value);
+        const imgW = 840 * scaleFrac;
+        const imgH = 1040 * scaleFrac;
+        const imgX = (900 - imgW) / 2;
+        const imgY = 160 + (680 - imgH) / 2 + yShift;
+
+        artworkLayer.appendChild(createSvg('image', {
+          href: imgSrc,
+          x: imgX, y: imgY, width: imgW, height: imgH,
+          preserveAspectRatio: 'xMidYMid meet'
+        }));
+      }
+
+      // 4. Monumental Title (Centered in the layout)
+      clearLayer(behindTitleLayer);
+      clearLayer(foreTitleLayer);
+
+      const yH1Pos = 1200 * (parseInt(yH1.value, 10) / 100);
+      const sizeVal = parseInt(sizeH1.value, 10);
+      let titleElem;
+
+      if (fontH1.value === 'modular-vector') {
+        titleElem = renderModularVectorWord(textH1.value, yH1Pos, sizeVal, theme);
+      } else {
+        titleElem = createSvg('text', {
+          x: '450',
+          y: yH1Pos.toString(),
+          class: 'svg-h1',
+          fill: theme.text,
+          'font-family': fontH1.value,
+          'font-size': `${sizeVal}px`,
+          text: textH1.value.toUpperCase()
+        });
+      }
+
+      if (toggleBehind.checked) {
+        behindTitleLayer.appendChild(titleElem);
+      } else {
+        foreTitleLayer.appendChild(titleElem);
+      }
+
+      // 5. Border Marginalia: Runic Cassette, Heineken Star & Barcode
+      clearLayer(marginaliaLayer);
+      if (toggleGlyphBar.checked) {
+        const glyphBar = createSvg('g', { transform: 'translate(842, 230)' });
+        glyphBar.appendChild(createSvg('line', {
+          x1: '0', y1: '0', x2: '0', y2: '560',
+          stroke: theme.accent, 'stroke-width': '1', 'stroke-dasharray': '1 3'
+        }));
+
+        glyphBar.appendChild(createSvg('text', {
+          x: '14', y: '24', 'font-family': 'Cinzel', 'font-size': '9',
+          fill: theme.text, 'letter-spacing': '3', transform: 'rotate(90 14,24)',
+          text: 'OP. 2017 // PURE RIGOR // CLASSIFIED'
+        }));
+
+        // Archaic border runes
+        const glyphCluster = createSvg('g', {
+          transform: 'translate(0, 180)', stroke: theme.text, 'stroke-width': '1.2', fill: 'none'
+        });
+        glyphCluster.appendChild(createSvg('rect', { x: '-8', y: '0', width: '16', height: '16' }));
+        glyphCluster.appendChild(createSvg('line', { x1: '-8', y1: '8', x2: '8', y2: '8' }));
+        glyphCluster.appendChild(createSvg('polygon', { points: '0,30 9,46 -9,46' }));
+        glyphCluster.appendChild(createSvg('circle', { cx: '0', cy: '68', r: '7' }));
+        glyphCluster.appendChild(createSvg('line', { x1: '0', y1: '61', x2: '0', y2: '75' }));
+        glyphCluster.appendChild(createSvg('line', { x1: '-7', y1: '68', x2: '7', y2: '68' }));
+        glyphCluster.appendChild(createSvg('rect', { x: '-6', y: '90', width: '12', height: '22', 'stroke-dasharray': '2 2' }));
+        glyphCluster.appendChild(createSvg('polygon', { points: '-8,132 8,132 0,146' }));
+        glyphBar.appendChild(glyphCluster);
+
+        marginaliaLayer.appendChild(glyphBar);
+      }
+
+      if (toggleMicroStar.checked) {
+        const starGroup = createSvg('g', { transform: 'translate(832, 172)' });
+        starGroup.appendChild(createSvg('circle', {
+          cx: '0', cy: '0', r: '14', fill: '#000', stroke: theme.starCircle, 'stroke-width': '1.6'
+        }));
+        starGroup.appendChild(createSvg('polygon', {
+          points: '0,-8 2.4,-2.5 8,-2.5 3.5,1 5.2,6.5 0,3.2 -5.2,6.5 -3.5,1 -8,-2.5 -2.4,-2.5',
+          fill: theme.starFill
+        }));
+        starGroup.appendChild(createSvg('text', {
+          x: '-44', y: '4', 'font-family': 'Cinzel', 'font-size': '8',
+          fill: theme.text, 'letter-spacing': '1', text: 'ARCHIVE'
+        }));
+        marginaliaLayer.appendChild(starGroup);
+      }
+
+      if (toggleBarcode.checked) {
+        const barcodeGroup = createSvg('g', { transform: 'translate(740, 1114)' });
+        const barWidths = [2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4, 2];
+        let bx = 0;
+        barWidths.forEach(bw => {
+          barcodeGroup.appendChild(createSvg('rect', {
+            x: bx, y: 0, width: bw, height: 18, fill: theme.text
+          }));
+          bx += bw + 2;
+        });
+        marginaliaLayer.appendChild(barcodeGroup);
+      }
+
+      // 6. Header, Metadata & Framing Crosshairs
+      clearLayer(metadataLayer);
+      metadataLayer.appendChild(createSvg('text', {
+        x: '450', y: '88', class: 'svg-h2', fill: theme.accent,
+        text: textH2.value.toUpperCase()
+      }));
+
+      const metaTextElem = createSvg('text', {
+        x: '75', y: '1112', class: 'svg-meta', fill: theme.text
+      });
+      textMeta.value.split('\n').forEach((line, idx) => {
+        metaTextElem.appendChild(createSvg('tspan', {
+          x: '75', dy: idx === 0 ? '0' : '16', text: line.toUpperCase()
+        }));
+      });
+      metadataLayer.appendChild(metaTextElem);
+
+      clearLayer(frameLayer);
+      frameLayer.appendChild(createSvg('rect', {
+        x: '40', y: '40', width: '820', height: '1120',
+        fill: 'none', stroke: theme.accent, 'stroke-width': '1.5'
+      }));
+      frameLayer.appendChild(createSvg('rect', {
+        x: '46', y: '46', width: '808', height: '1108',
+        fill: 'none', stroke: theme.text, 'stroke-width': '0.75', opacity: '0.4'
+      }));
+
+      [{x: 40, y: 40}, {x: 860, y: 40}, {x: 40, y: 1160}, {x: 860, y: 1160}].forEach(pt => {
+        const cross = createSvg('g');
+        cross.appendChild(createSvg('line', {
+          x1: pt.x - 10, y1: pt.y, x2: pt.x + 10, y2: pt.y, stroke: theme.accent, 'stroke-width': '1.5'
+        }));
+        cross.appendChild(createSvg('line', {
+          x1: pt.x, y1: pt.y - 10, x2: pt.x, y2: pt.y + 10, stroke: theme.accent, 'stroke-width': '1.5'
+        }));
+        frameLayer.appendChild(cross);
+      });
+    }
+
+    /* ==========================================================================
+       9. EVENT BINDINGS & MUTATOR
+       ========================================================================== */
+    plateUpload.addEventListener('change', function (e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          const img = new Image();
+          img.onload = () => {
+            rawUploadedImg = img;
+            processImageBackgroundCutout();
+          };
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    plateSelect.addEventListener('change', () => {
+      if (plateSelect.value === 'embedded-tarot') {
+        rawUploadedImg = null;
+        cutoutDataUrl = null;
+        renderPoster();
+      } else {
+        const img = new Image();
+        img.onload = () => {
+          rawUploadedImg = img;
+          processImageBackgroundCutout();
+        };
+        img.onerror = () => {
+          rawUploadedImg = null;
+          cutoutDataUrl = null;
+          renderPoster();
+        };
+        img.src = plateSelect.value;
+      }
+    });
+
+    [palettePreset, toggleAutocut, plateThreshold, plateScale, plateYOffset,
+     borderShapeMode, borderDepth, hatchPitch, toggleBorderAccent, toggleGridLines,
+     textH1, fontH1, sizeH1, yH1, toggleBehind, toggleGlyphBar, toggleMicroStar,
+     toggleBarcode, textH2, textMeta].forEach(el => {
+      el.addEventListener('input', () => {
+        valPlateThreshold.textContent = plateThreshold.value;
+        valPlateScale.textContent = plateScale.value + '%';
+        valPlateYOffset.textContent = plateYOffset.value + 'px';
+        valBorderDepth.textContent = borderDepth.value + 'px';
+        valHatchPitch.textContent = hatchPitch.value + 'px';
+        valSizeH1.textContent = sizeH1.value;
+        valYH1.textContent = yH1.value + '%';
+
+        if (el === toggleAutocut || el === plateThreshold) {
+          processImageBackgroundCutout();
+        } else {
+          renderPoster();
+        }
+      });
+    });
+
+    btnMutate.addEventListener('click', () => {
+      plateScale.value = Math.floor(Math.random() * 25) + 45;
+      borderDepth.value = Math.floor(Math.random() * 60) + 90;
+      hatchPitch.value = Math.floor(Math.random() * 8) + 5;
+      sizeH1.value = Math.floor(Math.random() * 40) + 75;
+      yH1.value = Math.floor(Math.random() * 30) + 30;
+
+      valPlateScale.textContent = plateScale.value + '%';
+      valBorderDepth.textContent = borderDepth.value + 'px';
+      valHatchPitch.textContent = hatchPitch.value + 'px';
+      valSizeH1.textContent = sizeH1.value;
+      valYH1.textContent = yH1.value + '%';
+      renderPoster();
+    });
+
+    btnExportSvg.addEventListener('click', () => {
+      const svg = document.getElementById('poster-svg');
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svg);
+      if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+      source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+      const blob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `art3041_rudnick_pure_${Date.now()}.svg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderPoster);
+    } else {
+      renderPoster();
+    }
+  </script>
+</body>
+</html>

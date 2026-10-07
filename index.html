@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A.I. FOR DESIGNERS — Aliou Diallo</title>
+
+  <!-- Google Typography: UnifrakturCook for Gothic Headings, Cinzel Decorative for Roman Labels -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Plain-English CSS Variables: Core Celestial Palette */
+    :root {
+      --bg-black: #0B0912;          /* Blackberry Black background */
+      --silver: #D8DCE6;            /* Moonlight Silver text */
+      --dark-pink: #C23A80;         /* Dark Pink accents & borders */
+      --font-gothic: 'UnifrakturCook', cursive;
+      --font-roman: 'Cinzel Decorative', serif;
+    }
+
+    /* Reset: Enforce 0px border-radius universally */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0px !important;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--silver);
+      font-family: var(--font-roman);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Fixed Canvas Starfield Engine (Positioned behind all page content) */
+    #starfield-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Full-Width Hero Banner (420px desktop, 280px mobile, 40% dark overlay) */
+    .hero-banner {
+      width: 100%;
+      height: 420px;
+      position: relative;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                  url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+      border-bottom: 2px solid var(--dark-pink);
+      z-index: 2;
+    }
+
+    /* Student Nameplate at Top-Left of Hero */
+    .hero-nameplate {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      font-family: var(--font-gothic);
+      font-size: 4.5rem;
+      color: var(--silver);
+      line-height: 1;
+      text-shadow: 0 0 12px rgba(11, 9, 18, 0.85);
+    }
+
+    /* Main Container: Max 1400px width with 48px vertical padding */
+    .content-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 48px 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Typography Hierarchy */
+    h1 {
+      font-family: var(--font-gothic);
+      font-size: 4.5rem;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      color: var(--silver);
+    }
+
+    .meta-subtitle {
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      color: var(--silver);
+      text-transform: uppercase;
+    }
+
+    .meta-email {
+      margin-bottom: 40px;
+    }
+
+    .meta-email a {
+      color: var(--dark-pink);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 1px;
+      transition: color 200ms ease;
+    }
+
+    .meta-email a:hover {
+      color: var(--silver);
+      text-decoration: underline;
+    }
+
+    .section-heading {
+      font-family: var(--font-gothic);
+      font-size: 3rem;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      color: var(--silver);
+      border-bottom: 1px solid var(--dark-pink);
+      padding-bottom: 8px;
+    }
+
+    /* Assignment Grid: 3 equal columns desktop, 1 column mobile */
+    .assignment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    /* Grid Link Blocks: Dark Pink border with 200ms color-inversion hover */
+    .assignment-card {
+      display: block;
+      padding: 12px 16px;
+      border: 2px solid var(--dark-pink);
+      color: var(--dark-pink);
+      text-decoration: none;
+      font-family: var(--font-roman);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: transparent;
+      transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+    }
+
+    .assignment-card:hover,
+    .assignment-card:focus {
+      background-color: var(--dark-pink);
+      color: var(--silver);
+      box-shadow: 0 0 16px rgba(194, 58, 128, 0.4);
+      outline: none;
+    }
+
+    /* Responsive Breakpoints for Tablets and Mobile Screens (<900px) */
+    @media (max-width: 899px) {
+      .hero-banner {
+        height: 280px;
+      }
+      .hero-nameplate {
+        font-size: 3rem;
+        top: 20px;
+        left: 20px;
+      }
+      h1 {
+        font-size: 3rem;
+      }
+      .section-heading {
+        font-size: 2.25rem;
+      }
+      .assignment-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Canvas for Real-Time Drifting Starfield Particles -->
+  <canvas id="starfield-canvas"></canvas>
+
+  <!-- Full-Width Hero Section -->
+  <header class="hero-banner">
+    <div class="hero-nameplate">Aliou Diallo</div>
+  </header>
+
+  <!-- Main Assignment Index Content -->
+  <main class="content-container">
+    <h1>A.I. FOR DESIGNERS — Aliou Diallo</h1>
+    <div class="meta-subtitle">ART 3041 · Fall 2026</div>
+    <div class="meta-email">
+      <a href="mailto:aliou.b.diallo@outlook.com">aliou.b.diallo@outlook.com</a>
+    </div>
+
+    <h2 class="section-heading">Work</h2>
+
+    <!-- 7-Slot Assignment Grid Linking to Course Modules -->
+    <div class="assignment-grid">
+      <a class="assignment-card" href="#">01 Custom Instructions</a>
+      <a class="assignment-card" href="#">02 A Style Guide for Your AI</a>
+      <a class="assignment-card" href="#">03 Design a ___</a>
+      <a class="assignment-card" href="#">04 Commute Story</a>
+      <a class="assignment-card" href="#">05 Become a Crea(i)tive Director</a>
+      <a class="assignment-card" href="#">06 Experimental AI Interface</a>
+      <!-- Slot 07: Connected directly to the parametric poster engine -->
+      <a class="assignment-card" href="poster-generator.html">07 Poster Generator</a>
+    </div>
+  </main>
+
+  <script>
+    /* Plain-English JavaScript: Continuous Drifting Celestial Particle Engine */
+    (function () {
+      const canvas = document.getElementById('starfield-canvas');
+      const ctx = canvas.getContext('2d');
+      const stars = [];
+      const STAR_COUNT = 140;
+
+      // Maintain full browser viewport dimensions on window resize
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      // Initialize particles across both Moonlight Silver and Dark Pink
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 0.8,
+          speedX: (Math.random() - 0.5) * 1.2,
+          speedY: -(Math.random() * 1.8 + 0.8),
+          alpha: Math.random() * 0.7 + 0.3,
+          twinkleSpeed: Math.random() * 0.03 + 0.01,
+          isPink: Math.random() > 0.8
+        });
+      }
+
+      // Render loop for upward drifting and subtle opacity twinkling
+      function animateStarfield() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (let i = 0; i < stars.length; i++) {
+          const s = stars[i];
+          s.y += s.speedY;
+          s.x += s.speedX;
+          s.alpha += Math.sin(Date.now() * s.twinkleSpeed) * 0.01;
+
+          // Wrap particles back to viewport edges when moving off-screen
+          if (s.y < 0) s.y = canvas.height;
+          if (s.x < 0) s.x = canvas.width;
+          if (s.x > canvas.width) s.x = 0;
+
+          const boundedAlpha = Math.max(0.15, Math.min(0.9, s.alpha));
+          ctx.fillStyle = s.isPink
+            ? `rgba(194, 58, 128, ${boundedAlpha})`
+            : `rgba(216, 220, 230, ${boundedAlpha})`;
+
+          ctx.fillRect(s.x, s.y, s.size, s.size);
+        }
+
+        requestAnimationFrame(animateStarfield);
+      }
+
+      animateStarfield();
+    })();
+  </script>
+</body>
+</html>
