@@ -12,7 +12,7 @@
 
   <style>
     :root {
-      --bg-black: #0B0912;
+      --bg-black: #060509;
       --silver: #D8DCE6;
       --dark-pink: #C23A80;
       --dark-pink-glow: rgba(194, 58, 128, 0.35);
@@ -55,7 +55,7 @@
       z-index: 10;
       padding: 16px 28px;
       border-bottom: 2px solid var(--dark-pink);
-      background: rgba(11, 9, 18, 0.95);
+      background: rgba(6, 5, 9, 0.96);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -88,7 +88,7 @@
     .control-deck {
       width: 440px;
       min-width: 380px;
-      background: rgba(11, 9, 18, 0.96);
+      background: rgba(6, 5, 9, 0.98);
       border-right: 2px solid var(--dark-pink);
       overflow-y: auto;
       padding: 24px;
@@ -104,14 +104,14 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
-      background: radial-gradient(circle at center, rgba(194, 58, 128, 0.06) 0%, rgba(11, 9, 18, 0.9) 100%);
+      background: radial-gradient(circle at center, rgba(194, 58, 128, 0.05) 0%, rgba(6, 5, 9, 0.95) 100%);
       overflow: auto;
     }
 
     .control-group {
       border: 2px solid var(--dark-pink);
       padding: 16px;
-      background: rgba(11, 9, 18, 0.7);
+      background: rgba(11, 9, 18, 0.75);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -221,7 +221,7 @@
     }
 
     .poster-frame {
-      box-shadow: 0 0 45px rgba(0, 0, 0, 0.95), 0 0 1px 2px var(--dark-pink);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.98), 0 0 1px 2px var(--dark-pink);
       max-height: 88vh;
       display: flex;
       align-items: center;
@@ -233,6 +233,23 @@
       width: 540px;
       height: 720px;
       display: block;
+    }
+
+    #cutout-preview-box {
+      border: 1px solid var(--dark-pink);
+      background: #000;
+      position: relative;
+      cursor: crosshair;
+      text-align: center;
+      padding: 4px;
+    }
+
+    #cutout-preview-canvas {
+      max-width: 100%;
+      height: 120px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
     }
 
     @media (max-width: 900px) {
@@ -276,113 +293,117 @@
       <div class="control-group" style="border-color: var(--silver);">
         <button id="btn-export-svg" class="action-btn">Export Illustrator SVG</button>
         <button id="btn-mutate" class="action-btn secondary" style="margin-top: 8px;">Mutate Permutation</button>
+        <button id="btn-random-geometry" class="action-btn secondary" style="margin-top: 6px; border-color: var(--dark-pink); color: var(--dark-pink);">Randomize Border Shapes Only</button>
       </div>
 
-      <!-- Color Palettes -->
+      <!-- 1. Paper Texture, Colors & Atmosphere -->
       <div class="control-group">
         <div class="group-label">
-          <span>Palette & Discipline</span>
+          <span>Palette & Paper Texture</span>
           <span style="font-size: 0.7rem; color: var(--dark-pink);">CANON</span>
         </div>
 
         <div class="field-row">
-          <label for="palette-preset">Archival Color Mode</label>
+          <label for="palette-preset">Substrate Atmosphere & Color Scheme</label>
           <select id="palette-preset">
-            <option value="rudnick-pure" selected>Pure 2017 Void (Monochrome Bone on Void Black)</option>
-            <option value="class-palette">Class Canon (Blackberry Black / Dark Pink / Silver)</option>
-            <option value="aged-parchment">Aged Litho & Ink (#D6CEBD / #181513)</option>
-            <option value="burgundy-relic">Dried Blood Burgundy & Gold (#380E18 / #C9A96E)</option>
+            <option value="class-canon">Class Canon (Blackberry Black / Dark Pink / Moonlight Silver)</option>
+            <option value="pure-void" selected>Pure 2017 Void (Obsidian Black / Bone Silver / Minimal)</option>
+            <option value="aged-parchment">Aged Antique Parchment (Textured Cream / Burnt Umber Ink)</option>
+            <option value="burgundy-relic">Dried Blood Burgundy & Gold Relic (#380E18 / #C9A96E)</option>
+            <option value="plum-esoteric">Muted Plum & Starlight (#1A101C / #8F4A75)</option>
           </select>
-        </div>
-      </div>
-
-      <!-- 1. Center Illustration Cutout Engine -->
-      <div class="control-group">
-        <div class="group-label">
-          <span>Center Illustration Plate</span>
-          <span style="font-size: 0.7rem; color: var(--dark-pink);">ISOLATED</span>
-        </div>
-
-        <div class="field-row">
-          <label for="plate-select">Archival Specimen</label>
-          <select id="plate-select">
-            <option value="embedded-tarot" selected>Tarot Steed & Reaper (Procedural Linework Silhouette)</option>
-            <option value="poster/dore 3.webp">Gustave Doré — The Chasm (Plate III)</option>
-            <option value="poster/dore 2.webp">Gustave Doré — Celestial Choir (Plate II)</option>
-            <option value="poster/booth 1.jpeg">Franklin Booth — Monolithic Horizon</option>
-          </select>
-        </div>
-
-        <div class="field-row">
-          <label for="plate-upload">Upload Any Scan / Drawing (Auto Background Cutout)</label>
-          <input type="file" id="plate-upload" accept="image/*" style="font-size: 0.7rem; color: var(--silver);">
         </div>
 
         <div class="toggle-row">
-          <label for="toggle-autocut">Cut Out Paper Background</label>
-          <input type="checkbox" id="toggle-autocut" checked>
+          <label for="toggle-paper-grain">Render Procedural Paper Grain Texture</label>
+          <input type="checkbox" id="toggle-paper-grain">
+        </div>
+      </div>
+
+      <!-- 2. Center Illustration & Multi-Engine Cutout -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Center Illustration Plate</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">ISOLATION</span>
         </div>
 
         <div class="field-row">
-          <label for="plate-threshold">Paper Cutout Threshold: <span id="val-plate-threshold">140</span></label>
-          <input type="range" id="plate-threshold" min="40" max="230" value="140">
+          <label for="plate-filename-select">Active Archival Artwork</label>
+          <select id="plate-filename-select">
+            <option value="embedded-tarot">Master Specimen (Built-in Tarot Steed)</option>
+            <option value="death-on-the-pale.jpg" selected>01. death-on-the-pale.jpg (Doré)</option>
+            <option value="houghton.jpg">02. houghton.jpg (Holbein The Knight)</option>
+            <option value="paradise-lost.jpg">03. paradise-lost.jpg (Doré Lucifer)</option>
+            <option value="orlando-furioso-9.jpg">04. orlando-furioso-9.jpg (Doré Geryon)</option>
+            <option value="war-in-heaven.jpg">05. war-in-heaven.jpg (Doré Rebel Angels)</option>
+            <option value="dureer-kurth.jpg">06. dureer-kurth.jpg (Dürer Dragon)</option>
+            <option value="leviathan.jpg">07. leviathan.jpg (Doré Leviathan)</option>
+            <option value="orlando-furoso.jpg">08. orlando-furoso.jpg (Doré Hippogriff)</option>
+            <option value="temptation-of-saint.jpg">09. temptation-of-saint.jpg (Schongauer)</option>
+            <option value="dance-of-death.jpg">10. dance-of-death.jpg (Holbein)</option>
+          </select>
         </div>
 
         <div class="field-row">
-          <label for="plate-scale">Illustration Scale: <span id="val-plate-scale">58%</span></label>
-          <input type="range" id="plate-scale" min="30" max="82" value="58">
+          <label for="batch-file-upload" style="color: var(--dark-pink); font-weight: bold;">Select Local Files From Computer</label>
+          <input type="file" id="batch-file-upload" multiple accept="image/*" style="font-size: 0.75rem; color: var(--silver); padding: 5px; border: 1px dashed var(--dark-pink);">
+          <span style="font-size: 0.62rem; color: var(--silver); opacity: 0.85;">Highlight your downloaded image(s) to load them directly into memory.</span>
         </div>
 
         <div class="field-row">
-          <label for="plate-y-offset">Vertical Center Shift: <span id="val-plate-y-offset">0px</span></label>
+          <label for="cutout-method">Cutout Isolation Engine</label>
+          <select id="cutout-method">
+            <option value="boundary-flood" selected>Smart Contour Flood (Automatic Outer Paper Key)</option>
+            <option value="luma-white">Luminance Knockout (White/Light to Alpha)</option>
+            <option value="luma-dark">Luminance Knockout (Black/Dark to Alpha)</option>
+            <option value="click-picker">Interactive Eyedropper Key (Click Preview to Sample)</option>
+            <option value="raw-plate">Raw Plate (No Cutout, Preserves Full Rectangular Image)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label>Interactive Cutout Preview</label>
+          <div id="cutout-preview-box">
+            <canvas id="cutout-preview-canvas"></canvas>
+          </div>
+          <button id="btn-reset-cutout" class="action-btn secondary" style="padding: 5px; font-size: 0.65rem; margin-top: 4px;">Reset Eyedropper Mask</button>
+        </div>
+
+        <div class="field-row">
+          <label for="cutout-sensitivity">Cutout Tolerance / Threshold: <span id="val-cutout-sensitivity">48</span></label>
+          <input type="range" id="cutout-sensitivity" min="5" max="95" value="48">
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-opaque-body">Solid Subject Body (Blocks Elements Behind)</label>
+          <input type="checkbox" id="toggle-opaque-body" checked>
+        </div>
+
+        <div class="field-row">
+          <label for="subject-tone-mode">Plate Tonal Chemistry</label>
+          <select id="subject-tone-mode">
+            <option value="archival-bw" selected>Authentic Archival (Keep All B&W Grayscale)</option>
+            <option value="solid-occlude">Moonlight Silver Linework (Opaque Void Body)</option>
+            <option value="duotone">Palette Duotone (Tinted to Background & Accent)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="plate-scale">Scale: <span id="val-plate-scale">58%</span></label>
+          <input type="range" id="plate-scale" min="30" max="85" value="58">
+        </div>
+
+        <div class="field-row">
+          <label for="plate-y-offset">Center Vertical Offset: <span id="val-plate-y-offset">0px</span></label>
           <input type="range" id="plate-y-offset" min="-120" max="120" value="0">
         </div>
       </div>
 
-      <!-- 2. Border Constructivist Shapes Engine -->
+      <!-- 3. Monumental Typography Layering (Above vs Behind) -->
       <div class="control-group">
         <div class="group-label">
-          <span>Border Geometric Shapes</span>
-          <span style="font-size: 0.7rem; color: var(--dark-pink);">PERIPHERY</span>
-        </div>
-
-        <div class="field-row">
-          <label for="border-shape-mode">Marginal Shard Architecture</label>
-          <select id="border-shape-mode">
-            <option value="rudnick-canon" selected>Rudnick Canon (Faceted Corner Shards + Flanking Rails)</option>
-            <option value="stepped-flanks">Stepped Isometric Margins Only (Left/Right)</option>
-            <option value="corner-prisms">Heavy Crystalline Corner Prisms Only</option>
-            <option value="full-enclosure">Full Constructivist Perimeter Enclosure</option>
-            <option value="none">Zero Border Shapes (Void Margins)</option>
-          </select>
-        </div>
-
-        <div class="field-row">
-          <label for="border-depth">Border Breadth / Inset (px): <span id="val-border-depth">120px</span></label>
-          <input type="range" id="border-depth" min="60" max="180" value="120">
-        </div>
-
-        <div class="field-row">
-          <label for="hatch-pitch">Ruling Line Hatch Pitch (px): <span id="val-hatch-pitch">7px</span></label>
-          <input type="range" id="hatch-pitch" min="4" max="18" value="7">
-        </div>
-
-        <div class="toggle-row">
-          <label for="toggle-border-accent">Accent Color on Border Shapes</label>
-          <input type="checkbox" id="toggle-border-accent" checked>
-        </div>
-
-        <div class="toggle-row">
-          <label for="toggle-grid-lines">Swiss 12-Column Hairlines</label>
-          <input type="checkbox" id="toggle-grid-lines" checked>
-        </div>
-      </div>
-
-      <!-- 3. Monumental Typography (Center) -->
-      <div class="control-group">
-        <div class="group-label">
-          <span>Monumental Title (Center)</span>
-          <span style="font-size: 0.7rem; color: var(--dark-pink);">LEVEL 2</span>
+          <span>Monumental Typography</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">TITLING</span>
         </div>
 
         <div class="field-row">
@@ -391,9 +412,9 @@
         </div>
 
         <div class="field-row">
-          <label for="font-h1">Typeface</label>
+          <label for="font-h1">Typographic Architecture</label>
           <select id="font-h1">
-            <option value="modular-vector" selected>Modular Algorithmic Blackletter (45° Chamfered)</option>
+            <option value="modular-vector" selected>Modular Interlocking Blackletter (Rudnick Chamfered)</option>
             <option value="UnifrakturCook">UnifrakturCook (Fraktur Gothic)</option>
             <option value="Pirata One">Pirata One (Gothic Display)</option>
             <option value="Cinzel">Cinzel (Imperial Roman)</option>
@@ -401,58 +422,119 @@
         </div>
 
         <div class="field-row">
-          <label for="size-h1">Type Scale (px): <span id="val-size-h1">96</span></label>
-          <input type="range" id="size-h1" min="50" max="140" value="96">
+          <label for="title-layer-order">Title Layering Position</label>
+          <select id="title-layer-order">
+            <option value="behind" selected>Behind Artwork (Occluded by Illustration Silhouette)</option>
+            <option value="above">Above Artwork (Fore Title Over Artwork & Disc)</option>
+          </select>
         </div>
 
         <div class="field-row">
-          <label for="y-h1">Title Vertical Horizon: <span id="val-y-h1">44%</span></label>
+          <label for="size-h1">Title Scale: <span id="val-size-h1">135</span></label>
+          <input type="range" id="size-h1" min="80" max="170" value="135">
+        </div>
+
+        <div class="field-row">
+          <label for="y-h1">Vertical Horizon: <span id="val-y-h1">44%</span></label>
           <input type="range" id="y-h1" min="15" max="85" value="44">
         </div>
-
-        <div class="toggle-row">
-          <label for="toggle-behind">Interlace Title Behind Illustration</label>
-          <input type="checkbox" id="toggle-behind" checked>
-        </div>
       </div>
 
-      <!-- 4. Marginalia & Micro-Branding (Edges) -->
+      <!-- 4. Monumental Rudnick Circle / Dial System (Bottom-Left) -->
       <div class="control-group">
         <div class="group-label">
-          <span>Border Badges & Symbols</span>
-          <span style="font-size: 0.7rem; color: var(--dark-pink);">MICRO</span>
+          <span>Monumental Rudnick Circle</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">ORBITAL</span>
         </div>
 
         <div class="toggle-row">
-          <label for="toggle-glyph-bar">Vertical Archaic Glyph Cassette</label>
-          <input type="checkbox" id="toggle-glyph-bar" checked>
-        </div>
-
-        <div class="toggle-row">
-          <label for="toggle-micro-star">Heineken Micro-Star Badge</label>
-          <input type="checkbox" id="toggle-micro-star" checked>
-        </div>
-
-        <div class="toggle-row">
-          <label for="toggle-barcode">Technical Barcode Strip</label>
-          <input type="checkbox" id="toggle-barcode" checked>
-        </div>
-      </div>
-
-      <!-- 5. Header & Footer Metadata -->
-      <div class="control-group">
-        <div class="group-label">
-          <span>Architectural Text</span>
-          <span style="font-size: 0.7rem; color: var(--dark-pink);">LEVEL 3</span>
+          <label for="toggle-rudnick-circle">Render Monumental Vector Disc</label>
+          <input type="checkbox" id="toggle-rudnick-circle" checked>
         </div>
 
         <div class="field-row">
-          <label for="text-h2">Architectural Top Header (H2)</label>
-          <input type="text" id="text-h2" value="OPUS MATHEMATICA · PURE TRANSMISSION">
+          <label for="circle-style">Constructivist Disc Architecture</label>
+          <select id="circle-style">
+            <option value="rudnick-pure" selected>Pure 2017 Radar Dial (Nested Rings + Hatched Sector)</option>
+            <option value="astrolabe">Alchemical Astrolabe (Concentric Bands + Degree Radials)</option>
+            <option value="segmented-gauge">Segmented Technical Gauge (Dense Peripheral Ticks)</option>
+            <option value="minimal-arc">Monumental Hairline Eclipse Arc (Minimal)</option>
+          </select>
         </div>
 
         <div class="field-row">
-          <label for="text-meta">Information Group (Bottom Left)</label>
+          <label for="circle-anchor">Disc Anchor Position</label>
+          <select id="circle-anchor">
+            <option value="bottom-left" selected>Bottom-Left (Pure 2017 Canon)</option>
+            <option value="bottom-right">Bottom-Right Corner</option>
+            <option value="top-left">Top-Left Corner</option>
+            <option value="center-left">Center-Left Axis</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="circle-radius">Disc Radius Scale (px): <span id="val-circle-radius">380px</span></label>
+          <input type="range" id="circle-radius" min="200" max="550" value="380">
+        </div>
+      </div>
+
+      <!-- 5. Dynamic Perimeter Shapes (Jumping Edges & Corners) -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Border Geometry</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">DYNAMIC</span>
+        </div>
+
+        <div class="field-row">
+          <label for="shard-location">Perimeter Zone Placement</label>
+          <select id="shard-location">
+            <option value="auto-jump" selected>Dynamic Jump (Random Corners & Edges)</option>
+            <option value="top-left">Top-Left Corner</option>
+            <option value="top-right">Top-Right Corner</option>
+            <option value="bottom-left">Bottom-Left Corner</option>
+            <option value="bottom-right">Bottom-Right Corner</option>
+            <option value="left-flank">Left Flank / Margin</option>
+            <option value="right-flank">Right Flank / Margin</option>
+            <option value="diagonal-opposing">Opposing Diagonals (Dual)</option>
+            <option value="scatter">Perimeter Scatter (Multi-Zone)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="geometry-seed">Algorithmic Seed: <span id="val-geometry-seed">0x07EA</span></label>
+          <input type="range" id="geometry-seed" min="1" max="9999" value="2026">
+        </div>
+
+        <div class="field-row">
+          <label for="hatch-pitch">Ruling Machine Hatch Pitch: <span id="val-hatch-pitch">6px</span></label>
+          <input type="range" id="hatch-pitch" min="3" max="16" value="6">
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-grid-lines">Swiss 12-Column Hairlines</label>
+          <input type="checkbox" id="toggle-grid-lines" checked>
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-runic-cassette">Procedural Runic Cassette</label>
+          <input type="checkbox" id="toggle-runic-cassette" checked>
+        </div>
+
+        <div class="toggle-row">
+          <label for="toggle-heineken-badge">Heineken Micro-Star Badge</label>
+          <input type="checkbox" id="toggle-heineken-badge" checked>
+        </div>
+      </div>
+
+      <!-- 6. Microscopic Swiss Metadata -->
+      <div class="control-group">
+        <div class="group-label">
+          <span>Microscopic Metadata</span>
+          <span style="font-size: 0.7rem; color: var(--dark-pink);">CAD TIER</span>
+        </div>
+
+        <div class="field-row">
+          <label for="text-meta">Colophon Block</label>
           <textarea id="text-meta" rows="3">CONCLAVE OF EXPERIMENTAL SOUND · 2026.10.05
 LOCUS: 40°42'46"N 74°00'22"W · HALL ARCHIVE
 DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
@@ -468,52 +550,71 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Pirata+One&amp;family=UnifrakturCook:wght@700&amp;display=swap');
 
-              .svg-h1 {
-                text-anchor: middle;
-                letter-spacing: 6px;
-              }
-              .svg-h2 {
-                font-family: 'Cinzel', serif;
-                font-size: 14px;
-                letter-spacing: 7px;
-                text-anchor: middle;
-              }
-              .svg-meta {
-                font-family: 'Cinzel', serif;
-                font-size: 9.5px;
-                letter-spacing: 2.8px;
-                line-height: 1.6;
-              }
-              .hairline-grid {
-                stroke-width: 1px;
-                stroke-dasharray: 2 4;
-              }
+              .svg-h1 { text-anchor: middle; letter-spacing: 4px; }
+              .svg-cad { font-family: 'Cinzel', serif; font-size: 7.5px; letter-spacing: 3.5px; line-height: 1.5; }
+              .hairline-grid { stroke-width: 0.75px; stroke-dasharray: 2 4; }
             </style>
+
+            <!-- Procedural Paper Grain Texture Filter -->
+            <filter id="paper-grain-filter" x="0%" y="0%" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+              <feColorMatrix type="matrix" values="
+                0 0 0 0 0.5
+                0 0 0 0 0.47
+                0 0 0 0 0.42
+                0 0 0 0.18 0" in="noise" result="tintedNoise"/>
+              <feBlend mode="multiply" in="SourceGraphic" in2="tintedNoise" result="blend"/>
+            </filter>
+
+            <!-- GPU Luminance Cutout Fallback Filters -->
+            <filter id="svg-cutout-white" color-interpolation-filters="sRGB">
+              <feColorMatrix type="matrix" values="
+                0 0 0 0 0.847
+                0 0 0 0 0.863
+                0 0 0 0 0.902
+                -3.2 -3.2 -3.2 0 2.8" />
+            </filter>
+
+            <filter id="svg-cutout-dark" color-interpolation-filters="sRGB">
+              <feColorMatrix type="matrix" values="
+                0 0 0 0 0.847
+                0 0 0 0 0.863
+                0 0 0 0 0.902
+                3.2 3.2 3.2 0 -0.8" />
+            </filter>
           </defs>
 
-          <!-- Layer Hierarchy -->
+          <!-- 0. Substrate Background (Color + Paper Grain) -->
           <rect id="svg-bg" width="900" height="1200" fill="#060509" />
+          <rect id="svg-grain-overlay" width="900" height="1200" fill="#D6CEBD" filter="url(#paper-grain-filter)" opacity="0" pointer-events="none" />
+
+          <!-- 1. Swiss Grid Lines -->
           <g id="svg-grid-layer"></g>
 
-          <!-- BORDER GEOMETRY (Confined to periphery) -->
-          <g id="svg-border-shapes-layer"></g>
+          <!-- 2. Dynamic Perimeter Shards (Edges & Corners) -->
+          <g id="svg-shards-layer"></g>
 
-          <!-- CENTER TITLE & CUTOUT ILLUSTRATION -->
+          <!-- 3. Monumental Rudnick Circle / Orbital System (Bottom-Left) -->
+          <g id="svg-circle-layer"></g>
+
+          <!-- 4. Monumental Title (Behind Artwork Layer) -->
           <g id="svg-behind-title-layer"></g>
+
+          <!-- 5. Center Cutout Illustration Plate -->
           <g id="svg-artwork-layer"></g>
+
+          <!-- 6. Monumental Title (Fore Artwork Layer) -->
           <g id="svg-fore-title-layer"></g>
 
-          <!-- BORDER MARGINALIA & METADATA -->
+          <!-- 7. Procedural CAD Marginalia & Micro-Tier Typography -->
           <g id="svg-marginalia-layer"></g>
-          <g id="svg-metadata-layer"></g>
-          <g id="svg-frame-layer"></g>
         </svg>
       </div>
     </main>
 
   </div>
 
-  <canvas id="cutout-canvas" style="display: none;"></canvas>
+  <canvas id="offscreen-proc" style="display: none;"></canvas>
 
   <script>
     /* ==========================================================================
@@ -564,8 +665,17 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
     animateStars();
 
     /* ==========================================================================
-       2. SVG HELPER & DOM CLEANUP
+       2. PSEUDO-RANDOM GENERATOR & SVG HELPER
        ========================================================================== */
+    let currentSeed = 2026;
+    function seededRandom() {
+      const x = Math.sin(currentSeed++) * 10000;
+      return x - Math.floor(x);
+    }
+    function randomRange(min, max) {
+      return min + seededRandom() * (max - min);
+    }
+
     function createSvg(tag, attrs = {}) {
       const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
       for (const [key, val] of Object.entries(attrs)) {
@@ -588,91 +698,108 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
     }
 
     /* ==========================================================================
-       3. DOM ELEMENTS & PALETTES
+       3. EMBEDDED HIGH-CONTRAST MASTER SPECIMEN (OFFLINE BACKUP)
        ========================================================================== */
-    const palettePreset = document.getElementById('palette-preset');
-    const plateSelect = document.getElementById('plate-select');
-    const plateUpload = document.getElementById('plate-upload');
-    const toggleAutocut = document.getElementById('toggle-autocut');
-    const plateThreshold = document.getElementById('plate-threshold');
-    const valPlateThreshold = document.getElementById('val-plate-threshold');
-    const plateScale = document.getElementById('plate-scale');
-    const valPlateScale = document.getElementById('val-plate-scale');
-    const plateYOffset = document.getElementById('plate-y-offset');
-    const valPlateYOffset = document.getElementById('val-plate-y-offset');
+    function buildMasterDorePlate() {
+      const c = document.createElement('canvas');
+      c.width = 620;
+      c.height = 780;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 620, 780);
 
-    const borderShapeMode = document.getElementById('border-shape-mode');
-    const borderDepth = document.getElementById('border-depth');
-    const valBorderDepth = document.getElementById('val-border-depth');
-    const hatchPitch = document.getElementById('hatch-pitch');
-    const valHatchPitch = document.getElementById('val-hatch-pitch');
-    const toggleBorderAccent = document.getElementById('toggle-border-accent');
-    const toggleGridLines = document.getElementById('toggle-grid-lines');
+      ctx.fillStyle = '#060509';
+      ctx.strokeStyle = '#060509';
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
 
-    const textH1 = document.getElementById('text-h1');
-    const fontH1 = document.getElementById('font-h1');
-    const sizeH1 = document.getElementById('size-h1');
-    const valSizeH1 = document.getElementById('val-size-h1');
-    const yH1 = document.getElementById('y-h1');
-    const valYH1 = document.getElementById('val-y-h1');
-    const toggleBehind = document.getElementById('toggle-behind');
+      ctx.beginPath();
+      ctx.moveTo(340, 190);
+      ctx.quadraticCurveTo(270, 260, 210, 350);
+      ctx.quadraticCurveTo(160, 440, 210, 540);
+      ctx.quadraticCurveTo(250, 600, 270, 700);
+      ctx.lineTo(330, 710);
+      ctx.quadraticCurveTo(340, 590, 380, 550);
+      ctx.quadraticCurveTo(460, 480, 450, 350);
+      ctx.quadraticCurveTo(410, 250, 340, 190);
+      ctx.closePath();
+      ctx.fill();
 
-    const toggleGlyphBar = document.getElementById('toggle-glyph-bar');
-    const toggleMicroStar = document.getElementById('toggle-micro-star');
-    const toggleBarcode = document.getElementById('toggle-barcode');
+      ctx.fillStyle = '#FFFFFF';
+      ctx.beginPath();
+      ctx.moveTo(210, 350);
+      ctx.lineTo(150, 390);
+      ctx.lineTo(120, 440);
+      ctx.lineTo(170, 455);
+      ctx.lineTo(230, 400);
+      ctx.closePath();
+      ctx.fill();
 
-    const textH2 = document.getElementById('text-h2');
-    const textMeta = document.getElementById('text-meta');
+      ctx.fillStyle = '#060509';
+      ctx.beginPath();
+      ctx.arc(165, 420, 7, 0, Math.PI * 2);
+      ctx.fill();
 
-    const btnMutate = document.getElementById('btn-mutate');
-    const btnExportSvg = document.getElementById('btn-export-svg');
+      ctx.fillStyle = '#060509';
+      ctx.beginPath();
+      ctx.moveTo(310, 140);
+      ctx.lineTo(540, 40);
+      ctx.lineTo(560, 60);
+      ctx.lineTo(330, 160);
+      ctx.closePath();
+      ctx.fill();
 
-    // Layers
-    const svgBg = document.getElementById('svg-bg');
-    const gridLayer = document.getElementById('svg-grid-layer');
-    const borderShapesLayer = document.getElementById('svg-border-shapes-layer');
-    const behindTitleLayer = document.getElementById('svg-behind-title-layer');
-    const artworkLayer = document.getElementById('svg-artwork-layer');
-    const foreTitleLayer = document.getElementById('svg-fore-title-layer');
-    const marginaliaLayer = document.getElementById('svg-marginalia-layer');
-    const metadataLayer = document.getElementById('svg-metadata-layer');
-    const frameLayer = document.getElementById('svg-frame-layer');
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(540, 40);
+      ctx.quadraticCurveTo(610, 130, 580, 290);
+      ctx.quadraticCurveTo(550, 420, 410, 500);
+      ctx.stroke();
 
-    const cutoutCanvas = document.getElementById('cutout-canvas');
-    const cutoutCtx = cutoutCanvas.getContext('2d');
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 2.2;
+      for (let y = 250; y <= 630; y += 12) {
+        ctx.beginPath();
+        ctx.moveTo(260, y);
+        ctx.lineTo(390, y - 24);
+        ctx.stroke();
+      }
+      return c;
+    }
 
-    let rawUploadedImg = null;
-    let cutoutDataUrl = null;
-
+    /* ==========================================================================
+       4. PALETTE CANON DEFINITIONS
+       ========================================================================== */
     const PALETTES = {
-      'rudnick-pure': {
-        bg: '#060509',
-        accent: '#D8DCE6',
-        text: '#EAEAEA',
-        grid: 'rgba(216, 220, 230, 0.16)',
-        borderFill: 'rgba(216, 220, 230, 0.05)',
-        hatchStroke: 'rgba(216, 220, 230, 0.45)',
-        starCircle: '#007A33',
-        starFill: '#E31B23'
-      },
-      'class-palette': {
+      'class-canon': {
         bg: '#0B0912',
         accent: '#C23A80',
         text: '#D8DCE6',
         grid: 'rgba(194, 58, 128, 0.22)',
-        borderFill: 'rgba(194, 58, 128, 0.06)',
+        shardFill: 'rgba(194, 58, 128, 0.06)',
         hatchStroke: 'rgba(194, 58, 128, 0.45)',
         starCircle: '#C23A80',
         starFill: '#D8DCE6'
       },
+      'pure-void': {
+        bg: '#060509',
+        accent: '#D8DCE6',
+        text: '#EAEAEA',
+        grid: 'rgba(216, 220, 230, 0.12)',
+        shardFill: 'rgba(216, 220, 230, 0.04)',
+        hatchStroke: 'rgba(216, 220, 230, 0.45)',
+        starCircle: '#007A33',
+        starFill: '#E31B23'
+      },
       'aged-parchment': {
         bg: '#D6CEBD',
-        accent: '#3B1812',
+        accent: '#4A1D13',
         text: '#181513',
-        grid: 'rgba(59, 24, 18, 0.22)',
-        borderFill: 'rgba(59, 24, 18, 0.05)',
-        hatchStroke: 'rgba(59, 24, 18, 0.4)',
-        starCircle: '#3B1812',
+        grid: 'rgba(74, 29, 19, 0.22)',
+        shardFill: 'rgba(74, 29, 19, 0.06)',
+        hatchStroke: 'rgba(74, 29, 19, 0.45)',
+        starCircle: '#4A1D13',
         starFill: '#8B2616'
       },
       'burgundy-relic': {
@@ -680,151 +807,693 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
         accent: '#C9A96E',
         text: '#EAE2D5',
         grid: 'rgba(201, 169, 110, 0.25)',
-        borderFill: 'rgba(201, 169, 110, 0.08)',
+        shardFill: 'rgba(201, 169, 110, 0.08)',
         hatchStroke: 'rgba(201, 169, 110, 0.45)',
         starCircle: '#C9A96E',
         starFill: '#380E18'
+      },
+      'plum-esoteric': {
+        bg: '#1A101C',
+        accent: '#8F4A75',
+        text: '#D8DCE6',
+        grid: 'rgba(143, 74, 117, 0.3)',
+        shardFill: 'rgba(143, 74, 117, 0.08)',
+        hatchStroke: 'rgba(143, 74, 117, 0.45)',
+        starCircle: '#8F4A75',
+        starFill: '#D8DCE6'
       }
     };
 
     /* ==========================================================================
-       4. AUTO-CUTOUT PROCESSOR: REMOVES WHITE BACKGROUND FROM USER SCANS
+       5. DOM ELEMENTS & APPLICATION STATE
        ========================================================================== */
-    function processImageBackgroundCutout() {
-      if (!rawUploadedImg) {
-        cutoutDataUrl = null;
+    const palettePreset = document.getElementById('palette-preset');
+    const togglePaperGrain = document.getElementById('toggle-paper-grain');
+
+    const plateFilenameSelect = document.getElementById('plate-filename-select');
+    const batchFileUpload = document.getElementById('batch-file-upload');
+    const cutoutMethod = document.getElementById('cutout-method');
+    const cutoutPreviewCanvas = document.getElementById('cutout-preview-canvas');
+    const cutoutPreviewCtx = cutoutPreviewCanvas.getContext('2d');
+    const btnResetCutout = document.getElementById('btn-reset-cutout');
+    const cutoutSensitivity = document.getElementById('cutout-sensitivity');
+    const valCutoutSensitivity = document.getElementById('val-cutout-sensitivity');
+    const toggleOpaqueBody = document.getElementById('toggle-opaque-body');
+    const subjectToneMode = document.getElementById('subject-tone-mode');
+    const plateScale = document.getElementById('plate-scale');
+    const valPlateScale = document.getElementById('val-plate-scale');
+    const plateYOffset = document.getElementById('plate-y-offset');
+    const valPlateYOffset = document.getElementById('val-plate-y-offset');
+
+    const textH1 = document.getElementById('text-h1');
+    const fontH1 = document.getElementById('font-h1');
+    const titleLayerOrder = document.getElementById('title-layer-order');
+    const sizeH1 = document.getElementById('size-h1');
+    const valSizeH1 = document.getElementById('val-size-h1');
+    const yH1 = document.getElementById('y-h1');
+    const valYH1 = document.getElementById('val-y-h1');
+
+    const toggleRudnickCircle = document.getElementById('toggle-rudnick-circle');
+    const circleStyle = document.getElementById('circle-style');
+    const circleAnchor = document.getElementById('circle-anchor');
+    const circleRadius = document.getElementById('circle-radius');
+    const valCircleRadius = document.getElementById('val-circle-radius');
+
+    const shardLocation = document.getElementById('shard-location');
+    const geometrySeed = document.getElementById('geometry-seed');
+    const valGeometrySeed = document.getElementById('val-geometry-seed');
+    const hatchPitch = document.getElementById('hatch-pitch');
+    const valHatchPitch = document.getElementById('val-hatch-pitch');
+    const toggleGridLines = document.getElementById('toggle-grid-lines');
+    const toggleRunicCassette = document.getElementById('toggle-runic-cassette');
+    const toggleHeinekenBadge = document.getElementById('toggle-heineken-badge');
+
+    const textMeta = document.getElementById('text-meta');
+    const btnMutate = document.getElementById('btn-mutate');
+    const btnRandomGeometry = document.getElementById('btn-random-geometry');
+    const btnExportSvg = document.getElementById('btn-export-svg');
+
+    // SVG Layers
+    const svgBg = document.getElementById('svg-bg');
+    const svgGrainOverlay = document.getElementById('svg-grain-overlay');
+    const gridLayer = document.getElementById('svg-grid-layer');
+    const shardsLayer = document.getElementById('svg-shards-layer');
+    const circleLayer = document.getElementById('svg-circle-layer');
+    const behindTitleLayer = document.getElementById('svg-behind-title-layer');
+    const artworkLayer = document.getElementById('svg-artwork-layer');
+    const foreTitleLayer = document.getElementById('svg-fore-title-layer');
+    const marginaliaLayer = document.getElementById('svg-marginalia-layer');
+    const offscreenProc = document.getElementById('offscreen-proc');
+    const offscreenCtx = offscreenProc.getContext('2d');
+
+    let sourceMasterCanvas = buildMasterDorePlate();
+    let currentCutoutDataUrl = null;
+    let manualKeyedSeeds = [];
+    const localBatchFileMap = {};
+
+    /* ==========================================================================
+       6. MULTI-ENGINE CUTOUT PIPELINE (ROBUST ISOLATION)
+       ========================================================================== */
+    function runSmartCutout() {
+      const activeMethod = cutoutMethod.value;
+
+      // 1. Raw Plate Mode: Skip pixel cutout entirely
+      if (activeMethod === 'raw-plate') {
+        currentCutoutDataUrl = sourceMasterCanvas.toDataURL ? sourceMasterCanvas.toDataURL('image/png') : null;
         renderPoster();
         return;
       }
-
-      if (!toggleAutocut.checked) {
-        cutoutDataUrl = rawUploadedImg.src;
-        renderPoster();
-        return;
-      }
-
-      // Max size for smooth rendering
-      const maxDim = 800;
-      let w = rawUploadedImg.naturalWidth || 600;
-      let h = rawUploadedImg.naturalHeight || 800;
-      if (w > maxDim || h > maxDim) {
-        if (w > h) {
-          h = Math.round((h * maxDim) / w);
-          w = maxDim;
-        } else {
-          w = Math.round((w * maxDim) / h);
-          h = maxDim;
-        }
-      }
-
-      cutoutCanvas.width = w;
-      cutoutCanvas.height = h;
-      cutoutCtx.clearRect(0, 0, w, h);
-      cutoutCtx.drawImage(rawUploadedImg, 0, 0, w, h);
 
       try {
-        const imgData = cutoutCtx.getImageData(0, 0, w, h);
+        const srcW = sourceMasterCanvas.width || 600;
+        const srcH = sourceMasterCanvas.height || 800;
+        const maxDim = 680;
+        let w = srcW;
+        let h = srcH;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+          else { w = Math.round((w * maxDim) / h); h = maxDim; }
+        }
+
+        offscreenProc.width = w;
+        offscreenProc.height = h;
+        offscreenCtx.clearRect(0, 0, w, h);
+        offscreenCtx.drawImage(sourceMasterCanvas, 0, 0, w, h);
+
+        const imgData = offscreenCtx.getImageData(0, 0, w, h);
         const data = imgData.data;
-        const threshold = parseInt(plateThreshold.value, 10);
+        const sensitivity = parseInt(cutoutSensitivity.value, 10);
+        const toneMode = subjectToneMode.value;
+        const theme = PALETTES[palettePreset.value] || PALETTES['pure-void'];
 
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i];
-          const g = data[i + 1];
-          const b = data[i + 2];
-          const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+        const lum = new Float32Array(w * h);
+        for (let i = 0, j = 0; i < data.length; i += 4, j++) {
+          lum[j] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+        }
 
-          if (luminance >= threshold) {
-            // Cut out paper background completely
-            data[i + 3] = 0;
+        const isExteriorMask = new Uint8Array(w * h);
+
+        if (activeMethod === 'luma-white') {
+          // Direct Luminance Knockout: all bright paper becomes transparent
+          const threshold = 255 - (sensitivity * 2.2);
+          for (let j = 0; j < lum.length; j++) {
+            if (lum[j] >= threshold) isExteriorMask[j] = 1;
+          }
+        } else if (activeMethod === 'luma-dark') {
+          // Direct Luminance Knockout: all dark ink/sky becomes transparent
+          const threshold = sensitivity * 2.2;
+          for (let j = 0; j < lum.length; j++) {
+            if (lum[j] <= threshold) isExteriorMask[j] = 1;
+          }
+        } else {
+          // Boundary Flood & Click-Picker: Flood Fill Outer Border
+          let avgSampleR = 0, avgSampleG = 0, avgSampleB = 0;
+          let samplesCount = 0;
+
+          if (activeMethod === 'click-picker' && manualKeyedSeeds.length > 0) {
+            const lastSeed = manualKeyedSeeds[manualKeyedSeeds.length - 1];
+            const pxIdx = (Math.floor(lastSeed.y * h) * w + Math.floor(lastSeed.x * w)) * 4;
+            avgSampleR = data[pxIdx]; avgSampleG = data[pxIdx + 1]; avgSampleB = data[pxIdx + 2];
+            samplesCount = 1;
           } else {
-            // Remap linework to crisp Moonlight Silver
-            const inkAlpha = Math.min(255, 255 - (luminance / threshold) * 70);
-            data[i] = 216;     // R
-            data[i + 1] = 220; // G
-            data[i + 2] = 230; // B
-            data[i + 3] = inkAlpha;
+            // Sample perimeter rim
+            for (let x = 0; x < w; x += 8) {
+              const iT = (0 * w + x) * 4;
+              const iB = ((h - 1) * w + x) * 4;
+              avgSampleR += data[iT] + data[iB];
+              avgSampleG += data[iT + 1] + data[iB + 1];
+              avgSampleB += data[iT + 2] + data[iB + 2];
+              samplesCount += 2;
+            }
+            avgSampleR /= samplesCount;
+            avgSampleG /= samplesCount;
+            avgSampleB /= samplesCount;
+          }
+
+          const queue = [];
+          const tolSq = Math.pow(sensitivity * 2.6, 2);
+
+          function testPush(x, y) {
+            const idx = y * w + x;
+            if (isExteriorMask[idx] === 0) {
+              const p = idx * 4;
+              const dr = data[p] - avgSampleR;
+              const dg = data[p + 1] - avgSampleG;
+              const db = data[p + 2] - avgSampleB;
+              if ((dr * dr + dg * dg + db * db) <= tolSq) {
+                isExteriorMask[idx] = 1;
+                queue.push(idx);
+              }
+            }
+          }
+
+          for (let x = 0; x < w; x++) { testPush(x, 0); testPush(x, h - 1); }
+          for (let y = 0; y < h; y++) { testPush(0, y); testPush(w - 1, y); }
+
+          manualKeyedSeeds.forEach(pt => {
+            const sx = Math.floor(pt.x * w);
+            const sy = Math.floor(pt.y * h);
+            if (sx >= 0 && sx < w && sy >= 0 && sy < h) {
+              const idx = sy * w + sx;
+              isExteriorMask[idx] = 1;
+              queue.push(idx);
+            }
+          });
+
+          let head = 0;
+          while (head < queue.length) {
+            const curr = queue[head++];
+            const cx = curr % w;
+            const cy = Math.floor(curr / w);
+            if (cx > 0) testPush(cx - 1, cy);
+            if (cx < w - 1) testPush(cx + 1, cy);
+            if (cy > 0) testPush(cx, cy - 1);
+            if (cy < h - 1) testPush(cx, cy + 1);
           }
         }
 
-        cutoutCtx.putImageData(imgData, 0, 0);
-        cutoutDataUrl = cutoutCanvas.toDataURL('image/png');
+        // Apply Transparency & Tonal Remapping
+        const bgHex = theme.bg;
+        const bgR = parseInt(bgHex.slice(1, 3), 16) || 6;
+        const bgG = parseInt(bgHex.slice(3, 5), 16) || 5;
+        const bgB = parseInt(bgHex.slice(5, 7), 16) || 9;
+
+        for (let j = 0, p = 0; j < lum.length; j++, p += 4) {
+          if (isExteriorMask[j] === 1) {
+            data[p + 3] = 0; // Transparent negative void
+          } else {
+            if (toneMode === 'archival-bw') {
+              data[p + 3] = 255;
+            } else if (toneMode === 'solid-occlude') {
+              if (lum[j] < 125) {
+                data[p] = 216; data[p + 1] = 220; data[p + 2] = 230; // Moonlight Silver Linework
+              } else {
+                data[p] = bgR; data[p + 1] = bgG; data[p + 2] = bgB; // Solid Opaque Subject Body
+              }
+              data[p + 3] = 255;
+            } else if (toneMode === 'duotone') {
+              const t = lum[j] / 255;
+              data[p] = Math.round(bgR * (1 - t) + 216 * t);
+              data[p + 1] = Math.round(bgG * (1 - t) + 220 * t);
+              data[p + 2] = Math.round(bgB * (1 - t) + 230 * t);
+              data[p + 3] = 255;
+            }
+          }
+        }
+
+        offscreenCtx.putImageData(imgData, 0, 0);
+        currentCutoutDataUrl = offscreenProc.toDataURL('image/png');
+
+        cutoutPreviewCanvas.width = w;
+        cutoutPreviewCanvas.height = h;
+        cutoutPreviewCtx.clearRect(0, 0, w, h);
+        cutoutPreviewCtx.drawImage(offscreenProc, 0, 0);
       } catch (err) {
-        cutoutDataUrl = rawUploadedImg.src;
+        currentCutoutDataUrl = sourceMasterCanvas.toDataURL ? sourceMasterCanvas.toDataURL('image/png') : null;
       }
 
       renderPoster();
     }
 
+    cutoutPreviewCanvas.addEventListener('click', (e) => {
+      const rect = cutoutPreviewCanvas.getBoundingClientRect();
+      const normX = (e.clientX - rect.left) / rect.width;
+      const normY = (e.clientY - rect.top) / rect.height;
+      manualKeyedSeeds.push({ x: normX, y: normY });
+      cutoutMethod.value = 'click-picker';
+      runSmartCutout();
+    });
+
+    btnResetCutout.addEventListener('click', () => {
+      manualKeyedSeeds = [];
+      cutoutMethod.value = 'boundary-flood';
+      runSmartCutout();
+    });
+
     /* ==========================================================================
-       5. EMBEDDED HIGH-CONTRAST TAROT LINERWORK (CENTER ENGRAVING)
+       LOCAL FILE LOADING & BATCH IN-MEMORY CACHE
        ========================================================================== */
-    function buildCenterTarotEngraving(theme) {
-      const g = createSvg('g', {
-        fill: 'none',
-        stroke: theme.text,
-        'stroke-width': '1.8',
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round'
+    function loadLocalImage(filename) {
+      manualKeyedSeeds = [];
+      if (!filename || filename === 'embedded-tarot') {
+        sourceMasterCanvas = buildMasterDorePlate();
+        runSmartCutout();
+        return;
+      }
+
+      if (localBatchFileMap[filename]) {
+        const img = new Image();
+        img.onload = () => {
+          const tempC = document.createElement('canvas');
+          tempC.width = img.naturalWidth || img.width;
+          tempC.height = img.naturalHeight || img.height;
+          const tCtx = tempC.getContext('2d');
+          tCtx.drawImage(img, 0, 0);
+          sourceMasterCanvas = tempC;
+          runSmartCutout();
+        };
+        img.src = localBatchFileMap[filename];
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const tempC = document.createElement('canvas');
+          tempC.width = img.naturalWidth || img.width;
+          tempC.height = img.naturalHeight || img.height;
+          const tCtx = tempC.getContext('2d');
+          tCtx.drawImage(img, 0, 0);
+          sourceMasterCanvas = tempC;
+          runSmartCutout();
+        } catch (e) {
+          currentCutoutDataUrl = filename;
+          renderPoster();
+        }
+      };
+      img.onerror = () => {
+        // Automatically switch to embedded tarot if offline file is missing
+        sourceMasterCanvas = buildMasterDorePlate();
+        runSmartCutout();
+      };
+      img.src = filename;
+    }
+
+    plateFilenameSelect.addEventListener('change', () => {
+      loadLocalImage(plateFilenameSelect.value);
+    });
+
+    batchFileUpload.addEventListener('change', function (e) {
+      const files = Array.from(e.target.files);
+      if (files.length === 0) return;
+
+      let loadedCount = 0;
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (evt) {
+          localBatchFileMap[file.name] = evt.target.result;
+          loadedCount++;
+
+          if (file.name === plateFilenameSelect.value || loadedCount === files.length) {
+            loadLocalImage(plateFilenameSelect.value);
+          }
+        };
+        reader.readAsDataURL(file);
       });
+    });
 
-      // Backbone, Ribs & Skeletal Steed Body
-      g.appendChild(createSvg('path', { d: 'M 450,310 Q 420,350 390,400 Q 350,480 380,580 Q 390,610 420,650 Q 460,700 470,790 L 440,880', 'stroke-width': '3.2' }));
-      g.appendChild(createSvg('path', { d: 'M 420,410 Q 500,430 550,490 Q 590,550 570,640 Q 540,730 500,800 L 530,880', 'stroke-width': '2' }));
+    /* ==========================================================================
+       7. MONUMENTAL RUDNICK CIRCLE / RADAR ORBITAL SYSTEM (BOTTOM-LEFT)
+       ========================================================================== */
+    function buildRudnickCircleLayer(theme, style, anchor, radius) {
+      const g = createSvg('g');
 
-      // Horse Skull & Jaw
-      g.appendChild(createSvg('polygon', { points: '390,400 330,360 290,390 310,430 360,440', 'stroke-width': '2.5' }));
-      g.appendChild(createSvg('circle', { cx: '315', cy: '395', r: '6', fill: theme.text }));
-      g.appendChild(createSvg('path', { d: 'M 290,390 L 230,430 L 210,480 L 260,490 L 320,440' }));
-      g.appendChild(createSvg('path', { d: 'M 230,430 L 210,450 L 220,480' }));
+      // Anchor coordinates
+      let cx = 140, cy = 1040;
+      if (anchor === 'bottom-right') { cx = 760; cy = 1040; }
+      else if (anchor === 'top-left') { cx = 140; cy = 160; }
+      else if (anchor === 'center-left') { cx = 120; cy = 600; }
 
-      // Grim Reaper Hood, Cowl & Scythe
-      g.appendChild(createSvg('path', { d: 'M 470,300 Q 580,250 630,340 Q 660,400 600,430', 'stroke-width': '3' }));
-      g.appendChild(createSvg('line', { x1: '420', y1: '410', x2: '630', y2: '340', 'stroke-dasharray': '2 4' }));
-      g.appendChild(createSvg('path', { d: 'M 470,360 C 510,350 550,380 540,430 C 530,460 490,480 460,480 Z' }));
-      g.appendChild(createSvg('circle', { cx: '500', cy: '395', r: '5', fill: theme.text }));
+      const r = radius;
 
-      // Crescent Scythe Blade
-      g.appendChild(createSvg('polygon', { points: '440,290 650,220 665,235 460,305', fill: theme.text }));
-      g.appendChild(createSvg('path', { d: 'M 650,220 Q 700,280 680,410 Q 650,500 560,550', 'stroke-width': '3.8' }));
+      // 1. Outer Perimeter Ring
+      g.appendChild(createSvg('circle', {
+        cx: cx, cy: cy, r: r,
+        fill: 'none', stroke: theme.accent, 'stroke-width': '1.5'
+      }));
 
-      // Woodcut Shading Hatches
-      const hatchGroup = createSvg('g', { 'stroke-width': '1.1', opacity: '0.65' });
-      const lines = [
-        [380, 440, 420, 500], [370, 460, 410, 520], [350, 510, 400, 560],
-        [330, 560, 380, 610], [400, 620, 450, 660], [440, 520, 490, 550],
-        [470, 560, 520, 600], [510, 490, 570, 520], [530, 530, 580, 570]
-      ];
-      lines.forEach(([x1, y1, x2, y2]) => {
-        hatchGroup.appendChild(createSvg('line', { x1, y1, x2, y2 }));
-      });
-      g.appendChild(hatchGroup);
+      // 2. Secondary Dashed Outer Orbit
+      g.appendChild(createSvg('circle', {
+        cx: cx, cy: cy, r: r - 16,
+        fill: 'none', stroke: theme.text, 'stroke-width': '0.75', 'stroke-dasharray': '2 4', opacity: '0.6'
+      }));
+
+      if (style === 'rudnick-pure' || style === 'astrolabe' || style === 'segmented-gauge') {
+        // Concentric Core Rings
+        [0.75, 0.52, 0.32, 0.14].forEach(f => {
+          g.appendChild(createSvg('circle', {
+            cx: cx, cy: cy, r: r * f,
+            fill: 'none', stroke: theme.text, 'stroke-width': '0.8', opacity: '0.45'
+          }));
+        });
+
+        // Parallel Ruling Line Hatching inside Sector (30° to 75° arc)
+        const hatchG = createSvg('g', { stroke: theme.hatchStroke, 'stroke-width': '0.9' });
+        const step = parseInt(hatchPitch.value, 10) + 1;
+        for (let dy = -r * 0.4; dy <= r * 0.4; dy += step) {
+          const len = Math.sqrt(Math.max(0, (r * 0.52) * (r * 0.52) - dy * dy));
+          hatchG.appendChild(createSvg('line', {
+            x1: cx + dy * 0.5, y1: cy - dy,
+            x2: cx + len * 0.8, y2: cy - dy
+          }));
+        }
+        g.appendChild(hatchG);
+      }
+
+      if (style === 'rudnick-pure' || style === 'segmented-gauge') {
+        // Radial degree division rays
+        const rayG = createSvg('g', { stroke: theme.accent, 'stroke-width': '0.8', opacity: '0.65' });
+        [0, 30, 45, 60, 90, 135, 180, 270].forEach(deg => {
+          const rad = (deg * Math.PI) / 180;
+          const x1 = cx + (r * 0.32) * Math.cos(rad);
+          const y1 = cy + (r * 0.32) * Math.sin(rad);
+          const x2 = cx + r * Math.cos(rad);
+          const y2 = cy + r * Math.sin(rad);
+          rayG.appendChild(createSvg('line', { x1, y1, x2, y2 }));
+        });
+        g.appendChild(rayG);
+      }
+
+      if (style === 'astrolabe') {
+        // Star Polygons inside Core
+        g.appendChild(createSvg('polygon', {
+          points: `${cx},${cy - r * 0.52} ${cx + r * 0.45},${cy + r * 0.26} ${cx - r * 0.45},${cy + r * 0.26}`,
+          fill: 'none', stroke: theme.text, 'stroke-width': '1', opacity: '0.5'
+        }));
+        g.appendChild(createSvg('polygon', {
+          points: `${cx},${cy + r * 0.52} ${cx + r * 0.45},${cy - r * 0.26} ${cx - r * 0.45},${cy - r * 0.26}`,
+          fill: 'none', stroke: theme.text, 'stroke-width': '1', opacity: '0.5'
+        }));
+      }
+
+      // Center Coordinate Crosshair
+      g.appendChild(createSvg('line', {
+        x1: cx - r - 24, y1: cy, x2: cx + r + 24, y2: cy,
+        stroke: theme.accent, 'stroke-width': '0.75', 'stroke-dasharray': '2 4', opacity: '0.7'
+      }));
+      g.appendChild(createSvg('line', {
+        x1: cx, y1: cy - r - 24, x2: cx, y2: cy + r + 24,
+        stroke: theme.accent, 'stroke-width': '0.75', 'stroke-dasharray': '2 4', opacity: '0.7'
+      }));
+
+      // Degree Calibration Annotations
+      g.appendChild(createSvg('text', {
+        x: cx + r + 8, y: cy + 3,
+        class: 'svg-cad', fill: theme.text, text: '090°'
+      }));
+      g.appendChild(createSvg('text', {
+        x: cx, y: cy - r - 8,
+        class: 'svg-cad', fill: theme.text, 'text-anchor': 'middle', text: '000° // RADAR'
+      }));
 
       return g;
     }
 
     /* ==========================================================================
-       6. MODULAR CHAMFERED BLACKLETTER TITLE (CENTER)
+       8. DYNAMIC MULTI-ZONE PERIMETER SHARD ENGINE (JUMPS EDGES & CORNERS)
        ========================================================================== */
-    function renderModularVectorWord(text, yPos, scalePx, theme) {
+    function buildProceduralShards(seedVal, pitch, locMode) {
+      currentSeed = seedVal;
+      const g = createSvg('g');
+      const theme = PALETTES[palettePreset.value] || PALETTES['pure-void'];
+
+      const ZONES = {
+        'top-left': { x: randomRange(48, 120), y: randomRange(48, 100), w: randomRange(220, 290), h: randomRange(160, 240) },
+        'top-right': { x: randomRange(540, 620), y: randomRange(48, 110), w: randomRange(230, 300), h: randomRange(170, 250) },
+        'bottom-left': { x: randomRange(48, 120), y: randomRange(860, 930), w: randomRange(220, 290), h: randomRange(160, 230) },
+        'bottom-right': { x: randomRange(540, 620), y: randomRange(860, 930), w: randomRange(230, 300), h: randomRange(160, 240) },
+        'left-flank': { x: randomRange(36, 60), y: randomRange(360, 480), w: randomRange(130, 180), h: randomRange(280, 380) },
+        'right-flank': { x: randomRange(710, 750), y: randomRange(360, 480), w: randomRange(130, 175), h: randomRange(280, 380) }
+      };
+
+      let activeZones = [];
+      if (locMode === 'auto-jump') {
+        const zoneKeys = ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'left-flank', 'right-flank'];
+        const chosen = zoneKeys[Math.floor(randomRange(0, zoneKeys.length))];
+        activeZones.push(chosen);
+        if (seededRandom() > 0.5) {
+          const second = zoneKeys[Math.floor(randomRange(0, zoneKeys.length))];
+          if (second !== chosen) activeZones.push(second);
+        }
+      } else if (locMode === 'diagonal-opposing') {
+        if (seededRandom() > 0.5) {
+          activeZones = ['top-left', 'bottom-right'];
+        } else {
+          activeZones = ['top-right', 'bottom-left'];
+        }
+      } else if (locMode === 'scatter') {
+        activeZones = ['top-right', 'left-flank', 'bottom-right'];
+      } else {
+        activeZones = [locMode];
+      }
+
+      activeZones.forEach(zKey => {
+        const z = ZONES[zKey];
+        if (!z) return;
+
+        const subType = Math.floor(randomRange(0, 3));
+
+        if (subType === 0) {
+          const p1 = `${z.x},${z.y}`;
+          const p2 = `${z.x + z.w},${z.y - randomRange(10, 30)}`;
+          const p3 = `${z.x + z.w + randomRange(20, 40)},${z.y + z.h}`;
+          const p4 = `${z.x + randomRange(30, 60)},${z.y + z.h + randomRange(20, 50)}`;
+
+          g.appendChild(createSvg('polygon', {
+            points: `${p1} ${p2} ${p3} ${p4}`,
+            fill: theme.shardFill, stroke: theme.text, 'stroke-width': '1.4'
+          }));
+
+          g.appendChild(createSvg('line', {
+            x1: z.x, y1: z.y,
+            x2: z.x + z.w + randomRange(20, 40), y2: z.y + z.h,
+            stroke: theme.accent, 'stroke-width': '1.2'
+          }));
+
+          const hatchG = createSvg('g', { stroke: theme.hatchStroke, 'stroke-width': '0.9' });
+          for (let hy = z.y; hy <= z.y + z.h; hy += pitch) {
+            const t = (hy - z.y) / z.h;
+            hatchG.appendChild(createSvg('line', {
+              x1: z.x + t * 40, y1: hy,
+              x2: z.x + z.w - t * 20, y2: hy
+            }));
+          }
+          g.appendChild(hatchG);
+
+        } else if (subType === 1) {
+          const count = Math.floor(randomRange(4, 7));
+          const railG = createSvg('g', { stroke: theme.text, 'stroke-width': '1', fill: 'none', opacity: '0.85' });
+          for (let i = 0; i < count; i++) {
+            const off = i * 16;
+            railG.appendChild(createSvg('polygon', {
+              points: `${z.x + off},${z.y + off} ${z.x + z.w * 0.6 + off},${z.y - 20 + off} ${z.x + z.w * 0.7 + off},${z.y + off} ${z.x + 20 + off},${z.y + 20 + off}`
+            }));
+          }
+          g.appendChild(railG);
+
+        } else {
+          g.appendChild(createSvg('line', {
+            x1: z.x, y1: z.y,
+            x2: z.x + z.w, y2: z.y + z.h,
+            stroke: theme.accent, 'stroke-width': '2'
+          }));
+          g.appendChild(createSvg('line', {
+            x1: z.x + z.w, y1: z.y,
+            x2: z.x, y2: z.y + z.h,
+            stroke: theme.text, 'stroke-width': '1', 'stroke-dasharray': '3 4'
+          }));
+          g.appendChild(createSvg('polygon', {
+            points: `${z.x + z.w * 0.3},${z.y + z.h * 0.1} ${z.x + z.w * 0.8},${z.y + z.h * 0.3} ${z.x + z.w * 0.6},${z.y + z.h * 0.9} ${z.x + z.w * 0.1},${z.y + z.h * 0.7}`,
+            fill: theme.shardFill, stroke: theme.text, 'stroke-width': '1.2'
+          }));
+        }
+      });
+
+      return g;
+    }
+
+    /* ==========================================================================
+       9. PROCEDURAL RUNIC GLYPH CASSETTE & CLEAN CAD MARGINALIA
+       ========================================================================== */
+    function buildProceduralRunicCassette(seedVal, locMode, theme) {
+      currentSeed = seedVal + 888;
+      const placeOnLeft = (locMode === 'top-right' || locMode === 'right-flank' || locMode === 'bottom-right');
+      const posX = placeOnLeft ? 40 : 860;
+      const posY = Math.floor(randomRange(360, 520));
+
+      const g = createSvg('g', { transform: `translate(${posX}, ${posY})` });
+
+      g.appendChild(createSvg('line', {
+        x1: '0', y1: '0', x2: '0', y2: '360',
+        stroke: theme.accent, 'stroke-width': '1', 'stroke-dasharray': '1 3'
+      }));
+
+      g.appendChild(createSvg('text', {
+        x: placeOnLeft ? '-12' : '12', y: '16',
+        'font-family': 'Cinzel', 'font-size': '8', fill: theme.text, 'letter-spacing': '3',
+        transform: `rotate(${placeOnLeft ? -90 : 90} ${placeOnLeft ? -12 : 12},16)`,
+        text: `CLASSIFIED // REF.0x${Math.floor(randomRange(1000, 9999)).toString(16).toUpperCase()}`
+      }));
+
+      const runesContainer = createSvg('g', {
+        stroke: theme.text, 'stroke-width': '1.2', fill: 'none', transform: 'translate(0, 120)'
+      });
+
+      const glyphFuncs = [
+        (y) => createSvg('rect', { x: '-6', y: y, width: '12', height: '12' }),
+        (y) => {
+          const grp = createSvg('g');
+          grp.appendChild(createSvg('line', { x1: '-6', y1: y + 6, x2: '6', y2: y + 6 }));
+          grp.appendChild(createSvg('circle', { cx: '0', cy: y + 6, r: '5' }));
+          return grp;
+        },
+        (y) => createSvg('polygon', { points: `0,${y} 8,${y + 14} -8,${y + 14}` }),
+        (y) => createSvg('polygon', { points: `-6,${y} 6,${y} 0,${y + 14}` }),
+        (y) => {
+          const grp = createSvg('g');
+          grp.appendChild(createSvg('rect', { x: '-5', y: y, width: '10', height: '18', 'stroke-dasharray': '2 2' }));
+          grp.appendChild(createSvg('line', { x1: '-5', y1: y + 9, x2: '5', y2: y + 9 }));
+          return grp;
+        },
+        (y) => {
+          const grp = createSvg('g');
+          grp.appendChild(createSvg('circle', { cx: '0', cy: y + 7, r: '6' }));
+          grp.appendChild(createSvg('line', { x1: '0', y1: y + 1, x2: '0', y2: y + 13 }));
+          grp.appendChild(createSvg('line', { x1: '-6', y1: y + 7, x2: '6', y2: y + 7 }));
+          return grp;
+        }
+      ];
+
+      let currY = 0;
+      for (let i = 0; i < 6; i++) {
+        const randIdx = Math.floor(randomRange(0, glyphFuncs.length));
+        runesContainer.appendChild(glyphFuncs[randIdx](currY));
+        currY += Math.floor(randomRange(24, 34));
+      }
+      g.appendChild(runesContainer);
+
+      return g;
+    }
+
+    function buildProceduralCadMarginalia(seedVal, locMode, theme) {
+      currentSeed = seedVal + 444;
+      const g = createSvg('g');
+
+      const randomAngle = (randomRange(24, 68)).toFixed(2);
+      const randomLocus = `${Math.floor(randomRange(38, 43))}°${Math.floor(randomRange(10, 59))}'N ${Math.floor(randomRange(70, 76))}°${Math.floor(randomRange(10, 59))}'W`;
+
+      const tickG = createSvg('g');
+      tickG.appendChild(createSvg('line', { x1: '24', y1: '36', x2: '56', y2: '36', stroke: theme.accent, 'stroke-width': '1.2' }));
+      tickG.appendChild(createSvg('line', { x1: '36', y1: '24', x2: '36', y2: '56', stroke: theme.accent, 'stroke-width': '1.2' }));
+      tickG.appendChild(createSvg('text', {
+        x: '64', y: '40', class: 'svg-cad', fill: theme.text,
+        text: `∠ ${randomAngle}° // CAD AXIS ${Math.floor(randomRange(1, 9))}`
+      }));
+
+      tickG.appendChild(createSvg('text', {
+        x: '864', y: '40', class: 'svg-cad', fill: theme.text, 'text-anchor': 'end',
+        text: `SPECIMEN № 03041-S${Math.floor(randomRange(10, 99))} // ${randomLocus}`
+      }));
+
+      tickG.appendChild(createSvg('line', { x1: '840', y1: '1164', x2: '864', y2: '1164', stroke: theme.text, 'stroke-width': '1' }));
+      tickG.appendChild(createSvg('line', { x1: '864', y1: '1140', x2: '864', y2: '1164', stroke: theme.text, 'stroke-width': '1' }));
+      g.appendChild(tickG);
+
+      if (toggleRunicCassette.checked) {
+        g.appendChild(buildProceduralRunicCassette(seedVal, locMode, theme));
+      }
+
+      if (toggleHeinekenBadge.checked) {
+        const badgeY = Math.floor(randomRange(240, 360));
+        const badgeX = (locMode === 'top-right' || locMode === 'right-flank') ? 60 : 840;
+        const starG = createSvg('g', { transform: `translate(${badgeX}, ${badgeY})` });
+        starG.appendChild(createSvg('circle', { cx: '0', cy: '0', r: '13', fill: '#000', stroke: theme.starCircle, 'stroke-width': '1.6' }));
+        starG.appendChild(createSvg('polygon', {
+          points: '0,-7 2.2,-2.2 7.2,-2.2 3.2,1 4.8,5.8 0,2.8 -4.8,5.8 -3.2,1 -7.2,-2.2 -2.2,-2.2',
+          fill: theme.starFill
+        }));
+        starG.appendChild(createSvg('text', {
+          x: badgeX > 450 ? '-42' : '22', y: '3', class: 'svg-cad', fill: theme.text, text: 'ARCHIVE'
+        }));
+        g.appendChild(starG);
+      }
+
+      const colophonG = createSvg('g');
+      const lines = textMeta.value.split('\n');
+      const metaTextElem = createSvg('text', { x: '75', y: '1118', class: 'svg-cad', fill: theme.text });
+      lines.forEach((line, idx) => {
+        metaTextElem.appendChild(createSvg('tspan', {
+          x: '75', dy: idx === 0 ? '0' : '15', text: line.toUpperCase()
+        }));
+      });
+      colophonG.appendChild(metaTextElem);
+      g.appendChild(colophonG);
+
+      return g;
+    }
+
+    /* ==========================================================================
+       10. ALGORITHMIC INTERLOCKING BLACKLETTER MONOLITH
+       ========================================================================== */
+    function renderModularMonolithWord(text, yPos, scalePx, theme) {
       const g = createSvg('g');
       const clean = text.toUpperCase().trim();
       const glyphWidth = scalePx * 0.72;
       const glyphHeight = scalePx * 1.15;
-      const spacing = scalePx * 0.28;
+      const spacing = 2;
       const totalWidth = clean.length * glyphWidth + (clean.length - 1) * spacing;
       let startX = 450 - totalWidth / 2;
-      const th = Math.max(8, scalePx * 0.2);
+      const th = Math.max(9, scalePx * 0.22);
+
+      g.appendChild(createSvg('line', {
+        x1: startX - 8, y1: yPos - glyphHeight / 2,
+        x2: startX + totalWidth + 8, y2: yPos - glyphHeight / 2,
+        stroke: theme.text, 'stroke-width': '1.5'
+      }));
+      g.appendChild(createSvg('line', {
+        x1: startX - 8, y1: yPos + glyphHeight / 2,
+        x2: startX + totalWidth + 8, y2: yPos + glyphHeight / 2,
+        stroke: theme.text, 'stroke-width': '1.5'
+      }));
 
       for (let i = 0; i < clean.length; i++) {
         const ch = clean[i];
         const gx = startX + i * (glyphWidth + spacing);
         const gy = yPos - glyphHeight / 2;
 
-        const path = createSvg('path', {
-          fill: theme.text,
-          'fill-rule': 'evenodd'
-        });
+        if (ch === ' ') continue;
 
+        const path = createSvg('path', { fill: theme.text, 'fill-rule': 'evenodd' });
         let d = '';
         if (ch === 'P') {
           d = `M ${gx},${gy} L ${gx + glyphWidth - th},${gy} L ${gx + glyphWidth},${gy + th} L ${gx + glyphWidth},${gy + glyphHeight * 0.55} L ${gx + glyphWidth - th},${gy + glyphHeight * 0.65} L ${gx + th},${gy + glyphHeight * 0.65} L ${gx + th},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z ` +
@@ -848,153 +1517,27 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
         } else {
           d = `M ${gx},${gy} L ${gx + glyphWidth},${gy} L ${gx + glyphWidth},${gy + glyphHeight} L ${gx},${gy + glyphHeight} Z`;
         }
-
         path.setAttribute('d', d);
         g.appendChild(path);
       }
-
       return g;
     }
 
     /* ==========================================================================
-       7. BORDER GEOMETRIC SHAPES GENERATOR (CONFINED TO EDGES/MARGINS)
-       ========================================================================== */
-    function buildBorderShapes(theme, mode, depth, pitch, useAccent) {
-      const g = createSvg('g');
-      const strokeCol = useAccent ? theme.accent : theme.text;
-      const fillCol = theme.borderFill;
-      const hatchCol = theme.hatchStroke;
-
-      if (mode === 'none') return g;
-
-      // 1. CORNER FACETED PRISMS (Top-Left, Top-Right, Bottom-Left, Bottom-Right)
-      if (mode === 'rudnick-canon' || mode === 'corner-prisms' || mode === 'full-enclosure') {
-        const d = depth;
-
-        // Top-Left Corner Shard
-        g.appendChild(createSvg('polygon', {
-          points: `48,48 ${48 + d * 1.2},48 ${48 + d * 1.2},${48 + d * 0.4} ${48 + d * 0.5},${48 + d * 1.1} 48,${48 + d * 1.1}`,
-          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
-        }));
-        g.appendChild(createSvg('line', {
-          x1: '48', y1: '48', x2: `${48 + d * 0.5}`, y2: `${48 + d * 1.1}`,
-          stroke: theme.text, 'stroke-width': '0.9', opacity: '0.6'
-        }));
-
-        // Ruling Hatching in Top-Left Corner
-        for (let y = 56; y < 48 + d * 0.4; y += pitch) {
-          g.appendChild(createSvg('line', {
-            x1: '52', y1: y, x2: `${44 + d * 1.1}`, y2: y,
-            stroke: hatchCol, 'stroke-width': '1'
-          }));
-        }
-
-        // Top-Right Corner Shard
-        g.appendChild(createSvg('polygon', {
-          points: `852,48 ${852 - d * 1.2},48 ${852 - d * 1.2},${48 + d * 0.4} ${852 - d * 0.5},${48 + d * 1.1} 852,${48 + d * 1.1}`,
-          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
-        }));
-        g.appendChild(createSvg('line', {
-          x1: '852', y1: '48', x2: `${852 - d * 0.5}`, y2: `${48 + d * 1.1}`,
-          stroke: theme.text, 'stroke-width': '0.9', opacity: '0.6'
-        }));
-
-        // Bottom-Left Corner Shard
-        g.appendChild(createSvg('polygon', {
-          points: `48,1152 ${48 + d * 1.1},1152 ${48 + d * 1.1},${1152 - d * 0.4} ${48 + d * 0.4},${1152 - d * 1.1} 48,${1152 - d * 1.1}`,
-          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
-        }));
-        g.appendChild(createSvg('line', {
-          x1: '48', y1: '1152', x2: `${48 + d * 0.4}`, y2: `${1152 - d * 1.1}`,
-          stroke: strokeCol, 'stroke-width': '1'
-        }));
-
-        // Bottom-Right Corner Shard
-        g.appendChild(createSvg('polygon', {
-          points: `852,1152 ${852 - d * 1.1},1152 ${852 - d * 1.1},${1152 - d * 0.4} ${852 - d * 0.4},${1152 - d * 1.1} 852,${1152 - d * 1.1}`,
-          fill: fillCol, stroke: strokeCol, 'stroke-width': '1.4'
-        }));
-        g.appendChild(createSvg('line', {
-          x1: '852', y1: '1152', x2: `${852 - d * 0.4}`, y2: `${1152 - d * 1.1}`,
-          stroke: strokeCol, 'stroke-width': '1'
-        }));
-      }
-
-      // 2. LEFT MARGIN: STEPPED ISOMETRIC RAILS & PRISMS
-      if (mode === 'rudnick-canon' || mode === 'stepped-flanks' || mode === 'full-enclosure') {
-        const leftX = 48;
-        const railW = Math.min(80, depth * 0.65);
-
-        // Stepped polygon sequence along the left border
-        const numBlocks = 7;
-        const blockH = 65;
-        const startY = 320;
-
-        for (let i = 0; i < numBlocks; i++) {
-          const cy = startY + i * (blockH + 18);
-          // 45° sheared isometric rail
-          g.appendChild(createSvg('polygon', {
-            points: `${leftX},${cy} ${leftX + railW},${cy - 20} ${leftX + railW},${cy + blockH - 20} ${leftX},${cy + blockH}`,
-            fill: (i % 2 === 0) ? fillCol : 'none',
-            stroke: strokeCol,
-            'stroke-width': '1.2'
-          }));
-
-          // Interior ruling lines in alternating left blocks
-          if (i % 2 === 0) {
-            for (let hy = cy + 4; hy < cy + blockH - 4; hy += pitch) {
-              g.appendChild(createSvg('line', {
-                x1: `${leftX + 4}`, y1: hy,
-                x2: `${leftX + railW - 4}`, y2: hy - 20,
-                stroke: hatchCol, 'stroke-width': '0.9'
-              }));
-            }
-          }
-        }
-      }
-
-      // 3. RIGHT MARGIN: ISOMETRIC CHEVRONS & REGISTRATION COLUMNS
-      if (mode === 'rudnick-canon' || mode === 'stepped-flanks' || mode === 'full-enclosure') {
-        const rightX = 852;
-        const railW = Math.min(75, depth * 0.6);
-        const startY = 310;
-
-        for (let j = 0; j < 6; j++) {
-          const cy = startY + j * 90;
-          g.appendChild(createSvg('polygon', {
-            points: `${rightX},${cy} ${rightX - railW},${cy + 22} ${rightX - railW},${cy + 52} ${rightX},${cy + 30}`,
-            fill: (j === 1 || j === 4) ? fillCol : 'none',
-            stroke: strokeCol,
-            'stroke-width': '1.2'
-          }));
-        }
-      }
-
-      // 4. TOP & BOTTOM PERIMETER TABS & CROSSBARS (Full enclosure)
-      if (mode === 'full-enclosure') {
-        // Top architectural lintel
-        g.appendChild(createSvg('polygon', {
-          points: `220,48 240,68 660,68 680,48`,
-          fill: fillCol, stroke: strokeCol, 'stroke-width': '1'
-        }));
-        // Bottom registration rail
-        g.appendChild(createSvg('polygon', {
-          points: `220,1152 240,1132 660,1132 680,1152`,
-          fill: fillCol, stroke: strokeCol, 'stroke-width': '1'
-        }));
-      }
-
-      return g;
-    }
-
-    /* ==========================================================================
-       8. PRIMARY POSTER RENDER PIPELINE
-       ========================================================================== */
+       11. PRIMARY POSTER RENDER PIPELINE
+       ========================================================================= */
     function renderPoster() {
-      const theme = PALETTES[palettePreset.value] || PALETTES['rudnick-pure'];
-      svgBg.setAttribute('fill', theme.bg);
+      const theme = PALETTES[palettePreset.value] || PALETTES['pure-void'];
 
-      // 1. Swiss 12-Column Hairline Grid
+      // 0. Substrate Color & Procedural Paper Grain
+      svgBg.setAttribute('fill', theme.bg);
+      if (togglePaperGrain.checked || palettePreset.value === 'aged-parchment') {
+        svgGrainOverlay.setAttribute('opacity', palettePreset.value === 'aged-parchment' ? '0.45' : '0.22');
+      } else {
+        svgGrainOverlay.setAttribute('opacity', '0');
+      }
+
+      // 1. Hairline Swiss Grid
       clearLayer(gridLayer);
       if (toggleGridLines.checked) {
         const margin = 48;
@@ -1009,42 +1552,21 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
         }
       }
 
-      // 2. Border Constructivist Shapes (Confined strictly to margins & edges)
-      clearLayer(borderShapesLayer);
-      const bMode = borderShapeMode.value;
-      const bDepth = parseInt(borderDepth.value, 10);
-      const bPitch = parseInt(hatchPitch.value, 10);
-      const useAccent = toggleBorderAccent.checked;
+      // 2. Dynamic Jumping Perimeter Shards
+      clearLayer(shardsLayer);
+      const seedVal = parseInt(geometrySeed.value, 10);
+      const pitch = parseInt(hatchPitch.value, 10);
+      const locMode = shardLocation.value;
+      shardsLayer.appendChild(buildProceduralShards(seedVal, pitch, locMode));
 
-      const borderGroup = buildBorderShapes(theme, bMode, bDepth, bPitch, useAccent);
-      borderShapesLayer.appendChild(borderGroup);
-
-      // 3. Center Illustration Plate (Cut Out From Background)
-      clearLayer(artworkLayer);
-      const scaleFrac = parseInt(plateScale.value, 10) / 100;
-      const yShift = parseInt(plateYOffset.value, 10);
-
-      if (!rawUploadedImg && plateSelect.value === 'embedded-tarot') {
-        // High-contrast vector engraving centered cleanly
-        const specimen = buildCenterTarotEngraving(theme);
-        specimen.setAttribute('transform', `translate(${450 * (1 - scaleFrac)}, ${ (600 + yShift) * (1 - scaleFrac) }) scale(${scaleFrac})`);
-        artworkLayer.appendChild(specimen);
-      } else {
-        // User upload or selected image (transparent silhouette via cutout canvas)
-        const imgSrc = cutoutDataUrl || (rawUploadedImg ? rawUploadedImg.src : plateSelect.value);
-        const imgW = 840 * scaleFrac;
-        const imgH = 1040 * scaleFrac;
-        const imgX = (900 - imgW) / 2;
-        const imgY = 160 + (680 - imgH) / 2 + yShift;
-
-        artworkLayer.appendChild(createSvg('image', {
-          href: imgSrc,
-          x: imgX, y: imgY, width: imgW, height: imgH,
-          preserveAspectRatio: 'xMidYMid meet'
-        }));
+      // 3. Monumental Rudnick Circle / Orbital System (Bottom-Left)
+      clearLayer(circleLayer);
+      if (toggleRudnickCircle.checked) {
+        const rad = parseInt(circleRadius.value, 10);
+        circleLayer.appendChild(buildRudnickCircleLayer(theme, circleStyle.value, circleAnchor.value, rad));
       }
 
-      // 4. Monumental Title (Centered in the layout)
+      // 4. Monumental Title (Behind vs Fore Routing)
       clearLayer(behindTitleLayer);
       clearLayer(foreTitleLayer);
 
@@ -1053,195 +1575,117 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
       let titleElem;
 
       if (fontH1.value === 'modular-vector') {
-        titleElem = renderModularVectorWord(textH1.value, yH1Pos, sizeVal, theme);
+        titleElem = renderModularMonolithWord(textH1.value, yH1Pos, sizeVal, theme);
       } else {
         titleElem = createSvg('text', {
-          x: '450',
-          y: yH1Pos.toString(),
-          class: 'svg-h1',
-          fill: theme.text,
-          'font-family': fontH1.value,
-          'font-size': `${sizeVal}px`,
+          x: '450', y: yH1Pos.toString(),
+          class: 'svg-h1', fill: theme.text,
+          'font-family': fontH1.value, 'font-size': `${sizeVal}px`,
           text: textH1.value.toUpperCase()
         });
       }
 
-      if (toggleBehind.checked) {
+      if (titleLayerOrder.value === 'behind') {
         behindTitleLayer.appendChild(titleElem);
       } else {
         foreTitleLayer.appendChild(titleElem);
       }
 
-      // 5. Border Marginalia: Runic Cassette, Heineken Star & Barcode
+      // 5. Center Cutout Illustration Plate (Aspect Ratio Locked)
+      clearLayer(artworkLayer);
+      const scaleFrac = parseInt(plateScale.value, 10) / 100;
+      const yShift = parseInt(plateYOffset.value, 10);
+
+      const srcW = sourceMasterCanvas.width || 600;
+      const srcH = sourceMasterCanvas.height || 800;
+      const aspect = srcW / srcH;
+
+      let imgW, imgH;
+      const maxBounding = 920 * scaleFrac;
+      if (aspect > 1) {
+        imgW = maxBounding;
+        imgH = maxBounding / aspect;
+      } else {
+        imgH = maxBounding * 1.15;
+        imgW = imgH * aspect;
+      }
+
+      const imgX = (900 - imgW) / 2;
+      const imgY = 180 + (640 - imgH) / 2 + yShift;
+
+      if (currentCutoutDataUrl) {
+        artworkLayer.appendChild(createSvg('image', {
+          href: currentCutoutDataUrl,
+          x: imgX, y: imgY, width: imgW, height: imgH,
+          preserveAspectRatio: 'xMidYMid meet'
+        }));
+      }
+
+      // 6. Clean CAD Marginalia
       clearLayer(marginaliaLayer);
-      if (toggleGlyphBar.checked) {
-        const glyphBar = createSvg('g', { transform: 'translate(842, 230)' });
-        glyphBar.appendChild(createSvg('line', {
-          x1: '0', y1: '0', x2: '0', y2: '560',
-          stroke: theme.accent, 'stroke-width': '1', 'stroke-dasharray': '1 3'
-        }));
-
-        glyphBar.appendChild(createSvg('text', {
-          x: '14', y: '24', 'font-family': 'Cinzel', 'font-size': '9',
-          fill: theme.text, 'letter-spacing': '3', transform: 'rotate(90 14,24)',
-          text: 'OP. 2017 // PURE RIGOR // CLASSIFIED'
-        }));
-
-        // Archaic border runes
-        const glyphCluster = createSvg('g', {
-          transform: 'translate(0, 180)', stroke: theme.text, 'stroke-width': '1.2', fill: 'none'
-        });
-        glyphCluster.appendChild(createSvg('rect', { x: '-8', y: '0', width: '16', height: '16' }));
-        glyphCluster.appendChild(createSvg('line', { x1: '-8', y1: '8', x2: '8', y2: '8' }));
-        glyphCluster.appendChild(createSvg('polygon', { points: '0,30 9,46 -9,46' }));
-        glyphCluster.appendChild(createSvg('circle', { cx: '0', cy: '68', r: '7' }));
-        glyphCluster.appendChild(createSvg('line', { x1: '0', y1: '61', x2: '0', y2: '75' }));
-        glyphCluster.appendChild(createSvg('line', { x1: '-7', y1: '68', x2: '7', y2: '68' }));
-        glyphCluster.appendChild(createSvg('rect', { x: '-6', y: '90', width: '12', height: '22', 'stroke-dasharray': '2 2' }));
-        glyphCluster.appendChild(createSvg('polygon', { points: '-8,132 8,132 0,146' }));
-        glyphBar.appendChild(glyphCluster);
-
-        marginaliaLayer.appendChild(glyphBar);
-      }
-
-      if (toggleMicroStar.checked) {
-        const starGroup = createSvg('g', { transform: 'translate(832, 172)' });
-        starGroup.appendChild(createSvg('circle', {
-          cx: '0', cy: '0', r: '14', fill: '#000', stroke: theme.starCircle, 'stroke-width': '1.6'
-        }));
-        starGroup.appendChild(createSvg('polygon', {
-          points: '0,-8 2.4,-2.5 8,-2.5 3.5,1 5.2,6.5 0,3.2 -5.2,6.5 -3.5,1 -8,-2.5 -2.4,-2.5',
-          fill: theme.starFill
-        }));
-        starGroup.appendChild(createSvg('text', {
-          x: '-44', y: '4', 'font-family': 'Cinzel', 'font-size': '8',
-          fill: theme.text, 'letter-spacing': '1', text: 'ARCHIVE'
-        }));
-        marginaliaLayer.appendChild(starGroup);
-      }
-
-      if (toggleBarcode.checked) {
-        const barcodeGroup = createSvg('g', { transform: 'translate(740, 1114)' });
-        const barWidths = [2, 1, 3, 1, 2, 4, 1, 3, 2, 1, 4, 2];
-        let bx = 0;
-        barWidths.forEach(bw => {
-          barcodeGroup.appendChild(createSvg('rect', {
-            x: bx, y: 0, width: bw, height: 18, fill: theme.text
-          }));
-          bx += bw + 2;
-        });
-        marginaliaLayer.appendChild(barcodeGroup);
-      }
-
-      // 6. Header, Metadata & Framing Crosshairs
-      clearLayer(metadataLayer);
-      metadataLayer.appendChild(createSvg('text', {
-        x: '450', y: '88', class: 'svg-h2', fill: theme.accent,
-        text: textH2.value.toUpperCase()
-      }));
-
-      const metaTextElem = createSvg('text', {
-        x: '75', y: '1112', class: 'svg-meta', fill: theme.text
-      });
-      textMeta.value.split('\n').forEach((line, idx) => {
-        metaTextElem.appendChild(createSvg('tspan', {
-          x: '75', dy: idx === 0 ? '0' : '16', text: line.toUpperCase()
-        }));
-      });
-      metadataLayer.appendChild(metaTextElem);
-
-      clearLayer(frameLayer);
-      frameLayer.appendChild(createSvg('rect', {
-        x: '40', y: '40', width: '820', height: '1120',
-        fill: 'none', stroke: theme.accent, 'stroke-width': '1.5'
-      }));
-      frameLayer.appendChild(createSvg('rect', {
-        x: '46', y: '46', width: '808', height: '1108',
-        fill: 'none', stroke: theme.text, 'stroke-width': '0.75', opacity: '0.4'
-      }));
-
-      [{x: 40, y: 40}, {x: 860, y: 40}, {x: 40, y: 1160}, {x: 860, y: 1160}].forEach(pt => {
-        const cross = createSvg('g');
-        cross.appendChild(createSvg('line', {
-          x1: pt.x - 10, y1: pt.y, x2: pt.x + 10, y2: pt.y, stroke: theme.accent, 'stroke-width': '1.5'
-        }));
-        cross.appendChild(createSvg('line', {
-          x1: pt.x, y1: pt.y - 10, x2: pt.x, y2: pt.y + 10, stroke: theme.accent, 'stroke-width': '1.5'
-        }));
-        frameLayer.appendChild(cross);
-      });
+      marginaliaLayer.appendChild(buildProceduralCadMarginalia(seedVal, locMode, theme));
     }
 
     /* ==========================================================================
-       9. EVENT BINDINGS & MUTATOR
+       12. INTERACTION CONTROLS & MUTATOR
        ========================================================================== */
-    plateUpload.addEventListener('change', function (e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (evt) {
-          const img = new Image();
-          img.onload = () => {
-            rawUploadedImg = img;
-            processImageBackgroundCutout();
-          };
-          img.src = evt.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    plateSelect.addEventListener('change', () => {
-      if (plateSelect.value === 'embedded-tarot') {
-        rawUploadedImg = null;
-        cutoutDataUrl = null;
-        renderPoster();
-      } else {
-        const img = new Image();
-        img.onload = () => {
-          rawUploadedImg = img;
-          processImageBackgroundCutout();
-        };
-        img.onerror = () => {
-          rawUploadedImg = null;
-          cutoutDataUrl = null;
-          renderPoster();
-        };
-        img.src = plateSelect.value;
-      }
-    });
-
-    [palettePreset, toggleAutocut, plateThreshold, plateScale, plateYOffset,
-     borderShapeMode, borderDepth, hatchPitch, toggleBorderAccent, toggleGridLines,
-     textH1, fontH1, sizeH1, yH1, toggleBehind, toggleGlyphBar, toggleMicroStar,
-     toggleBarcode, textH2, textMeta].forEach(el => {
+    [palettePreset, togglePaperGrain, cutoutMethod, cutoutSensitivity,
+     toggleOpaqueBody, subjectToneMode, plateScale, plateYOffset,
+     textH1, fontH1, titleLayerOrder, sizeH1, yH1,
+     toggleRudnickCircle, circleStyle, circleAnchor, circleRadius,
+     shardLocation, geometrySeed, hatchPitch, toggleGridLines,
+     toggleRunicCassette, toggleHeinekenBadge, textMeta].forEach(el => {
       el.addEventListener('input', () => {
-        valPlateThreshold.textContent = plateThreshold.value;
+        valCutoutSensitivity.textContent = cutoutSensitivity.value;
         valPlateScale.textContent = plateScale.value + '%';
         valPlateYOffset.textContent = plateYOffset.value + 'px';
-        valBorderDepth.textContent = borderDepth.value + 'px';
-        valHatchPitch.textContent = hatchPitch.value + 'px';
         valSizeH1.textContent = sizeH1.value;
         valYH1.textContent = yH1.value + '%';
+        valCircleRadius.textContent = circleRadius.value + 'px';
+        valGeometrySeed.textContent = `0x${parseInt(geometrySeed.value, 10).toString(16).toUpperCase().padStart(4, '0')}`;
+        valHatchPitch.textContent = hatchPitch.value + 'px';
 
-        if (el === toggleAutocut || el === plateThreshold) {
-          processImageBackgroundCutout();
+        if (el === cutoutMethod || el === cutoutSensitivity || el === toggleOpaqueBody || el === subjectToneMode || el === palettePreset) {
+          runSmartCutout();
         } else {
           renderPoster();
         }
       });
     });
 
-    btnMutate.addEventListener('click', () => {
-      plateScale.value = Math.floor(Math.random() * 25) + 45;
-      borderDepth.value = Math.floor(Math.random() * 60) + 90;
-      hatchPitch.value = Math.floor(Math.random() * 8) + 5;
-      sizeH1.value = Math.floor(Math.random() * 40) + 75;
-      yH1.value = Math.floor(Math.random() * 30) + 30;
+    btnRandomGeometry.addEventListener('click', () => {
+      geometrySeed.value = Math.floor(Math.random() * 9999) + 1;
+      hatchPitch.value = Math.floor(Math.random() * 8) + 4;
 
-      valPlateScale.textContent = plateScale.value + '%';
-      valBorderDepth.textContent = borderDepth.value + 'px';
+      const locOptions = ['auto-jump', 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'left-flank', 'right-flank', 'diagonal-opposing', 'scatter'];
+      shardLocation.value = locOptions[Math.floor(Math.random() * locOptions.length)];
+
+      const circleStyles = ['rudnick-pure', 'astrolabe', 'segmented-gauge', 'minimal-arc'];
+      circleStyle.value = circleStyles[Math.floor(Math.random() * circleStyles.length)];
+      circleRadius.value = Math.floor(Math.random() * 200) + 280;
+
+      valGeometrySeed.textContent = `0x${parseInt(geometrySeed.value, 10).toString(16).toUpperCase().padStart(4, '0')}`;
       valHatchPitch.textContent = hatchPitch.value + 'px';
+      valCircleRadius.textContent = circleRadius.value + 'px';
+      renderPoster();
+    });
+
+    btnMutate.addEventListener('click', () => {
+      geometrySeed.value = Math.floor(Math.random() * 9999) + 1;
+      hatchPitch.value = Math.floor(Math.random() * 8) + 4;
+      plateScale.value = Math.floor(Math.random() * 25) + 45;
+      sizeH1.value = Math.floor(Math.random() * 40) + 115;
+      yH1.value = Math.floor(Math.random() * 25) + 32;
+
+      const locOptions = ['auto-jump', 'top-left', 'top-right', 'bottom-left', 'bottom-right', 'left-flank', 'right-flank', 'diagonal-opposing', 'scatter'];
+      shardLocation.value = locOptions[Math.floor(Math.random() * locOptions.length)];
+
+      const circleStyles = ['rudnick-pure', 'astrolabe', 'segmented-gauge', 'minimal-arc'];
+      circleStyle.value = circleStyles[Math.floor(Math.random() * circleStyles.length)];
+
+      valGeometrySeed.textContent = `0x${parseInt(geometrySeed.value, 10).toString(16).toUpperCase().padStart(4, '0')}`;
+      valHatchPitch.textContent = hatchPitch.value + 'px';
+      valPlateScale.textContent = plateScale.value + '%';
       valSizeH1.textContent = sizeH1.value;
       valYH1.textContent = yH1.value + '%';
       renderPoster();
@@ -1259,18 +1703,15 @@ DESIGN RIGOR // ART 3041 CCUNY SPECIMEN</textarea>
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `art3041_rudnick_pure_${Date.now()}.svg`;
+      link.download = `art3041_rudnick_specimen_${Date.now()}.svg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     });
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', renderPoster);
-    } else {
-      renderPoster();
-    }
+    // Initial boot
+    loadLocalImage(plateFilenameSelect.value);
   </script>
 </body>
 </html>
