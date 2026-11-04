@@ -31,7 +31,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      border-radius: 0px !important; /* Strict sharp-edge aesthetic */
+      border-radius: 0px !important;
     }
 
     body {
@@ -46,7 +46,6 @@
         radial-gradient(circle at 15% 75%, rgba(77, 165, 183, 0.06) 0%, transparent 45%);
     }
 
-    /* Fixed Top Navigation Bar */
     .brand-nav {
       position: sticky;
       top: 0;
@@ -84,14 +83,12 @@
       color: var(--nocturne-plum);
     }
 
-    /* Main Container */
     .container {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Section Wrapper */
     .section-block {
       margin-top: 80px;
       padding-top: 40px;
@@ -115,9 +112,6 @@
       color: var(--bleached-muslin);
     }
 
-    /* -------------------------------------------------------------
-       2. HERO & BRAND BRIEF
-       ------------------------------------------------------------- */
     .hero {
       padding: 80px 0 40px;
     }
@@ -189,9 +183,6 @@
       letter-spacing: 0.1em;
     }
 
-    /* -------------------------------------------------------------
-       3. LOGOMARK & IDENTITY SYSTEM
-       ------------------------------------------------------------- */
     .logo-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -226,11 +217,6 @@
       max-width: 100%;
       object-fit: contain;
       filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.6));
-      transition: transform 300ms ease;
-    }
-
-    .logo-card:hover .logo-badge-img {
-      transform: scale(1.03);
     }
 
     .logo-card h3 {
@@ -248,9 +234,6 @@
       line-height: 1.5;
     }
 
-    /* -------------------------------------------------------------
-       4. CAMPAIGN COLOR PALETTE (Interactive Copy)
-       ------------------------------------------------------------- */
     .palette-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -320,9 +303,6 @@
       line-height: 1.4;
     }
 
-    /* -------------------------------------------------------------
-       5. TYPOGRAPHY SYSTEM SPECIMENS
-       ------------------------------------------------------------- */
     .type-specimen-stack {
       display: flex;
       flex-direction: column;
@@ -374,45 +354,50 @@
       max-width: 800px;
     }
 
-    /* -------------------------------------------------------------
-       6. EMBEDDED MOODBOARD VIEWER (PDF)
-       ------------------------------------------------------------- */
-    .moodboard-frame-wrapper {
+    /* Embedded Moodboard Dossier */
+    .moodboard-dossier-box {
       margin-top: 32px;
       border: 1px solid rgba(245, 239, 235, 0.2);
       background: #000;
-      padding: 12px;
+      padding: 16px;
     }
 
-    .moodboard-iframe {
+    .pdf-viewer-frame {
       width: 100%;
-      height: 800px;
+      height: 850px;
       border: none;
       display: block;
       background: #181513;
     }
 
-    .moodboard-actions {
+    .moodboard-nav-buttons {
       display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
       justify-content: space-between;
       align-items: center;
-      margin-top: 14px;
-      font-size: 0.8rem;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(245, 239, 235, 0.2);
     }
 
-    .download-btn {
-      color: var(--bleached-muslin);
-      background: var(--raw-sienna);
-      padding: 8px 18px;
-      text-decoration: none;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      transition: background 200ms ease;
-    }
-
-    .download-btn:hover {
+    .pdf-link-btn {
+      display: inline-block;
       background: var(--desert-coral);
+      color: #FFF;
+      padding: 12px 24px;
+      text-decoration: none;
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background-color 200ms ease;
+    }
+
+    .pdf-link-btn:hover {
+      background: var(--turquoise);
+      color: var(--nocturne-plum);
     }
   </style>
 </head>
@@ -439,10 +424,10 @@
           What happens when the golden haze of California flower power breaks, turns feral, and hits the wet, cold pavement of Manhattan at midnight?
         </p>
         <p>
-          <strong>Summer of Love 1969</strong> is Free People’s nocturnal subversion of commercial bohemianism. Moving past sun-washed fields and festival clichés, this campaign captures the intoxicating tension between California desert mysticism and the raw, romantic danger of late-1960s New York. 
+          <strong>Summer of Love 1969</strong> is Free People’s nocturnal subversion of commercial bohemianism. Moving past sun-washed fields and festival clichés, this campaign captures the intoxicating tension between California desert mysticism and the raw, romantic danger of late-1960s New York.
         </p>
         <p>
-          The collection lives in the friction between two icons: the sweeping, ritualistic silk chiffon of Stevie Nicks and the razor-sharp, androgynous tailoring of Patti Smith inside the Chelsea Hotel. Floor-grazing crushed oxblood velvet dusters drape over shredded muslin slips; battered cowhide fringe meets low-rise raw denim; hand-hammered Navajo silver and turquoise amulets catch the glare of streetlamps and oncoming headlights. Designed for asphalt rather than pastures, <em>Summer of Love 1969</em> is dark romance with a razor’s edge.
+          The collection lives in the friction between two icons: the sweeping, ritualistic silk chiffon of Stevie Nicks and the razor-sharp, androgynous tailoring of Patti Smith inside the Chelsea Hotel[cite: 2, 5, 22, 23]. Floor-grazing crushed oxblood velvet dusters drape over shredded muslin slips[cite: 5, 6, 20]; battered cowhide fringe meets low-rise raw denim; hand-hammered Navajo silver and turquoise amulets catch the glare of streetlamps and oncoming headlights[cite: 1, 16, 22]. Designed for asphalt rather than pastures, <em>Summer of Love 1969</em> is dark romance with a razor’s edge.
         </p>
 
         <div class="brief-meta">
@@ -476,25 +461,15 @@
         <!-- LOGO 1: THE OCCULT LINOCUT SEAL -->
         <div class="logo-card">
           <div class="logo-stage">
-            <!-- Inline High-Resolution Vector SVG -->
             <svg width="180" height="180" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Outer Ring -->
               <circle cx="100" cy="100" r="92" stroke="#E06B73" stroke-width="2.5" stroke-dasharray="4 2"/>
               <circle cx="100" cy="100" r="86" stroke="#F5EFEB" stroke-width="1"/>
-              
-              <!-- Solar Rays -->
               <path d="M100 16 L100 28 M100 172 L100 184 M16 100 L28 100 M172 100 L184 100 M40 40 L49 49 M151 151 L160 160 M40 160 L49 151 M151 49 L160 40" stroke="#4DA5B7" stroke-width="2"/>
-              
-              <!-- Sacred Eye Linocut Center -->
               <path d="M52 100 C70 70 130 70 148 100 C130 130 70 130 52 100 Z" stroke="#F5EFEB" stroke-width="2.5" fill="#190F15"/>
               <circle cx="100" cy="100" r="18" fill="#E06B73"/>
               <circle cx="100" cy="100" r="8" fill="#190F15"/>
               <circle cx="103" cy="97" r="3" fill="#F5EFEB"/>
-
-              <!-- Third Eye Brow Starburst -->
               <path d="M100 58 L104 68 L114 72 L104 76 L100 86 L96 76 L86 72 L96 68 Z" fill="#4DA5B7"/>
-
-              <!-- Nightshade Leaf Flourishes -->
               <path d="M72 135 C80 145 92 148 100 148 C108 148 120 145 128 135" stroke="#A05526" stroke-width="2"/>
               <circle cx="100" cy="148" r="3" fill="#E06B73"/>
             </svg>
@@ -505,14 +480,14 @@
           </p>
         </div>
 
-        <!-- LOGO 2: THE HERITAGE ORIGIN BADGE (NEW ASSET) -->
+        <!-- LOGO 2: THE HERITAGE ORIGIN BADGE -->
         <div class="logo-card">
           <div class="logo-stage">
             <img src="Summer of Love_ California 1969.png" alt="Summer of Love California 1969 Heritage Badge" class="logo-badge-img">
           </div>
           <h3>Desert Heritage Origin Badge</h3>
           <p>
-            The narrative origin insignia. Featuring heavy 1970s psychedelic bubble typography, California poppies, and the sun rising over desert bluffs. Used on embroidered jacket linings, denim leather back-patches, and hangtags.
+            The narrative origin insignia. Featuring heavy 1970s psychedelic bubble typography, California poppies, and the sun rising over desert bluffs[cite: 24]. Used on embroidered jacket linings, denim leather back-patches, and hangtags.
           </p>
         </div>
 
@@ -520,7 +495,6 @@
         <div class="logo-card">
           <div class="logo-stage">
             <svg width="180" height="180" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Distressed Endorsement Stamp -->
               <rect x="25" y="25" width="150" height="150" stroke="#E06B73" stroke-width="3"/>
               <rect x="33" y="33" width="134" height="134" stroke="#F5EFEB" stroke-width="1" stroke-dasharray="3 3"/>
               <text x="100" y="70" text-anchor="middle" font-family="'Space Mono', monospace" font-weight="bold" font-size="11" fill="#F5EFEB" letter-spacing="2">
@@ -553,7 +527,6 @@
       </p>
 
       <div class="palette-grid">
-        <!-- Swatch 1 -->
         <div class="swatch-card" onclick="copyHex('#23151D', this)">
           <div class="swatch-color" style="background-color: #23151D;">
             <div class="swatch-copy-alert">COPIED</div>
@@ -565,7 +538,6 @@
           </div>
         </div>
 
-        <!-- Swatch 2 -->
         <div class="swatch-card" onclick="copyHex('#E06B73', this)">
           <div class="swatch-color" style="background-color: #E06B73;">
             <div class="swatch-copy-alert">COPIED</div>
@@ -573,11 +545,10 @@
           <div class="swatch-info">
             <h3 class="swatch-name">Desert Coral</h3>
             <div class="swatch-hex">#E06B73</div>
-            <p class="swatch-usage">Mallory’s henley top, Eve Babitz book titles, California poppies, and badge highlights.</p>
+            <p class="swatch-usage">Mallory’s henley top, Eve Babitz book titles, California poppies, and badge highlights[cite: 22, 24].</p>
           </div>
         </div>
 
-        <!-- Swatch 3 -->
         <div class="swatch-card" onclick="copyHex('#4DA5B7', this)">
           <div class="swatch-color" style="background-color: #4DA5B7;">
             <div class="swatch-copy-alert">COPIED</div>
@@ -585,11 +556,10 @@
           <div class="swatch-info">
             <h3 class="swatch-name">Turquoise Highway</h3>
             <div class="swatch-hex">#4DA5B7</div>
-            <p class="swatch-usage">Navajo belt stone inlays, Route 66 skies, and psychedelic botanical poster linework.</p>
+            <p class="swatch-usage">Navajo belt stone inlays, Route 66 skies, and psychedelic botanical poster linework[cite: 22].</p>
           </div>
         </div>
 
-        <!-- Swatch 4 -->
         <div class="swatch-card" onclick="copyHex('#A05526', this)">
           <div class="swatch-color" style="background-color: #A05526;">
             <div class="swatch-copy-alert">COPIED</div>
@@ -597,11 +567,10 @@
           <div class="swatch-info">
             <h3 class="swatch-name">Raw Sienna</h3>
             <div class="swatch-hex">#A05526</div>
-            <p class="swatch-usage">Unconditioned leather fringe, sun-baked sandstone bluffs, shag carpeting, and Western motel neon.</p>
+            <p class="swatch-usage">Unconditioned leather fringe, sun-baked sandstone bluffs, shag carpeting, and Western motel neon[cite: 22].</p>
           </div>
         </div>
 
-        <!-- Swatch 5 -->
         <div class="swatch-card" onclick="copyHex('#F5EFEB', this)">
           <div class="swatch-color" style="background-color: #F5EFEB;">
             <div class="swatch-copy-alert">COPIED</div>
@@ -621,17 +590,14 @@
       <h2 class="section-title">Brand Campaign Fonts</h2>
 
       <div class="type-specimen-stack">
-        
-        <!-- Specimen 1 -->
         <div class="type-card">
           <div class="type-role">Primary Campaign Headline & Wordmark</div>
           <div class="type-sample-display">Rhiannon Rings Like a Bell Through the Night</div>
           <p class="type-description">
-            <strong>Playfair Display / Swash Roman:</strong> Sourced from late-1970s folk-rock album sleeves (Fleetwood Mac’s <em>Rumours</em>). High-contrast stems, dramatic italic postures, and sweeping teardrop terminals for luxury fashion headlines.
+            <strong>Playfair Display / Swash Roman:</strong> Sourced from late-1970s folk-rock album sleeves (Fleetwood Mac’s <em>Rumours</em>)[cite: 23]. High-contrast stems, dramatic italic postures, and sweeping teardrop terminals for luxury fashion headlines.
           </p>
         </div>
 
-        <!-- Specimen 2 -->
         <div class="type-card">
           <div class="type-role">Occult Emblem & Sacred Linework</div>
           <div class="type-sample-gothic">Know Your Power · August 1969</div>
@@ -640,7 +606,6 @@
           </p>
         </div>
 
-        <!-- Specimen 3 -->
         <div class="type-card">
           <div class="type-role">Technical Metadata & Dispatch Transcripts</div>
           <div class="type-sample-mono">DISPATCH: ROOM 1017 CHELSEA HOTEL // 04:00 AM // ALL ASSETS ON ASPHALT</div>
@@ -648,35 +613,60 @@
             <strong>Space Mono:</strong> Emulates the mechanical typewriter output of 1969 police reports, dispatch slips, and hotel ledgers. Used for editorial captions, timestamps, and ad specs.
           </p>
         </div>
-
       </div>
     </section>
 
-    <!-- EMBEDDED MOODBOARD VIEWER -->
+    <!-- EMBEDDED MOODBOARD DOSSIER -->
     <section class="section-block">
       <div class="section-kicker">04 // Curated Dossier</div>
       <h2 class="section-title">Campaign Moodboard (20 Images)</h2>
-      <p style="font-size: 0.85rem; color: #B8B0A8;">
-        The completed two-page visual dossier featuring the 20-image collision of California desert outlaws, Stevie Nicks stagecraft, and Patti Smith's Chelsea Hotel residency.
+      <p style="font-size: 0.85rem; color: #B8B0A8; margin-bottom: 24px;">
+        The completed visual dossier featuring the 20-image collision of California desert outlaws, Stevie Nicks stagecraft, and Patti Smith's Chelsea Hotel residency[cite: 22, 23].
       </p>
 
-      <div class="moodboard-frame-wrapper">
-        <!-- Embeds the PDF directly in the browser -->
-        <iframe src="Cream Illustrative Moodboard Document.pdf" class="moodboard-iframe" title="Campaign Moodboard">
-          <p>Your browser does not support inline PDF viewing. Please download the moodboard below.</p>
-        </iframe>
-      </div>
+      <!-- Multi-Format PDF & Direct View Container -->
+      <div class="moodboard-dossier-box">
+        <object data="moodboard.pdf" type="application/pdf" class="pdf-viewer-frame">
+          <!-- Fallback 1: Iframe trying original filename -->
+          <iframe src="Cream%20Illustrative%20Moodboard%20Document.pdf" class="pdf-viewer-frame" title="Moodboard Dossier">
+            <div style="text-align: center; padding: 60px 20px;">
+              <p style="font-family: var(--font-display); font-size: 1.4rem; color: var(--bleached-muslin); margin-bottom: 12px;">
+                Moodboard Dossier Preview
+              </p>
+              <p style="font-size: 0.85rem; color: #B8B0A8; margin-bottom: 24px;">
+                Browser security is preventing direct inline PDF rendering. Open the file directly using the links below:
+              </p>
+            </div>
+          </iframe>
+        </object>
 
-      <div class="moodboard-actions">
-        <span>Source: <code>Cream Illustrative Moodboard Document.pdf</code></span>
-        <a href="Cream Illustrative Moodboard Document.pdf" target="_blank" class="download-btn">Open PDF in New Window ↗</a>
+        <div class="moodboard-nav-buttons">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--turquoise); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 4px;">
+              Direct Document Access
+            </span>
+            <span style="font-size: 0.8rem; color: #A39D96;">
+              Click to open fullscreen in a new tab:
+            </span>
+          </div>
+
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <!-- Button 1: moodboard.pdf -->
+            <a href="moodboard.pdf" target="_blank" class="pdf-link-btn">
+              Open moodboard.pdf ↗
+            </a>
+            <!-- Button 2: original filename just in case -->
+            <a href="Cream%20Illustrative%20Moodboard%20Document.pdf" target="_blank" class="pdf-link-btn" style="background: var(--raw-sienna);">
+              Open Original PDF ↗
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
   </main>
 
   <script>
-    // Copy Hex Code to Clipboard with feedback animation
     function copyHex(hex, cardElement) {
       navigator.clipboard.writeText(hex).then(() => {
         cardElement.classList.add('copied');
