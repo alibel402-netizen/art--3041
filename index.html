@@ -59,7 +59,7 @@
       z-index: 2;
     }
 
-    /* Student Nameplate at Top-Left of Hero */
+    /* Student Nameplate at Top-Left of Hero (24px padding) */
     .hero-nameplate {
       position: absolute;
       top: 24px;
@@ -149,7 +149,7 @@
     .assignment-card:hover,
     .assignment-card:focus {
       background-color: var(--dark-pink);
-      color: var(--silver);
+      color: var(--bg-black);
       box-shadow: 0 0 16px rgba(194, 58, 128, 0.4);
       outline: none;
     }
@@ -202,7 +202,8 @@
       <a class="assignment-card" href="#">02 A Style Guide for Your AI</a>
       <a class="assignment-card" href="#">03 Design a ___</a>
       <a class="assignment-card" href="#">04 Commute Story</a>
-      <a class="assignment-card" href="#">05 Become a Crea(i)tive Director</a>
+      <!-- Slot 05: Linked directly to your Free People Style Guide deliverable -->
+      <a class="assignment-card" href="style-guide.html">05 Creative Director Pt. 1: Style Guide</a>
       <a class="assignment-card" href="#">06 Experimental AI Interface</a>
       <!-- Slot 07: Connected directly to the parametric poster engine -->
       <a class="assignment-card" href="poster-generator.html">07 Poster Generator</a>
@@ -210,7 +211,7 @@
   </main>
 
   <script>
-    /* Plain-English JavaScript: Continuous Drifting Celestial Particle Engine */
+    /* Plain-English JavaScript: Continuous Fast-Moving Drifting Celestial Particle Engine */
     (function () {
       const canvas = document.getElementById('starfield-canvas');
       const ctx = canvas.getContext('2d');
