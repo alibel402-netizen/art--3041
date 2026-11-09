@@ -5,22 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A.I. FOR DESIGNERS — Aliou Diallo</title>
 
-  <!-- Google Typography: UnifrakturCook for Gothic Headings, Cinzel Decorative for Roman Labels -->
+  <!-- Google Typography: UnifrakturCook for Gothic Headings & Nameplate, Cinzel Decorative for Roman Labels & Cards -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 
   <style>
-    /* Plain-English CSS Variables: Core Celestial Palette */
+    /* Plain-English CSS Variables: Core Celestial Gothic Palette */
     :root {
-      --bg-black: #0B0912;          /* Blackberry Black background */
-      --silver: #D8DCE6;            /* Moonlight Silver text */
-      --dark-pink: #C23A80;         /* Dark Pink accents & borders */
+      --bg-black: #0B0912;          /* Blackberry Black main canvas background */
+      --silver: #D8DCE6;            /* Moonlight Silver primary typography */
+      --dark-pink: #C23A80;         /* Dark Pink accents, borders, and hover states */
       --font-gothic: 'UnifrakturCook', cursive;
       --font-roman: 'Cinzel Decorative', serif;
     }
 
-    /* Reset: Enforce 0px border-radius universally */
+    /* Universal Reset: Enforce strict 0px border-radius everywhere across all elements */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -28,6 +28,7 @@
       border-radius: 0px !important;
     }
 
+    /* Base Body: Blackberry Black canvas with Moonlight Silver typography */
     body {
       background-color: var(--bg-black);
       color: var(--silver);
@@ -48,7 +49,7 @@
       pointer-events: none;
     }
 
-    /* Full-Width Hero Banner (420px desktop, 280px mobile, 40% dark overlay) */
+    /* Full-Width Hero Banner (420px desktop, 280px mobile, 40% black overlay over dark celestial imagery) */
     .hero-banner {
       width: 100%;
       height: 420px;
@@ -59,7 +60,7 @@
       z-index: 2;
     }
 
-    /* Student Nameplate at Top-Left of Hero (24px padding) */
+    /* Student Nameplate at Top-Left of Hero Banner (24px top & left padding) */
     .hero-nameplate {
       position: absolute;
       top: 24px;
@@ -80,7 +81,7 @@
       z-index: 2;
     }
 
-    /* Typography Hierarchy */
+    /* Page Heading & Meta Information */
     h1 {
       font-family: var(--font-gothic);
       font-size: 4.5rem;
@@ -124,14 +125,14 @@
       padding-bottom: 8px;
     }
 
-    /* Assignment Grid: 3 equal columns desktop, 1 column mobile */
+    /* Assignment Grid: 3 equal columns on desktop (>=900px), 1 column on mobile (<900px) */
     .assignment-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
 
-    /* Grid Link Blocks: Dark Pink border with 200ms color-inversion hover */
+    /* Grid Link Cards: 2px Dark Pink border with 200ms color-inversion hover transition */
     .assignment-card {
       display: block;
       padding: 12px 16px;
@@ -146,6 +147,7 @@
       transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
     }
 
+    /* Inverted hover and keyboard focus state */
     .assignment-card:hover,
     .assignment-card:focus {
       background-color: var(--dark-pink);
@@ -154,7 +156,7 @@
       outline: none;
     }
 
-    /* Responsive Breakpoints for Tablets and Mobile Screens (<900px) */
+    /* Responsive Breakpoints for Tablet & Mobile Viewports (<900px) */
     @media (max-width: 899px) {
       .hero-banner {
         height: 280px;
@@ -181,7 +183,7 @@
   <!-- Background Canvas for Real-Time Drifting Starfield Particles -->
   <canvas id="starfield-canvas"></canvas>
 
-  <!-- Full-Width Hero Section -->
+  <!-- Full-Width Hero Section with Student Nameplate -->
   <header class="hero-banner">
     <div class="hero-nameplate">Aliou Diallo</div>
   </header>
@@ -196,17 +198,19 @@
 
     <h2 class="section-heading">Work</h2>
 
-    <!-- 7-Slot Assignment Grid Linking to Course Modules -->
+    <!-- 8-Slot Assignment Grid Linking Directly to Course Modules & Creative Director Deliverables -->
     <div class="assignment-grid">
       <a class="assignment-card" href="#">01 Custom Instructions</a>
       <a class="assignment-card" href="#">02 A Style Guide for Your AI</a>
       <a class="assignment-card" href="#">03 Design a ___</a>
       <a class="assignment-card" href="#">04 Commute Story</a>
-      <!-- Slot 05: Linked directly to your Free People Style Guide deliverable -->
+      <!-- Slot 05: Links directly to Creative Director Pt. 1 Style Guide -->
       <a class="assignment-card" href="style-guide.html">05 Creative Director Pt. 1: Style Guide</a>
       <a class="assignment-card" href="#">06 Experimental AI Interface</a>
-      <!-- Slot 07: Connected directly to the parametric poster engine -->
+      <!-- Slot 07: Connected directly to the parametric poster generator -->
       <a class="assignment-card" href="poster-generator.html">07 Poster Generator</a>
+      <!-- Slot 08: Links directly to Creative Director Pt. 2 Dynamic Hero Studio -->
+      <a class="assignment-card" href="dynamic-hero-studio.html">08 Creative Director Pt. 2: Logo + Dynamic Hero</a>
     </div>
   </main>
 
@@ -216,9 +220,9 @@
       const canvas = document.getElementById('starfield-canvas');
       const ctx = canvas.getContext('2d');
       const stars = [];
-      const STAR_COUNT = 140;
+      const STAR_COUNT = 150;
 
-      // Maintain full browser viewport dimensions on window resize
+      // Dynamically fit canvas to full browser viewport on window resize
       function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -226,21 +230,21 @@
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
 
-      // Initialize particles across both Moonlight Silver and Dark Pink
+      // Initialize celestial particles in both Moonlight Silver and Dark Pink
       for (let i = 0; i < STAR_COUNT; i++) {
         stars.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.8,
-          speedX: (Math.random() - 0.5) * 1.2,
-          speedY: -(Math.random() * 1.8 + 0.8),
+          size: Math.random() * 2.2 + 0.8,
+          speedX: (Math.random() - 0.5) * 1.4,
+          speedY: -(Math.random() * 2.0 + 0.8), // Upward drifting motion
           alpha: Math.random() * 0.7 + 0.3,
           twinkleSpeed: Math.random() * 0.03 + 0.01,
-          isPink: Math.random() > 0.8
+          isPink: Math.random() > 0.75 // 25% Dark Pink accent stars, 75% Moonlight Silver
         });
       }
 
-      // Render loop for upward drifting and subtle opacity twinkling
+      // Animation loop: updates positions, handles edge wrapping, and applies twinkling alpha
       function animateStarfield() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -248,9 +252,9 @@
           const s = stars[i];
           s.y += s.speedY;
           s.x += s.speedX;
-          s.alpha += Math.sin(Date.now() * s.twinkleSpeed) * 0.01;
+          s.alpha += Math.sin(Date.now() * s.twinkleSpeed) * 0.012;
 
-          // Wrap particles back to viewport edges when moving off-screen
+          // Wrap particles smoothly across screen boundaries
           if (s.y < 0) s.y = canvas.height;
           if (s.x < 0) s.x = canvas.width;
           if (s.x > canvas.width) s.x = 0;
