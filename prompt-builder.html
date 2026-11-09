@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Summer of Love 1969 // AI Prompt Builder Studio</title>
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS Architecture: 1970s Gloomy Desert & Occult Noir System */
+    :root {
+      --bg-dark: #0B0912;
+      --bg-panel: #18101C;
+      --bg-input: #0E0713;
+      --terracotta: #B65327;
+      --terracotta-bright: #D96934;
+      --turquoise: #4B8B88;
+      --turquoise-light: #6CB3AF;
+      --poppy: #C86D74;
+      --bone: #ECE4D0;
+      --bone-muted: #A8A095;
+      --accent-pink: #C23A80;
+      --border-terracotta: 2px solid var(--terracotta);
+      --border-turquoise: 2px solid var(--turquoise);
+      --font-display: 'Playfair Display', serif;
+      --font-gothic: 'UnifrakturCook', cursive;
+      --font-accent: 'Cinzel Decorative', serif;
+      --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0px !important;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--bone);
+      font-family: var(--font-ui);
+      min-height: 100vh;
+      line-height: 1.45;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.12;
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    header.studio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--terracotta);
+      padding-bottom: 16px;
+    }
+
+    .brand-title-group h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 1.5px;
+      color: var(--bone);
+      text-transform: uppercase;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .brand-title-group .subhead {
+      font-family: var(--font-accent);
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      color: var(--terracotta-bright);
+      margin-top: 6px;
+    }
+
+    .nameplate-tag {
+      font-family: var(--font-accent);
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      color: var(--turquoise-light);
+      border: 1px solid var(--turquoise);
+      padding: 8px 14px;
+      background: rgba(24, 16, 28, 0.6);
+      text-transform: uppercase;
+    }
+
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 992px) {
+      .studio-grid {
+        grid-template-columns: 460px 1fr;
+      }
+    }
+
+    .controls-panel {
+      background: var(--bg-panel);
+      border: var(--border-terracotta);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .panel-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-bottom: 1px dashed rgba(182, 83, 39, 0.35);
+      padding-bottom: 14px;
+    }
+
+    .panel-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .section-label {
+      font-family: var(--font-accent);
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      color: var(--terracotta-bright);
+      text-transform: uppercase;
+    }
+
+    label {
+      font-size: 0.72rem;
+      color: var(--bone-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--terracotta);
+      color: var(--bone);
+      padding: 9px 12px;
+      font-size: 0.82rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: var(--font-ui);
+    }
+
+    optgroup {
+      background: #1F1524;
+      color: var(--terracotta-bright);
+      font-family: var(--font-accent);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    option {
+      background: var(--bg-input);
+      color: var(--bone);
+      font-family: var(--font-ui);
+      padding: 4px;
+    }
+
+    select:focus, input[type="text"]:focus {
+      border-color: var(--turquoise-light);
+      box-shadow: 0 0 10px rgba(75, 139, 136, 0.4);
+    }
+
+    .btn-group {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .editorial-btn {
+      background: transparent;
+      color: var(--terracotta-bright);
+      border: 2px solid var(--terracotta);
+      padding: 10px 14px;
+      font-family: var(--font-accent);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      text-transform: uppercase;
+      text-align: center;
+      transition: all 200ms ease;
+    }
+
+    .editorial-btn:hover {
+      background: var(--terracotta);
+      color: var(--bone);
+      box-shadow: 0 0 14px rgba(182, 83, 39, 0.5);
+    }
+
+    .editorial-btn.active {
+      background: var(--terracotta);
+      color: var(--bg-dark);
+      border-color: var(--bone);
+      font-weight: 900;
+    }
+
+    .editorial-btn.secondary {
+      border-color: var(--turquoise);
+      color: var(--turquoise-light);
+    }
+
+    .editorial-btn.secondary:hover {
+      background: var(--turquoise);
+      color: var(--bg-dark);
+      box-shadow: 0 0 14px rgba(75, 139, 136, 0.5);
+    }
+
+    .preview-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .channel-banner {
+      background: var(--bg-panel);
+      border: var(--border-turquoise);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .channel-spec-tag {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--turquoise-light);
+    }
+
+    .channel-meta {
+      font-size: 0.72rem;
+      color: var(--bone-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .prompt-card {
+      background: var(--bg-panel);
+      border: var(--border-terracotta);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .prompt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(182, 83, 39, 0.3);
+      padding-bottom: 10px;
+    }
+
+    .prompt-badge {
+      font-family: var(--font-accent);
+      font-size: 0.78rem;
+      color: var(--terracotta-bright);
+      letter-spacing: 1.5px;
+    }
+
+    .prompt-text-box {
+      background: var(--bg-input);
+      border: 1px solid rgba(236, 228, 208, 0.15);
+      color: #FFF;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      padding: 16px;
+      min-height: 130px;
+      word-break: break-word;
+      user-select: all;
+    }
+
+    .negative-prompt-box {
+      background: var(--bg-input);
+      border: 1px dashed rgba(200, 109, 116, 0.4);
+      color: var(--poppy);
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      padding: 12px;
+      word-break: break-word;
+    }
+
+    #toast-notice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--terracotta-bright);
+      color: var(--bg-dark);
+      padding: 10px 20px;
+      font-family: var(--font-accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: 2px solid var(--bone);
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      pointer-events: none;
+    }
+
+    #toast-notice.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="ambient-canvas"></canvas>
+
+  <div class="app-container">
+    
+    <header class="studio-header">
+      <div class="brand-title-group">
+        <h1>Summer of Love // 1969</h1>
+        <div class="subhead">Gloomy Desert Witch, Beat Poet &amp; Americana Outlaw Generator</div>
+      </div>
+      <div class="nameplate-tag">Aliou Diallo // ART 3041</div>
+    </header>
+
+    <div class="studio-grid">
+      
+      <!-- Left Panel: Parameter Selectors -->
+      <aside class="controls-panel">
+        
+        <div class="panel-section">
+          <div class="section-label">AI ENGINE SYNTAX</div>
+          <div class="btn-group">
+            <button class="editorial-btn active" id="btn-engine-mj">MIDJOURNEY v6</button>
+            <button class="editorial-btn" id="btn-engine-flux">NATURAL / FLUX</button>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-label">SHOT TYPE &amp; ANGLE</div>
+          <label for="select-shot-type">Image Framing</label>
+          <select id="select-shot-type">
+            <option value="editorial">Editorial fashion narrative</option>
+            <option value="product">Talisman &amp; wardrobe hero shot</option>
+            <option value="detail">Tactile close-up macro</option>
+            <option value="setting">Cinematic landscape environment</option>
+          </select>
+
+          <label for="select-angle" style="margin-top: 6px;">Camera Perspective</label>
+          <select id="select-angle">
+            <option value="eye-level">Eye-level candid 35mm framing</option>
+            <option value="low-wide">Low-angle cinematic wide view</option>
+            <option value="shallow-macro">Extreme close-up with shallow depth of field</option>
+            <option value="three-quarter">Dynamic 3/4 outlaw stance</option>
+          </select>
+        </div>
+
+        <!-- Curated Subject Dropdown -->
+        <div class="panel-section">
+          <div class="section-label">PRIMARY SUBJECT</div>
+          <select id="select-subject">
+            
+            <optgroup label="Natural Born Killers &amp; Desert Edge">
+              <option value="nbk-motel" selected>Feral couple in cropped red tee, crimson leather trousers, and cowboy hat</option>
+              <option value="diner-switchblade">Bleached wolf-cut runaway in wire sunglasses and leopard halter with switchblade</option>
+              <option value="car-fugitives">Outlaw couple on muscle car hood in red shag fur vest and denim</option>
+              <option value="bone-drifter">Drifter in leather vest with rattlesnake-vertebrae spine choker</option>
+              <option value="blood-babydoll">Torn black lace slip dress with fishnets, combat boots, and pentagram talisman</option>
+              <option value="coyote-wanderer">Vintage suede duster draped with coyote pelt and layered bone necklaces</option>
+            </optgroup>
+
+            <optgroup label="Ethereal Occult &amp; Folk (Stevie Nicks)">
+              <option value="velvet-mystic">Plum panne-velvet cape over tiered ivory chiffon slip with ribboned tambourine</option>
+              <option value="macrame-priestess">Macramé bell-sleeve tunic, faded denim flare trousers, and raw turquoise cuffs</option>
+              <option value="mirage-duster">Floor-length floral tapestry duster over lace bralette and felt bolero hat</option>
+              <option value="spellcaster-peasant">Ruffled muslin peasant blouse, patchwork maxi skirt, and rune pouch belt</option>
+            </optgroup>
+
+            <optgroup label="Beat Poet &amp; Rock Minimalist (Patti Smith)">
+              <option value="chelsea-nomad">Androgynous figure in raw-linen poet shirt, loose suspenders, and bone choker</option>
+              <option value="horses-vest">Wool tuxedo vest over bare chest, layered silver chains, and scuffed boots</option>
+              <option value="fringe-motorcycle">Fringed leather motorcycle jacket over faded ringer tee and lace-up trousers</option>
+              <option value="dressing-shag">Wolf-cut shag figure in ribbed tank and striped trousers on amplifier</option>
+            </optgroup>
+
+            <optgroup label="Decadent 1969 Desert Noir (Eve Babitz)">
+              <option value="leopard-siren">Sheer leopard silk mini tunic with concho belt and slouchy fringe boots</option>
+              <option value="scarlet-shag">Blood-red shearling fur vest over lurex halter top and rust corduroys</option>
+              <option value="canyon-runaways">Couple in pearl-snap denim shirt and velvet flares by 1969 muscle car</option>
+              <option value="roadside-hitchhiker">Western denim jacket with sunburst patches and calico prairie skirt</option>
+            </optgroup>
+
+            <optgroup label="Macro &amp; Tactile Details">
+              <option value="macro-switchblade">Rings-clad hands plunging switchblade into tarot card on dusty dash</option>
+              <option value="macro-tarot-knuckles">Freckled hands with chipped burgundy polish turning tarot card</option>
+              <option value="talisman-cluster">Layered rattlesnake bone choker and pewter charms on unbuttoned linen</option>
+              <option value="boots-casings">Black harness boots on cracked asphalt with spent brass casings and poppies</option>
+              <option value="neon-clavicle">Scarred clavicle under red neon with rattlesnake chain and bolo tie</option>
+              <option value="velvet-case">Open guitar case lined with crimson velvet holding acoustic guitar in dirt</option>
+            </optgroup>
+
+          </select>
+
+          <label for="custom-subject-input" style="margin-top: 6px;">Custom Accent Override</label>
+          <input type="text" id="custom-subject-input" placeholder="e.g., tarnished zodiac rings, dried sage...">
+        </div>
+
+        <!-- Curated Backdrop Dropdown -->
+        <div class="panel-section">
+          <div class="section-label">BACKDROP &amp; SETTING</div>
+          <select id="select-setting">
+            
+            <optgroup label="Gritty Americana &amp; Roadside Noir">
+              <option value="nbk-trailer" selected>Dimly lit vintage trailer kitchen with wood veneer and stove flame glow</option>
+              <option value="neon-gas-station">Abandoned desert gas station with buzzing broken neon at twilight</option>
+              <option value="red-diner">Roadside diner with cracked red vinyl booths and cigarette haze</option>
+              <option value="car-graveyard">Stripped 1960s muscle car graveyard in sand and saguaro shadows</option>
+            </optgroup>
+
+            <optgroup label="Desolate Desert &amp; Highway">
+              <option value="salt-flats">Cracked alkali salt flats under flat gloomy gray winter sky</option>
+              <option value="joshua-storm">Joshua tree grove during sandstorm at low golden hour</option>
+              <option value="route66-coyote">Route 66 asphalt shoulder with barbed wire and coyote silhouettes</option>
+              <option value="mission-ruins">Cracked adobe mission ruins with melted beeswax on stone altar</option>
+            </optgroup>
+
+            <optgroup label="Velvet &amp; Motel Interiors">
+              <option value="crimson-motel">1970s motel room with walnut walls, amber lamp, and crimson shag carpet</option>
+              <option value="backstage-velvet">Smoky backstage room draped in plum velvet curtains with open cases</option>
+              <option value="western-neon-balcony">Motel walkway under glowing red and amber neon sign at night</option>
+            </optgroup>
+
+          </select>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-label">LIGHTING &amp; ATMOSPHERE</div>
+          <select id="select-lighting">
+            <option value="gray-sky">Gloomy overcast flat daylight with muted gray tones</option>
+            <option value="dusk-dust">Low golden hour filtered through kicking desert dust haze</option>
+            <option value="tungsten-neon">Moody incandescent tungsten lamp glow with red neon spill</option>
+            <option value="shadow-contrast">High-contrast moody light with deep plum shadows</option>
+          </select>
+        </div>
+
+        <div class="panel-section">
+          <div class="section-label">FILM STOCK &amp; GRAIN</div>
+          <select id="select-film">
+            <option value="kodachrome">35mm Kodak Kodachrome (Terracotta ochre, cyan shadows, rich grain)</option>
+            <option value="ektachrome">120mm Kodak Ektachrome (Hazy highlights and cool desert shadows)</option>
+            <option value="trix">Kodak Tri-X 400 (Raw high-contrast monochrome with heavy silver grain)</option>
+          </select>
+        </div>
+
+        <!-- Size Dropdown -->
+        <div class="panel-section">
+          <div class="section-label">MEDIA PLACEMENT / SIZE</div>
+          <select id="select-placement">
+            <option value="magazine" data-ratio="3:4" data-label="Full-Page Magazine Ad (3:4)">Full-Page Magazine Ad (3:4)</option>
+            <option value="billboard" data-ratio="21:9" data-label="Highway Billboard (21:9)">Highway Billboard (21:9)</option>
+            <option value="subway" data-ratio="2:3" data-label="NYC Subway Poster (2:3)">NYC Subway Poster (2:3)</option>
+            <option value="ig-feed" data-ratio="4:5" data-label="Instagram Feed Ad (4:5)">Instagram Feed Post (4:5)</option>
+            <option value="ig-reel" data-ratio="9:16" data-label="Instagram Reel / Story (9:16)">Instagram Reel / Story (9:16)</option>
+            <option value="web-hero" data-ratio="16:9" data-label="Web Hero Banner (16:9)">Web Hero Banner (16:9)</option>
+          </select>
+        </div>
+
+        <div class="btn-group">
+          <button class="editorial-btn secondary" id="btn-randomize">SHUFFLE</button>
+          <button class="editorial-btn secondary" id="btn-reset">RESET</button>
+        </div>
+
+      </aside>
+
+      <!-- Right Panel: Output Engine -->
+      <main class="preview-panel">
+        
+        <div class="channel-banner">
+          <div>
+            <div class="channel-spec-tag" id="banner-channel-name">Full-Page Magazine Ad</div>
+            <div class="channel-meta" id="banner-channel-desc">Target Ratio: 3:4 • 300 DPI Print Spec</div>
+          </div>
+          <div class="channel-spec-tag" id="banner-aspect-flag">--ar 3:4</div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <div class="prompt-badge">PRIMARY PROMPT OUTPUT</div>
+            <button class="editorial-btn" id="btn-copy-prompt" style="padding: 5px 12px; font-size: 0.72rem;">COPY PROMPT</button>
+          </div>
+          <div class="prompt-text-box" id="output-prompt-text">
+            Generating prompt...
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <div class="prompt-badge" style="color: var(--poppy);">NEGATIVE PROMPT GUARDRAIL</div>
+            <button class="editorial-btn secondary" id="btn-copy-negative" style="padding: 5px 12px; font-size: 0.72rem;">COPY NEGATIVE</button>
+          </div>
+          <div class="negative-prompt-box" id="output-negative-text">
+            digital render, 3D CGI, smooth skin, oversaturated colors, high gloss, clean studio backdrop, modern clothing, smartphones, modern cars, neon cyberpunk, sterile white lighting, anime, cartoon, plastic textures, high-key commercial lighting
+          </div>
+        </div>
+
+        <div class="prompt-card">
+          <div class="prompt-header">
+            <div class="prompt-badge" style="color: var(--turquoise-light);">ACTIVE BRAND PALETTE</div>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem;"><span style="width:14px; height:14px; background:#A84B24; border:1px solid #FFF;"></span> Terracotta (#A84B24)</div>
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem;"><span style="width:14px; height:14px; background:#4B8B88; border:1px solid #FFF;"></span> Muted Turquoise (#4B8B88)</div>
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem;"><span style="width:14px; height:14px; background:#C86D74; border:1px solid #FFF;"></span> Dried Poppy (#C86D74)</div>
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem;"><span style="width:14px; height:14px; background:#231521; border:1px solid #FFF;"></span> Gloomy Plum (#231521)</div>
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem;"><span style="width:14px; height:14px; background:#ECE4D0; border:1px solid #FFF;"></span> Bone Parchment (#ECE4D0)</div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <div id="toast-notice">COPIED TO CLIPBOARD</div>
+
+  <script>
+    /* JavaScript: Prompt Assembly Engine */
+    const STATE = {
+      engine: 'mj',
+      ratio: '3:4'
+    };
+
+    const selectShotType = document.getElementById('select-shot-type');
+    const selectAngle = document.getElementById('select-angle');
+    const selectSubject = document.getElementById('select-subject');
+    const inputCustomSubject = document.getElementById('custom-subject-input');
+    const selectSetting = document.getElementById('select-setting');
+    const selectLighting = document.getElementById('select-lighting');
+    const selectFilm = document.getElementById('select-film');
+    const selectPlacement = document.getElementById('select-placement');
+
+    const outputPrompt = document.getElementById('output-prompt-text');
+    const outputNegative = document.getElementById('output-negative-text');
+    const bannerChannelName = document.getElementById('banner-channel-name');
+    const bannerChannelDesc = document.getElementById('banner-channel-desc');
+    const bannerAspectFlag = document.getElementById('banner-aspect-flag');
+
+    const btnEngineMj = document.getElementById('btn-engine-mj');
+    const btnEngineFlux = document.getElementById('btn-engine-flux');
+    const btnRandomize = document.getElementById('btn-randomize');
+    const btnReset = document.getElementById('btn-reset');
+    const btnCopyPrompt = document.getElementById('btn-copy-prompt');
+    const btnCopyNegative = document.getElementById('btn-copy-negative');
+    const toast = document.getElementById('toast-notice');
+
+    function constructPrompt() {
+      const subject = selectSubject.options[selectSubject.selectedIndex].text;
+      const custom = inputCustomSubject.value.trim();
+      const setting = selectSetting.options[selectSetting.selectedIndex].text;
+      const lighting = selectLighting.options[selectLighting.selectedIndex].text;
+      const angle = selectAngle.options[selectAngle.selectedIndex].text;
+      const film = selectFilm.options[selectFilm.selectedIndex].text;
+      const shotType = selectShotType.options[selectShotType.selectedIndex].text;
+
+      let prompt = "";
+
+      if (STATE.engine === 'mj') {
+        prompt = `35mm vintage photograph, ${shotType}, 1970s California counterculture aesthetic, ${subject}`;
+        if (custom) prompt += `, featuring ${custom}`;
+        prompt += `, ${setting}, ${angle}, lit by ${lighting}, shot on ${film}, 1970s film grain, terracotta and muted cyan hues, occult folk and desert noir mood, dust haze --ar ${STATE.ratio} --style raw --v 6.0`;
+      } else {
+        prompt = `35mm analog photograph showing a ${shotType.toLowerCase()} with a 1970s California counterculture and gloomy desert noir aesthetic. The scene depicts ${subject.toLowerCase()}`;
+        if (custom) prompt += `, accented with ${custom}`;
+        prompt += `. Set in ${setting.toLowerCase()}, viewed from a ${angle.toLowerCase()}. Lit by ${lighting.toLowerCase()}, showing sun-bleached terracotta, faded turquoise, and plum shadows with organic grain on ${film}.`;
+      }
+
+      outputPrompt.textContent = prompt;
+    }
+
+    function bindEvents() {
+      [selectShotType, selectAngle, selectSubject, selectSetting, selectLighting, selectFilm].forEach(el => {
+        el.addEventListener('change', constructPrompt);
+      });
+
+      inputCustomSubject.addEventListener('input', constructPrompt);
+
+      selectPlacement.addEventListener('change', (e) => {
+        const opt = e.target.options[e.target.selectedIndex];
+        STATE.ratio = opt.dataset.ratio;
+
+        bannerChannelName.textContent = opt.text.split('(')[0].trim();
+        bannerChannelDesc.textContent = `Target Ratio: ${STATE.ratio} • ${opt.dataset.label}`;
+        bannerAspectFlag.textContent = `--ar ${STATE.ratio}`;
+
+        constructPrompt();
+      });
+
+      btnEngineMj.addEventListener('click', () => {
+        STATE.engine = 'mj';
+        btnEngineMj.classList.add('active');
+        btnEngineFlux.classList.remove('active');
+        constructPrompt();
+      });
+
+      btnEngineFlux.addEventListener('click', () => {
+        STATE.engine = 'flux';
+        btnEngineFlux.classList.add('active');
+        btnEngineMj.classList.remove('active');
+        constructPrompt();
+      });
+
+      btnRandomize.addEventListener('click', () => {
+        const rand = (sel) => Math.floor(Math.random() * sel.options.length);
+        selectShotType.selectedIndex = rand(selectShotType);
+        selectAngle.selectedIndex = rand(selectAngle);
+        selectSubject.selectedIndex = rand(selectSubject);
+        selectSetting.selectedIndex = rand(selectSetting);
+        selectLighting.selectedIndex = rand(selectLighting);
+        selectFilm.selectedIndex = rand(selectFilm);
+        constructPrompt();
+        showToast('RANDOMIZED ON-BRAND PRESET');
+      });
+
+      btnReset.addEventListener('click', () => {
+        selectShotType.selectedIndex = 0;
+        selectAngle.selectedIndex = 0;
+        selectSubject.selectedIndex = 0;
+        inputCustomSubject.value = '';
+        selectSetting.selectedIndex = 0;
+        selectLighting.selectedIndex = 0;
+        selectFilm.selectedIndex = 0;
+        selectPlacement.selectedIndex = 0;
+        selectPlacement.dispatchEvent(new Event('change'));
+        showToast('RESET TO DEFAULT');
+      });
+
+      btnCopyPrompt.addEventListener('click', () => {
+        navigator.clipboard.writeText(outputPrompt.textContent.trim());
+        showToast('PROMPT COPIED');
+      });
+
+      btnCopyNegative.addEventListener('click', () => {
+        navigator.clipboard.writeText(outputNegative.textContent.trim());
+        showToast('NEGATIVE PROMPT COPIED');
+      });
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    function initAmbientCanvas() {
+      const canvas = document.getElementById('ambient-canvas');
+      const ctx = canvas.getContext('2d');
+      let w, h;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        const img = ctx.createImageData(w, h);
+        const buf = new Uint32Array(img.data.buffer);
+        const len = buf.length;
+        for (let i = 0; i < len; i += 4) {
+          if (Math.random() > 0.9) {
+            buf[i] = 0x22ECE4D0;
+          }
+        }
+        ctx.putImageData(img, 0, 0);
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initAmbientCanvas();
+      bindEvents();
+      selectPlacement.selectedIndex = 0;
+      selectPlacement.dispatchEvent(new Event('change'));
+    });
+  </script>
+</body>
+</html>
