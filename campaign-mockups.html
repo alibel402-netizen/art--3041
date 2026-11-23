@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free People — California Dreamin' | Campaign Mockups</title>
+  <!-- Load 1970s editorial serif and display fonts from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet" />
+  <style>
+    /* Define 1970s California desert noir palette and typography variables */
+    :root {
+      --bg-espresso: #16100C;
+      --surface-sand: #221913;
+      --paper-cream: #EFE4CE;
+      --muted-ochre: #C8B496;
+      --burnt-amber: #C96A2B;
+      --desert-gold: #D99B43;
+      --crimson-rust: #9E3B2B;
+      --border-warm: rgba(217, 155, 67, 0.35);
+    }
+
+    /* Reset default margins and enforce sharp editorial framing */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Base page styling with subtle film-grain radial gradient */
+    body {
+      background-color: var(--bg-espresso);
+      background-image:
+        radial-gradient(circle at 20% 15%, rgba(201, 106, 43, 0.14), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(158, 59, 43, 0.16), transparent 50%);
+      color: var(--paper-cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* Top utility bar returning to the main ART 3041 course index */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--border-warm);
+      background: rgba(22, 16, 12, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Navigation back link styled like a vintage Route 66 ticket stub */
+    .back-link {
+      color: var(--paper-cream);
+      text-decoration: none;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.14em;
+      font-size: 1.05rem;
+      border: 1px solid var(--desert-gold);
+      padding: 8px 16px;
+      transition: background-color 200ms ease, color 200ms ease;
+    }
+
+    .back-link:hover {
+      background-color: var(--desert-gold);
+      color: var(--bg-espresso);
+    }
+
+    /* Campaign season badge in top right */
+    .season-tag {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.18em;
+      color: var(--desert-gold);
+      font-size: 1rem;
+    }
+
+    /* Main editorial header container */
+    .hero-header {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 56px 32px 36px;
+      border-bottom: 1px solid var(--border-warm);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+    }
+
+    /* Eyebrow label matching the masking-tape "Summer of Love" motif */
+    .tape-badge {
+      display: inline-block;
+      background-color: var(--paper-cream);
+      color: var(--bg-espresso);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.16em;
+      font-size: 0.95rem;
+      padding: 4px 14px;
+      transform: rotate(-1.5deg);
+      margin-bottom: 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Primary campaign display title */
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.25rem);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      color: var(--paper-cream);
+    }
+
+    h1 span {
+      color: var(--burnt-amber);
+    }
+
+    /* Subtitle and campaign art direction summary */
+    .hero-desc {
+      max-width: 680px;
+      margin-top: 14px;
+      font-size: 1.25rem;
+      color: var(--muted-ochre);
+    }
+
+    /* Filter button group for switching between All, Print OOH, and Digital OOH */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-btn {
+      background: transparent;
+      color: var(--paper-cream);
+      border: 1px solid var(--border-warm);
+      padding: 10px 18px;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.14em;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background-color: var(--burnt-amber);
+      border-color: var(--burnt-amber);
+      color: var(--paper-cream);
+    }
+
+    /* Main gallery wrapper */
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 44px 32px 72px;
+    }
+
+    /* Asymmetric editorial grid showcasing the 5 environmental mockups */
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 28px;
+    }
+
+    /* Featured full-span card for the Times Square Billboard */
+    .mockup-card.featured {
+      grid-column: span 12;
+    }
+
+    /* Two-column cards for the remaining 4 street/transit placements */
+    .mockup-card.standard {
+      grid-column: span 6;
+    }
+
+    /* Card frame styling */
+    .mockup-card {
+      background-color: var(--surface-sand);
+      border: 1px solid var(--border-warm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 220ms ease, border-color 220ms ease;
+    }
+
+    .mockup-card:hover {
+      border-color: var(--desert-gold);
+      transform: translateY(-3px);
+    }
+
+    /* Image frame with click-to-zoom cursor */
+    .image-frame {
+      position: relative;
+      overflow: hidden;
+      background-color: #0D0907;
+      cursor: zoom-in;
+      aspect-ratio: 3 / 2;
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 350ms ease;
+    }
+
+    .mockup-card:hover .image-frame img {
+      transform: scale(1.02);
+    }
+
+    /* Corner pill indicating Print OOH vs Digital OOH deliverable category */
+    .format-pill {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(22, 16, 12, 0.88);
+      border: 1px solid var(--desert-gold);
+      color: var(--desert-gold);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.14em;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+    }
+
+    /* Card caption and metadata footer */
+    .card-meta {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      border-top: 1px solid var(--border-warm);
+    }
+
+    .card-index {
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--burnt-amber);
+      letter-spacing: 0.14em;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--paper-cream);
+      margin-bottom: 6px;
+    }
+
+    .card-details {
+      font-size: 1.05rem;
+      color: var(--muted-ochre);
+    }
+
+    /* Inspect full-screen button */
+    .inspect-btn {
+      background: transparent;
+      border: 1px solid var(--desert-gold);
+      color: var(--desert-gold);
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.12em;
+      font-size: 0.95rem;
+      padding: 8px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 200ms ease;
+    }
+
+    .inspect-btn:hover {
+      background: var(--desert-gold);
+      color: var(--bg-espresso);
+    }
+
+    /* Fullscreen Lightbox Modal for inspecting mockups up close */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 8, 6, 0.95);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 100;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox img {
+      max-height: 78vh;
+      max-width: 100%;
+      border: 1px solid var(--desert-gold);
+      object-fit: contain;
+    }
+
+    .lightbox-bar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 16px;
+      gap: 16px;
+    }
+
+    .lightbox-caption {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--paper-cream);
+    }
+
+    .close-lightbox {
+      background: var(--burnt-amber);
+      color: var(--paper-cream);
+      border: none;
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.14em;
+      font-size: 1rem;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    /* Footer colophon */
+    footer {
+      border-top: 1px solid var(--border-warm);
+      padding: 28px 32px;
+      text-align: center;
+      color: var(--muted-ochre);
+      font-size: 1rem;
+    }
+
+    /* Responsive layout adjustments for tablet and mobile screens */
+    @media (max-width: 900px) {
+      .hero-header {
+        grid-template-columns: 1fr;
+      }
+
+      .mockup-card.standard {
+        grid-column: span 12;
+      }
+
+      .top-nav,
+      .hero-header,
+      .gallery-container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky top navigation bar linking back to Aliou Diallo's ART 3041 index -->
+  <nav class="top-nav">
+    <a href="index.html" class="back-link">&larr; Back to ART 3041 Index</a>
+    <span class="season-tag">Free People &bull; Fall 1969 &bull; Route 66</span>
+  </nav>
+
+  <!-- Campaign hero header with Deliverable category filters -->
+  <header class="hero-header">
+    <div>
+      <div class="tape-badge">Summer of Love &bull; OOH &amp; Digital Mockups</div>
+      <h1>California <span>Dreamin'</span> &amp; Seeking Dreamers</h1>
+      <p class="hero-desc">
+        Environmental print and digital out-of-home campaign placements across New York City—pairing 1970s desert noir photography with guerrilla wheatpaste, transit, and Times Square spectacular formats.
+      </p>
+    </div>
+
+    <!-- Interactive filter buttons to toggle Print vs. Digital OOH deliverables -->
+    <div class="filter-bar" role="group" aria-label="Filter campaign mockups">
+      <button class="filter-btn active" data-filter="all">All Placements (5)</button>
+      <button class="filter-btn" data-filter="print">Print OOH (3)</button>
+      <button class="filter-btn" data-filter="digital">Digital OOH (2)</button>
+    </div>
+  </header>
+
+  <!-- Main 5-mockup showcase gallery -->
+  <main class="gallery-container">
+    <section class="mockup-grid" id="mockupGrid">
+
+      <!-- Placement 01: Featured Times Square Digital Spectacular -->
+      <article class="mockup-card featured" data-category="digital">
+        <div class="image-frame" onclick="openLightbox('ts-billboard-campaign.jpeg', '01 / Times Square Spectacular Billboard — California Dreamin' (Digital OOH)')">
+          <span class="format-pill">Digital OOH &bull; Spectacular</span>
+          <img src="ts-billboard-campaign.jpeg" alt="Times Square billboard showing Free People California Dreamin' campaign" />
+        </div>
+        <div class="card-meta">
+          <div>
+            <div class="card-index">Placement 01 &bull; Digital Out-of-Home</div>
+            <h2 class="card-title">Times Square Spectacular Billboard</h2>
+            <p class="card-details">Hero ensemble desert key visual (&ldquo;California Dreamin&rsquo;&rdquo;) scaled for high-impact Broadway &amp; 7th Ave LED display.</p>
+          </div>
+          <button class="inspect-btn" onclick="openLightbox('ts-billboard-campaign.jpeg', '01 / Times Square Spectacular Billboard — California Dreamin' (Digital OOH)')">Inspect Full Size</button>
+        </div>
+      </article>
+
+      <!-- Placement 02: W 4th St Subway Station Print Poster -->
+      <article class="mockup-card standard" data-category="print">
+        <div class="image-frame" onclick="openLightbox('subwy-campaign.jpeg', '02 / W 4th St Subway Platform Poster — California Dreamin' (Print OOH)')">
+          <span class="format-pill">Print OOH &bull; Transit</span>
+          <img src="subwy-campaign.jpeg" alt="W 4th St subway station framed poster showing California Dreamin' crystal ball key visual" />
+        </div>
+        <div class="card-meta">
+          <div>
+            <div class="card-index">Placement 02 &bull; Print Out-of-Home</div>
+            <h2 class="card-title">W 4th St Subway Platform Frame</h2>
+            <p class="card-details">Backlit station tile installation featuring the tarot &amp; crystal ball &ldquo;California Dreamin&rsquo;&rdquo; portrait.</p>
+          </div>
+          <button class="inspect-btn" onclick="openLightbox('subwy-campaign.jpeg', '02 / W 4th St Subway Platform Poster — California Dreamin' (Print OOH)')">Inspect</button>
+        </div>
+      </article>
+
+      <!-- Placement 03: NYC Taxi Top Digital Display -->
+      <article class="mockup-card standard" data-category="digital">
+        <div class="image-frame" onclick="openLightbox('taxi-cab-campaign.jpeg', '03 / Fifth Ave Taxi Top Display — Seeking Dreamers (Digital OOH)')">
+          <span class="format-pill">Digital OOH &bull; Mobile Transit</span>
+          <img src="taxi-cab-campaign.jpeg" alt="NYC yellow cab rooftop display showing Seeking Dreamers tarot dashboard visual" />
+        </div>
+        <div class="card-meta">
+          <div>
+            <div class="card-index">Placement 03 &bull; Digital Out-of-Home</div>
+            <h2 class="card-title">Fifth Ave Yellow Cab Rooftop Screen</h2>
+            <p class="card-details">Horizontal golden-hour dashboard tarot visual (&ldquo;Seeking Dreamers&rdquo;) formatted for moving taxi-top screens.</p>
+          </div>
+          <button class="inspect-btn" onclick="openLightbox('taxi-cab-campaign.jpeg', '03 / Fifth Ave Taxi Top Display — Seeking Dreamers (Digital OOH)')">Inspect</button>
+        </div>
+      </article>
+
+      <!-- Placement 04: Guerrilla Bus Pole Wheatpaste Poster (Updated file bus-pole-campaign_2.jpeg) -->
+      <article class="mockup-card standard" data-category="print">
+        <div class="image-frame" onclick="openLightbox('bus-pole-campaign_2.jpeg', '04 / Street Pole Wheatpaste Flyer — Seeking Dreamers (Print OOH)')">
+          <span class="format-pill">Print OOH &bull; Wild Posting</span>
+          <img src="bus-pole-campaign_2.jpeg" alt="NYC bus stop metal pole wrapped with weathered Seeking Dreamers wheatpaste poster" />
+        </div>
+        <div class="card-meta">
+          <div>
+            <div class="card-index">Placement 04 &bull; Print Out-of-Home</div>
+            <h2 class="card-title">NYC Bus Stop Wheatpaste Wild Posting</h2>
+            <p class="card-details">Weathered guerrilla street poster (&ldquo;Seeking Dreamers&rdquo; bedroom scene) wrapped around an East Village utility pole.</p>
+          </div>
+          <button class="inspect-btn" onclick="openLightbox('bus-pole-campaign_2.jpeg', '04 / Street Pole Wheatpaste Flyer — Seeking Dreamers (Print OOH)')">Inspect</button>
+        </div>
+      </article>
+
+      <!-- Placement 05: Box Truck Rear Panel Print Wrap -->
+      <article class="mockup-card standard" data-category="print">
+        <div class="image-frame" onclick="openLightbox('back-of-truck-campaign.jpeg', '05 / Commercial Box Truck Rear Wrap — Seeking Dreamers (Print OOH)')">
+          <span class="format-pill">Print OOH &bull; Fleet Wrap</span>
+          <img src="back-of-truck-campaign.jpeg" alt="NYC box truck rear panel displaying Seeking Dreamers vertical portrait" />
+        </div>
+        <div class="card-meta">
+          <div>
+            <div class="card-index">Placement 05 &bull; Print Out-of-Home</div>
+            <h2 class="card-title">Midtown Box Truck Rear Panel</h2>
+            <p class="card-details">Large-format vinyl fleet wrap bringing the Route 66 &ldquo;Seeking Dreamers&rdquo; portrait into dense street traffic.</p>
+          </div>
+          <button class="inspect-btn" onclick="openLightbox('back-of-truck-campaign.jpeg', '05 / Commercial Box Truck Rear Wrap — Seeking Dreamers (Print OOH)')">Inspect</button>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- Fullscreen Lightbox Overlay -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-content">
+      <img id="lightboxImg" src="" alt="Expanded campaign mockup" />
+      <div class="lightbox-bar">
+        <p class="lightbox-caption" id="lightboxCaption"></p>
+        <button class="close-lightbox" onclick="closeLightbox(event, true)">Close [ESC]</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer attribution -->
+  <footer>
+    Aliou Diallo &bull; ART 3041: A.I. for Designers &bull; Free People &ldquo;California Dreamin&rsquo;&rdquo; Campaign Deliverables
+  </footer>
+
+  <script>
+    // Filter mockup cards between All, Print OOH, and Digital OOH categories
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const mockupCards = document.querySelectorAll('.mockup-card');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        // Update active button styling
+        filterButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const selectedCategory = button.getAttribute('data-filter');
+
+        // Show or hide cards matching the selected category
+        mockupCards.forEach((card) => {
+          const cardCategory = card.getAttribute('data-category');
+          if (selectedCategory === 'all' || cardCategory === selectedCategory) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Open the fullscreen lightbox modal with the chosen mockup image and caption
+    function openLightbox(imageSrc, captionText) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxCaption = document.getElementById('lightboxCaption');
+
+      lightboxImg.src = imageSrc;
+      lightboxCaption.textContent = captionText;
+      lightbox.classList.add('open');
+    }
+
+    // Close the lightbox when clicking the backdrop or the close button
+    function closeLightbox(event, forceClose = false) {
+      if (forceClose || event.target.id === 'lightbox') {
+        document.getElementById('lightbox').classList.remove('open');
+      }
+    }
+
+    // Allow closing the lightbox with the Escape key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('open');
+      }
+    });
+  </script>
+</body>
+</html>
