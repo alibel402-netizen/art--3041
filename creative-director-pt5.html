@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aliou Diallo — Creative Director Pt. 5: Digital Ads</title>
+  <!-- Editorial & Condensed Retro Display Fonts matching campaign-mockups.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS MATCHING CAMPAIGN-MOCKUPS.HTML
+       Deep roasted espresso-umber background (#23170F), warm parchment cream
+       typography (#F3EAD8), and burnt sunset orange accents (#D96B27).
+       ========================================================================== */
+    :root {
+      --bg-espresso: #23170F;
+      --bg-panel: #1B110B;
+      --bg-panel-elevated: #2B1D14;
+      --text-cream: #F3EAD8;
+      --text-muted: #CBBBA6;
+      --accent-orange: #D96B27;
+      --accent-orange-hover: #E57A35;
+      --border-subtle: rgba(243, 234, 216, 0.24);
+      --border-orange: #D96B27;
+      --max-width: 1360px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-espresso);
+      color: var(--text-cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ==========================================================================
+       2. TOP UTILITY NAVIGATION BAR
+       Matches the exact layout of campaign-mockups.html:
+       Left: bordered "<- BACK TO ART 3041 INDEX" button
+       Right: uppercase orange tracking label "FREE PEOPLE • FALL 1969 • ROUTE 66"
+       ========================================================================== */
+    .top-utility-bar {
+      width: 100%;
+      border-bottom: 1px solid var(--border-subtle);
+      background-color: var(--bg-espresso);
+    }
+
+    .top-utility-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 22px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .back-index-btn {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-cream);
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      padding: 11px 18px;
+      transition: border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+    }
+
+    .back-index-btn:hover {
+      border-color: var(--accent-orange);
+      background-color: var(--accent-orange);
+      color: var(--bg-espresso);
+    }
+
+    .campaign-meta-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-orange);
+    }
+
+    /* ==========================================================================
+       3. EDITORIAL HERO HEADER
+       Cream pill badge ("SUMMER OF LOVE • DIGITAL & SOCIAL ADS"), stacked bold
+       condensed display title with burnt orange highlight, and Cormorant lead.
+       ========================================================================== */
+    .main-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 48px 32px 76px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .editorial-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .cream-pill-badge {
+      display: inline-block;
+      background-color: var(--text-cream);
+      color: var(--bg-espresso);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+    }
+
+    .hero-display-title {
+      font-family: 'Anton', Impact, sans-serif;
+      font-weight: 400;
+      font-size: 4.5rem;
+      line-height: 0.96;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--text-cream);
+    }
+
+    .hero-display-title .highlight-orange {
+      color: var(--accent-orange);
+    }
+
+    .hero-bottom-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .hero-lead-copy {
+      font-size: 1.28rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      max-width: 660px;
+    }
+
+    /* Filter / Action Buttons matching the bottom-right tabs on campaign-mockups.html */
+    .hero-filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-tab-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-cream);
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .filter-tab-btn:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange);
+    }
+
+    .filter-tab-btn.is-active {
+      background-color: var(--accent-orange);
+      border-color: var(--accent-orange);
+      color: var(--bg-espresso);
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       4. DELIVERABLE SPECS STRIP
+       Dark espresso panels with burnt orange badges and crisp editorial copy.
+       ========================================================================== */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .spec-card {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      padding: 22px 24px;
+    }
+
+    .spec-tag {
+      display: inline-block;
+      background-color: var(--accent-orange);
+      color: var(--bg-espresso);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      margin-bottom: 14px;
+    }
+
+    .spec-card h3 {
+      font-family: 'Anton', Impact, sans-serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--text-cream);
+      margin-bottom: 6px;
+    }
+
+    .spec-card p {
+      font-size: 1.08rem;
+      color: var(--text-muted);
+    }
+
+    .spec-card code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent-orange);
+    }
+
+    /* ==========================================================================
+       5. PART 1: DESKTOP WEB HERO BANNER MOCKUP (16:9 ROUTE 66 GIF)
+       Preserves the exact widescreen dynamic hero mockup format.
+       ========================================================================== */
+    .showcase-section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .section-kicker {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-orange);
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Anton', Impact, sans-serif;
+      font-weight: 400;
+      font-size: 2.35rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--text-cream);
+      line-height: 1.05;
+    }
+
+    .browser-mockup {
+      width: 100%;
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-panel);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
+    }
+
+    .browser-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px;
+      background-color: var(--bg-panel-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .browser-dot.orange { background-color: var(--accent-orange); border-color: var(--accent-orange); }
+    .browser-dot.cream { background-color: var(--text-cream); border-color: var(--text-cream); }
+
+    .browser-url-bar {
+      flex: 1;
+      min-width: 220px;
+      padding: 6px 14px;
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-subtle);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .browser-badge {
+      background-color: var(--accent-orange);
+      color: var(--bg-espresso);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+    }
+
+    .browser-screen {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      position: relative;
+      background: #0F0906;
+    }
+
+    .browser-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ==========================================================================
+       6. PART 2: AUTO-SCROLLING DYNAMIC ISLAND PHONE MARQUEE (9:16)
+       Preserves the exact horizontal marquee & Dynamic Island cutout framing.
+       ========================================================================== */
+    .marquee-viewport {
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--bg-panel);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 44px 0;
+      position: relative;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 36px;
+      width: max-content;
+      animation: scrollMarquee 34s linear infinite;
+    }
+
+    .marquee-viewport:hover .marquee-track,
+    .marquee-track.is-paused {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollMarquee {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .phone-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 296px;
+      flex-shrink: 0;
+    }
+
+    /* Curved iPhone hardware chassis */
+    .iphone-chassis {
+      width: 286px;
+      height: 596px;
+      background: #120C08;
+      border: 2.5px solid rgba(243, 234, 216, 0.32);
+      border-radius: 44px;
+      padding: 11px;
+      position: relative;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 200ms ease;
+    }
+
+    .phone-card:hover .iphone-chassis {
+      border-color: var(--accent-orange);
+    }
+
+    /* Inner curved OLED screen */
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 34px;
+      overflow: hidden;
+      position: relative;
+      background: #0A0604;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island cutout pill */
+    .dynamic-island-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 36px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+    }
+
+    .dynamic-island-pill {
+      width: 92px;
+      height: 24px;
+      background: #000000;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      margin-top: 6px;
+    }
+
+    .island-lens {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #161C24;
+      border: 1px solid rgba(217, 107, 39, 0.55);
+    }
+
+    .iphone-screen img,
+    .iphone-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 104px;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(243, 234, 216, 0.78);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .phone-caption {
+      width: 100%;
+      background-color: var(--bg-panel-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .phone-caption-title {
+      font-family: 'Anton', Impact, sans-serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-cream);
+      margin-bottom: 3px;
+    }
+
+    .phone-caption-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-orange);
+    }
+
+    /* ==========================================================================
+       7. RESPONSIVE ADJUSTMENTS
+       ========================================================================== */
+    @media (max-width: 899px) {
+      .hero-display-title {
+        font-size: 2.85rem;
+      }
+
+      .specs-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-utility-inner,
+      .main-container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Utility Bar matching campaign-mockups.html -->
+  <header class="top-utility-bar">
+    <div class="top-utility-inner">
+      <a href="index.html" class="back-index-btn">&larr; Back to ART 3041 Index</a>
+      <span class="campaign-meta-tag">Free People &bull; Fall 1969 &bull; Route 66</span>
+    </div>
+  </header>
+
+  <!-- Main Campaign Container -->
+  <main class="main-container">
+
+    <!-- Editorial Hero Header matching campaign-mockups.html -->
+    <section class="editorial-hero">
+      <span class="cream-pill-badge">Creative Director Pt. 5 &bull; Digital &amp; Social Ads</span>
+      <h1 class="hero-display-title">
+        California <span class="highlight-orange">Dreamin&rsquo;</span> &amp;<br />
+        Digital <span class="highlight-orange">Campaign</span>
+      </h1>
+
+      <div class="hero-bottom-row">
+        <p class="hero-lead-copy">
+          Multi-platform digital and social campaign placements pairing 1970s desert noir motion pieces with desktop web hero, Spotify 35mm contact sheet, TikTok, and Instagram Story formats.
+        </p>
+
+        <!-- Interactive Section Filter / Jump Tabs -->
+        <div class="hero-filter-tabs">
+          <button type="button" class="filter-tab-btn is-active" data-filter="all">All Ads (5)</button>
+          <button type="button" class="filter-tab-btn" data-filter="web">Web Hero (1)</button>
+          <button type="button" class="filter-tab-btn" data-filter="mobile">Mobile Social (4)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Animated Deliverables Overview Strip -->
+    <section class="specs-grid" id="specs-overview">
+      <div class="spec-card">
+        <span class="spec-tag">01 &bull; Animated 16:9 Web Banner</span>
+        <h3>Route 66 Horizon</h3>
+        <p>Widescreen desktop header loop (<code>route-66.gif</code>) with drifting desert dust and coyote motion.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-tag">02 &bull; Animated 9:16 Video Reel</span>
+        <h3>Camper Sanctuary</h3>
+        <p>10-second atmospheric motion reel (<code>animated-reel.mp4</code>) inside a vintage wood-paneled trailer.</p>
+      </div>
+      <div class="spec-card">
+        <span class="spec-tag">03 &bull; Animated 9:16 In-App</span>
+        <h3>35mm Contact Sheet</h3>
+        <p>Grease-pencil analog contact sheet animation (<code>spotify-campaign.gif</code>) for Spotify &amp; mobile.</p>
+      </div>
+    </section>
+
+    <!-- Part 1: Dynamic Widescreen Desktop Hero Banner Mockup (16:9) -->
+    <section class="showcase-section" id="section-web-hero">
+      <div class="section-header-row">
+        <div>
+          <span class="section-kicker">Digital Placement 01 &bull; Widescreen Web Editorial</span>
+          <h2 class="section-title">Desktop Hero Banner (16:9)</h2>
+        </div>
+      </div>
+
+      <div class="browser-mockup">
+        <div class="browser-toolbar">
+          <div class="browser-dots">
+            <span class="browser-dot orange"></span>
+            <span class="browser-dot cream"></span>
+            <span class="browser-dot"></span>
+          </div>
+          <div class="browser-url-bar">freepeople.com / california-dreamin-1969</div>
+          <span class="browser-badge">Digital Web &bull; Animated GIF</span>
+        </div>
+        <div class="browser-screen">
+          <img src="route-66.gif" alt="Free People Summer of Love California Dreamin animated Route 66 desktop banner" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Part 2: Auto-Scrolling Dynamic Island Mobile Showcase (9:16) -->
+    <section class="showcase-section" id="section-mobile-marquee">
+      <div class="section-header-row">
+        <div>
+          <span class="section-kicker">Digital Placements 02&ndash;05 &bull; Auto-Scrolling Mobile Carousel</span>
+          <h2 class="section-title">Dynamic Island Social &amp; In-App Showcase</h2>
+        </div>
+        <button type="button" id="toggle-marquee-btn" class="filter-tab-btn">Pause Scroll</button>
+      </div>
+
+      <div class="marquee-viewport" id="marquee-viewport">
+        <div class="marquee-track" id="marquee-track">
+
+          <!-- SET 1: Original 4 Vertical Mobile Ads -->
+          <!-- Phone 1: 10s Animated Video Reel -->
+          <article class="phone-card">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <video class="reel-video" autoplay loop muted playsinline preload="auto">
+                  <source src="animated-reel.mp4" type="video/mp4" />
+                  <source src="video_1.mp4" type="video/mp4" />
+                </video>
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">IG Reel / Story (10s Motion)</div>
+              <div class="phone-caption-sub">animated-reel.mp4 &bull; 9:16</div>
+            </div>
+          </article>
+
+          <!-- Phone 2: Animated Spotify Contact Sheet GIF -->
+          <article class="phone-card">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <img src="spotify-campaign.gif" alt="Free People Summer of Love 1969 animated 35mm contact sheet ad" />
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">Spotify / In-App Animated</div>
+              <div class="phone-caption-sub">spotify-campaign.gif &bull; 9:16</div>
+            </div>
+          </article>
+
+          <!-- Phone 3: TikTok Story / Adobe Ruins Editorial -->
+          <article class="phone-card">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <img src="tiktok-story-reel.jpeg" alt="Free People Summer of Love 1969 desert adobe ruins TikTok Story ad" />
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">TikTok Full-Screen Story</div>
+              <div class="phone-caption-sub">tiktok-story-reel.jpeg &bull; 9:16</div>
+            </div>
+          </article>
+
+          <!-- Phone 4: Instagram Reel / Motel Vanity Editorial -->
+          <article class="phone-card">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <img src="insta-reel-campaig.jpeg" alt="Free People Summer of Love 1969 vintage motel vanity Instagram ad" />
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">Instagram Story Placement</div>
+              <div class="phone-caption-sub">insta-reel-campaig.jpeg &bull; 9:16</div>
+            </div>
+          </article>
+
+          <!-- SET 2: Seamless Duplicate Set for Infinite Horizontal Loop -->
+          <article class="phone-card" aria-hidden="true">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <video class="reel-video" autoplay loop muted playsinline preload="auto">
+                  <source src="animated-reel.mp4" type="video/mp4" />
+                  <source src="video_1.mp4" type="video/mp4" />
+                </video>
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">IG Reel / Story (10s Motion)</div>
+              <div class="phone-caption-sub">animated-reel.mp4 &bull; 9:16</div>
+            </div>
+          </article>
+
+          <article class="phone-card" aria-hidden="true">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <img src="spotify-campaign.gif" alt="" />
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">Spotify / In-App Animated</div>
+              <div class="phone-caption-sub">spotify-campaign.gif &bull; 9:16</div>
+            </div>
+          </article>
+
+          <article class="phone-card" aria-hidden="true">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <img src="tiktok-story-reel.jpeg" alt="" />
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">TikTok Full-Screen Story</div>
+              <div class="phone-caption-sub">tiktok-story-reel.jpeg &bull; 9:16</div>
+            </div>
+          </article>
+
+          <article class="phone-card" aria-hidden="true">
+            <div class="iphone-chassis">
+              <div class="iphone-screen">
+                <div class="dynamic-island-bar">
+                  <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                </div>
+                <img src="insta-reel-campaig.jpeg" alt="" />
+                <div class="home-indicator"></div>
+              </div>
+            </div>
+            <div class="phone-caption">
+              <div class="phone-caption-title">Instagram Story Placement</div>
+              <div class="phone-caption-sub">insta-reel-campaig.jpeg &bull; 9:16</div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* ==========================================================================
+       1. MARQUEE PLAY / PAUSE CONTROL
+       ========================================================================== */
+    (function initMarqueeToggle() {
+      const track = document.getElementById('marquee-track');
+      const toggleBtn = document.getElementById('toggle-marquee-btn');
+      let manuallyPaused = false;
+
+      toggleBtn.addEventListener('click', () => {
+        manuallyPaused = !manuallyPaused;
+        if (manuallyPaused) {
+          track.classList.add('is-paused');
+          toggleBtn.textContent = 'Resume Scroll';
+        } else {
+          track.classList.remove('is-paused');
+          toggleBtn.textContent = 'Pause Scroll';
+        }
+      });
+    })();
+
+    /* ==========================================================================
+       2. PLACEMENT FILTER TABS (ALL ADS / WEB HERO / MOBILE SOCIAL)
+       Matches the filter buttons on campaign-mockups.html.
+       ========================================================================== */
+    (function initPlacementFilters() {
+      const filterBtns = document.querySelectorAll('.filter-tab-btn[data-filter]');
+      const webSection = document.getElementById('section-web-hero');
+      const mobileSection = document.getElementById('section-mobile-marquee');
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach((b) => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+
+          const filter = btn.getAttribute('data-filter');
+          if (filter === 'all') {
+            webSection.style.display = 'flex';
+            mobileSection.style.display = 'flex';
+          } else if (filter === 'web') {
+            webSection.style.display = 'flex';
+            mobileSection.style.display = 'none';
+          } else if (filter === 'mobile') {
+            webSection.style.display = 'none';
+            mobileSection.style.display = 'flex';
+          }
+        });
+      });
+    })();
+
+    /* ==========================================================================
+       3. MUTED VIDEO AUTOPLAY ENFORCER
+       ========================================================================== */
+    (function initReelVideos() {
+      const videos = document.querySelectorAll('.reel-video');
+      videos.forEach((video) => {
+        video.muted = true;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            document.addEventListener('click', () => video.play(), { once: true });
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
