@@ -1,0 +1,3267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free People — Summer of Love 1969 // Campaign Launch</title>
+
+  <!-- Campaign Typography: Playfair Display, Cinzel Decorative, Anton, UnifrakturCook, and Space Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       1. BRAND CAMPAIGN PALETTE & DESIGN TOKENS
+       ========================================================================== */
+    :root {
+      --bg-brown:        #2B1710;
+      --ink-dark:        #1B0F0A;
+      --deep-brown:      #2B1710;
+      --panel-plum:      #231521;
+      --plum-deep:       #180D17;
+      --card-cream:      #ECE4D0;
+      --card-light:      #F7F1E3;
+      --bleached-muslin: #F5EFEB;
+      --accent-orange:   #A84B24;
+      --brick-ochre:     #C18244;
+      --olive-green:     #4A5D23;
+      --accent-yellow:   #E5A922;
+      --accent-green:    #5B7A3A;
+      --accent-purple:   #6A3360;
+      --desert-coral:    #E06B73;
+      --turquoise:       #4DA5B7;
+
+      --font-display:    'Playfair Display', Georgia, serif;
+      --font-gothic:     'UnifrakturCook', cursive;
+      --font-serif:      'Cinzel Decorative', serif;
+      --font-condensed:  'Anton', Impact, sans-serif;
+      --font-mono:       'Space Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ==========================================================================
+       2. PATTERN-FREE BRICK DESERT OCHRE -> OLIVE GREEN GRADIENT BACKGROUND
+       Smooth vertical fade from Brick Desert Ochre (#C18244) into Olive Green (#4A5D23)
+       ========================================================================== */
+    body {
+      background-color: var(--brick-ochre);
+      color: var(--card-cream);
+      font-family: var(--font-mono);
+      line-height: 1.65;
+      overflow-x: hidden;
+      position: relative;
+      background-image: linear-gradient(180deg, #C18244 0%, #9E7334 45%, #656929 75%, #4A5D23 100%);
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+
+    /* Subtle vintage film grain overlay across the gradient */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    ::selection {
+      background: var(--accent-yellow);
+      color: var(--ink-dark);
+    }
+
+    /* ==========================================================================
+       3. STICKY CAMPAIGN NAVIGATION BAR
+       ========================================================================== */
+    .campaign-nav {
+      position: sticky;
+      top: 0;
+      z-index: 150;
+      background: rgba(27, 15, 10, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid var(--accent-yellow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 28px;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      font-family: var(--font-serif);
+      font-weight: 900;
+      font-size: 1.05rem;
+      color: var(--accent-yellow);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.72rem;
+      color: var(--card-cream);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+      transition: color 200ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-yellow);
+    }
+
+    .nav-index-btn {
+      color: var(--accent-yellow) !important;
+      border: 2px solid var(--accent-yellow);
+      padding: 6px 14px;
+      background: var(--plum-deep);
+      transition: all 200ms ease !important;
+    }
+
+    .nav-index-btn:hover {
+      background: var(--accent-yellow) !important;
+      color: var(--ink-dark) !important;
+    }
+
+    /* ==========================================================================
+       4. LIVE INTERACTIVE SLICED-PUZZLE HERO SECTION
+       - Background behind text: Brick Desert Ochre (#C18244)
+       - Stacked Cinzel Decorative headline text: Deep Brown (#2B1710)
+       - Text sits BEHIND the stamps (z-index: 1 vs z-index: 4)
+       ========================================================================== */
+    .launch-hero {
+      position: relative;
+      width: 100%;
+      height: 82vh;
+      min-height: 540px;
+      max-height: 760px;
+      background-color: var(--brick-ochre);
+      border-bottom: 4px solid var(--ink-dark);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(193, 130, 68, 0.05) 0%, rgba(43, 23, 16, 0.28) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hero-typography-layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+      padding: 24px;
+      pointer-events: none;
+      line-height: 0.94;
+      background-color: var(--brick-ochre);
+    }
+
+    .hero-stacked-line {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+      font-weight: 900;
+      color: var(--deep-brown);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 0 rgba(236, 228, 208, 0.35);
+      white-space: nowrap;
+    }
+
+    .stamps-matrix-container {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .stamp-tile {
+      position: absolute;
+      pointer-events: auto;
+      cursor: grab;
+      will-change: transform, left, top;
+      filter: drop-shadow(0 10px 22px rgba(27, 15, 10, 0.75));
+    }
+
+    .stamp-tile:active {
+      cursor: grabbing;
+      z-index: 60 !important;
+    }
+
+    .stamp-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background-repeat: no-repeat;
+      border: 1.5px solid var(--ink-dark);
+      overflow: hidden;
+      background-color: #EDE6D6;
+      -webkit-mask:
+        radial-gradient(circle at top, transparent 4px, #000 4.5px) top / 16px 8px repeat-x,
+        radial-gradient(circle at bottom, transparent 4px, #000 4.5px) bottom / 16px 8px repeat-x,
+        radial-gradient(circle at left, transparent 4px, #000 4.5px) left / 8px 16px repeat-y,
+        radial-gradient(circle at right, transparent 4px, #000 4.5px) right / 8px 16px repeat-y,
+        linear-gradient(#000, #000) center / calc(100% - 16px) calc(100% - 16px) no-repeat;
+      mask:
+        radial-gradient(circle at top, transparent 4px, #000 4.5px) top / 16px 8px repeat-x,
+        radial-gradient(circle at bottom, transparent 4px, #000 4.5px) bottom / 16px 8px repeat-x,
+        radial-gradient(circle at left, transparent 4px, #000 4.5px) left / 8px 16px repeat-y,
+        radial-gradient(circle at right, transparent 4px, #000 4.5px) right / 8px 16px repeat-y,
+        linear-gradient(#000, #000) center / calc(100% - 16px) calc(100% - 16px) no-repeat;
+    }
+
+    .stamp-postmark-top {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      font-size: 0.52rem;
+      letter-spacing: 1px;
+      color: #8C3B19;
+      background: rgba(237, 230, 214, 0.92);
+      border: 1px solid #8C3B19;
+      padding: 1px 5px;
+      pointer-events: none;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .stamp-postmark-bottom {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-size: 0.52rem;
+      letter-spacing: 0.8px;
+      color: #160D12;
+      background: rgba(237, 230, 214, 0.90);
+      border: 1px solid var(--brick-ochre);
+      padding: 1px 5px;
+      pointer-events: none;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .hero-caption-bar {
+      position: absolute;
+      bottom: 18px;
+      left: 24px;
+      right: 24px;
+      z-index: 6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--card-cream);
+    }
+
+    .hero-pill {
+      background: rgba(27, 15, 10, 0.92);
+      border: 2px solid var(--accent-yellow);
+      padding: 6px 12px;
+      font-weight: 700;
+    }
+
+    /* ==========================================================================
+       5. SCROLLING 1970S MARQUEE TICKER
+       ========================================================================== */
+    .marquee-strip {
+      background-color: var(--deep-brown);
+      color: var(--accent-yellow);
+      border-bottom: 4px solid var(--ink-dark);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 12px 0;
+      font-family: var(--font-serif);
+      font-weight: 900;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marqueeScroll 28s linear infinite;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ==========================================================================
+       6. SHARED EDITORIAL CONTAINERS & VELVET PARLOR PANELS
+       ========================================================================== */
+    .container {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section-block {
+      margin: 64px 0;
+    }
+
+    .parlor-box {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(106, 51, 96, 0.30), transparent 70%),
+        var(--panel-plum);
+      border: 4px solid var(--accent-yellow);
+      box-shadow:
+        0 0 0 4px var(--ink-dark),
+        0 0 0 8px var(--accent-orange),
+        14px 14px 0px rgba(15, 8, 5, 0.85);
+      padding: 36px;
+      position: relative;
+    }
+
+    .cream-box {
+      background: var(--card-cream);
+      color: var(--ink-dark);
+      border: 4px solid var(--accent-orange);
+      box-shadow:
+        0 0 0 4px var(--ink-dark),
+        12px 12px 0px var(--accent-yellow);
+      padding: 36px;
+      position: relative;
+    }
+
+    .section-kicker {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 8px;
+      color: var(--accent-yellow);
+    }
+
+    .cream-box .section-kicker {
+      color: var(--accent-orange);
+    }
+
+    .section-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--accent-yellow);
+      text-shadow: 2px 2px 0px var(--ink-dark);
+    }
+
+    .cream-box .section-heading {
+      color: var(--ink-dark);
+      text-shadow: none;
+    }
+
+    .tape-label {
+      display: inline-block;
+      background-color: var(--ink-dark);
+      color: var(--accent-yellow);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      transform: rotate(-1.5deg);
+      margin-bottom: 14px;
+      border: 1.5px solid var(--accent-yellow);
+    }
+
+    /* ==========================================================================
+       7. SECTION 01: UNBOXED CAMPAIGN MANIFESTO & HERITAGE CREST
+       Sits freely on the Brick Desert Ochre background with Cinzel Decorative
+       headline ("Dark Romance With a Razor's Edge")
+       ========================================================================== */
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 44px;
+      align-items: center;
+      padding: 16px 0;
+    }
+
+    .manifesto-heading-cinzel {
+      font-family: var(--font-serif);
+      font-size: clamp(2.1rem, 4.2vw, 3.35rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 22px;
+      color: var(--ink-dark);
+      text-shadow: 0 2px 0 rgba(236, 228, 208, 0.3);
+    }
+
+    .manifesto-copy p {
+      font-size: 0.94rem;
+      line-height: 1.85;
+      margin-bottom: 16px;
+      color: var(--ink-dark);
+      font-weight: 700;
+    }
+
+    .manifesto-copy p.lead-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 1.42;
+      color: var(--ink-dark);
+      border-left: 5px solid var(--ink-dark);
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+
+    .capsule-specs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 2px dashed var(--ink-dark);
+    }
+
+    .spec-item strong {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--ink-dark);
+      opacity: 0.82;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .spec-item span {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+    }
+
+    .crest-card {
+      background: var(--card-light);
+      border: 3px solid var(--ink-dark);
+      box-shadow: 10px 10px 0px var(--ink-dark);
+      padding: 24px;
+      text-align: center;
+      transform: rotate(1.2deg);
+    }
+
+    .crest-card img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      display: block;
+      margin: 0 auto 14px;
+    }
+
+    .crest-caption {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ==========================================================================
+       8. SECTION 02: EXPERIMENTAL PIECE — THE 1969 TAROT & JUKEBOX
+       ========================================================================== */
+    .tarot-parlor {
+      background:
+        radial-gradient(circle at 50% 25%, rgba(106, 51, 96, 0.35), transparent 70%),
+        var(--panel-plum);
+      border: 4px solid var(--accent-yellow);
+      box-shadow:
+        0 0 0 4px var(--ink-dark),
+        0 0 0 8px var(--accent-orange),
+        14px 14px 0px rgba(15, 8, 5, 0.85);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      user-select: none;
+    }
+
+    .corner-bracket {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 3px solid var(--accent-yellow);
+      pointer-events: none;
+    }
+    .cb-tl { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+    .cb-tr { top: 6px; right: 6px; border-left: none; border-bottom: none; }
+    .cb-bl { bottom: 6px; left: 6px; border-right: none; border-top: none; }
+    .cb-br { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+    .parlor-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 3px solid var(--accent-orange);
+      padding-bottom: 14px;
+    }
+
+    .brand-title {
+      margin: 2px 0 0 0;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.25rem, 2.3vw, 1.95rem);
+      font-weight: 900;
+      color: var(--accent-yellow);
+      text-shadow: 2px 2px 0px var(--ink-dark);
+      letter-spacing: 1px;
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--card-cream);
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .turntable-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--plum-deep);
+      border: 2px solid var(--accent-yellow);
+      padding: 6px 12px;
+      box-shadow: 4px 4px 0px var(--ink-dark);
+    }
+
+    .vinyl-stage {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .vinyl-disc {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background:
+        repeating-radial-gradient(circle at center, #141414 0px, #141414 2px, #262626 3px, #141414 4px);
+      border: 2px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vinyl-disc.spinning {
+      animation: spinRecord 2.4s linear infinite;
+    }
+
+    @keyframes spinRecord {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .vinyl-label {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-orange);
+      border: 2px solid var(--accent-yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vinyl-spindle {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--card-light);
+    }
+
+    .tonearm {
+      position: absolute;
+      top: -2px;
+      right: -4px;
+      width: 18px;
+      height: 4px;
+      background: var(--accent-yellow);
+      border: 1px solid var(--ink-dark);
+      transform-origin: right center;
+      transform: rotate(-32deg);
+      transition: transform 0.35s ease;
+    }
+
+    .tonearm.engaged {
+      transform: rotate(18deg);
+    }
+
+    .eq-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 16px;
+    }
+
+    .eq-bar {
+      width: 3px;
+      height: 4px;
+      background: var(--accent-yellow);
+      transition: height 0.15s ease;
+    }
+
+    .eq-bars.active .eq-bar:nth-child(1) { animation: eqPulse 0.45s infinite alternate; }
+    .eq-bars.active .eq-bar:nth-child(2) { animation: eqPulse 0.32s infinite alternate 0.1s; }
+    .eq-bars.active .eq-bar:nth-child(3) { animation: eqPulse 0.52s infinite alternate 0.2s; }
+    .eq-bars.active .eq-bar:nth-child(4) { animation: eqPulse 0.38s infinite alternate 0.05s; }
+
+    @keyframes eqPulse {
+      0%   { height: 4px; background: var(--accent-orange); }
+      100% { height: 16px; background: var(--accent-yellow); }
+    }
+
+    .jukebox-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-1969 {
+      background: var(--ink-dark);
+      color: var(--accent-yellow);
+      border: 2px solid var(--accent-yellow);
+      padding: 7px 11px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-1969:hover {
+      background: var(--accent-yellow);
+      color: var(--ink-dark);
+    }
+
+    .btn-1969.active {
+      background: var(--accent-orange);
+      color: var(--card-light);
+      border-color: var(--card-light);
+    }
+
+    .prompt-and-meter {
+      display: grid;
+      grid-template-columns: 1fr 270px;
+      gap: 14px;
+    }
+
+    .prompt-banner {
+      background: var(--card-cream);
+      color: var(--ink-dark);
+      border: 3px solid var(--accent-orange);
+      box-shadow: 4px 4px 0px var(--ink-dark);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .prompt-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .prompt-step-tag {
+      background: var(--ink-dark);
+      color: var(--accent-yellow);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      display: inline-block;
+    }
+
+    .prompt-question {
+      margin: 2px 0;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1rem, 1.55vw, 1.3rem);
+      font-weight: 900;
+      color: var(--ink-dark);
+    }
+
+    .prompt-hint {
+      font-size: 0.74rem;
+      color: #4A2B18;
+    }
+
+    .vibe-meter-card {
+      background: var(--card-light);
+      color: var(--ink-dark);
+      border: 3px solid var(--ink-dark);
+      box-shadow: 4px 4px 0px var(--accent-yellow);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 5px;
+    }
+
+    .vibe-meter-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border-bottom: 1.5px solid var(--ink-dark);
+      padding-bottom: 3px;
+    }
+
+    .meter-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+
+    .meter-label {
+      width: 78px;
+      flex-shrink: 0;
+    }
+
+    .meter-track {
+      flex: 1;
+      height: 10px;
+      background: #D6C9AE;
+      border: 1.5px solid var(--ink-dark);
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      width: 12%;
+      transition: width 0.35s cubic-bezier(0.22, 1.2, 0.36, 1);
+    }
+
+    .reading-table {
+      display: grid;
+      grid-template-columns: 205px 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .deck-station {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(24, 13, 23, 0.72);
+      border: 2px solid var(--accent-yellow);
+      padding: 14px;
+      gap: 12px;
+      position: relative;
+    }
+
+    .tarot-deck-stack {
+      position: relative;
+      width: 152px;
+      height: 242px;
+      cursor: pointer;
+      box-shadow:
+        4px 4px 0px var(--accent-orange),
+        8px 8px 0px var(--ink-dark),
+        10px 10px 0px var(--accent-yellow);
+      transition: transform 0.16s ease;
+      overflow: hidden;
+    }
+
+    .tarot-deck-stack::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg, transparent 30%, rgba(229, 169, 34, 0.32) 50%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform 0.55s ease;
+      pointer-events: none;
+    }
+
+    .tarot-deck-stack:hover::after {
+      transform: translateX(120%);
+    }
+
+    .tarot-deck-stack:hover {
+      transform: translate(-2px, -3px);
+    }
+
+    .tarot-deck-stack.shuffling {
+      animation: riffleShuffle 0.45s ease-in-out;
+    }
+
+    @keyframes riffleShuffle {
+      0%   { transform: rotate(0deg) scale(1); }
+      25%  { transform: rotate(-7deg) translateX(-10px); }
+      50%  { transform: rotate(7deg) translateX(10px); }
+      75%  { transform: rotate(-4deg) translateX(-5px); }
+      100% { transform: rotate(0deg) scale(1); }
+    }
+
+    .tarot-deck-stack.disabled {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .deck-btn-row {
+      display: flex;
+      width: 100%;
+      gap: 6px;
+    }
+
+    .draw-cta {
+      flex: 2;
+      padding: 8px 6px;
+      background: var(--accent-orange);
+      color: var(--card-light);
+      border: 2px solid var(--accent-yellow);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.72rem;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .draw-cta:hover {
+      background: var(--accent-yellow);
+      color: var(--ink-dark);
+    }
+
+    .draw-cta:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+
+    .spread-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .spread-slot {
+      min-height: 278px;
+      border: 2px dashed rgba(229, 169, 34, 0.45);
+      background: rgba(24, 13, 23, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      position: relative;
+    }
+
+    .spread-slot.active-target {
+      border: 2px solid var(--accent-yellow);
+      box-shadow: inset 0 0 18px rgba(229, 169, 34, 0.18);
+    }
+
+    .slot-placeholder {
+      text-align: center;
+      color: rgba(236, 228, 208, 0.5);
+      font-size: 0.72rem;
+      padding: 8px;
+    }
+
+    .drawn-card {
+      width: 100%;
+      height: 100%;
+      background: var(--card-light);
+      color: var(--ink-dark);
+      border: 3px solid var(--ink-dark);
+      box-shadow:
+        inset 0 0 0 3px var(--accent-orange),
+        4px 4px 0px var(--ink-dark);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: dealFlip 0.4s cubic-bezier(0.22, 1.28, 0.36, 1);
+    }
+
+    @keyframes dealFlip {
+      0%   { transform: scale(0.7) rotateY(88deg); opacity: 0.2; }
+      100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+    }
+
+    .card-numeral {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--accent-orange);
+      border-bottom: 1.5px solid var(--ink-dark);
+      width: 100%;
+      padding-bottom: 3px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .card-arch {
+      width: 90%;
+      height: 118px;
+      border: 2px solid var(--ink-dark);
+      background: var(--card-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0;
+      padding: 4px;
+    }
+
+    .card-fortune-title {
+      font-weight: 700;
+      font-size: 0.71rem;
+      line-height: 1.25;
+      color: var(--ink-dark);
+    }
+
+    .card-vibe-pill {
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      background: var(--ink-dark);
+      color: var(--accent-yellow);
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .finale-panel {
+      display: none;
+      background: var(--card-cream);
+      color: var(--ink-dark);
+      border: 4px solid var(--accent-orange);
+      box-shadow: 8px 8px 0px var(--accent-yellow);
+      padding: 20px;
+      grid-template-columns: 270px 1fr;
+      gap: 22px;
+      align-items: center;
+      animation: dealFlip 0.45s ease-out;
+    }
+
+    .finale-panel.open {
+      display: grid;
+    }
+
+    .lookbook-flip-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lookbook-crop-frame {
+      position: relative;
+      width: 100%;
+      max-width: 260px;
+      aspect-ratio: 3 / 4.7;
+      border: 4px solid var(--ink-dark);
+      box-shadow: 6px 6px 0px var(--accent-purple);
+      overflow: hidden;
+      background: var(--panel-plum);
+      cursor: pointer;
+    }
+
+    .lookbook-crop-frame img {
+      position: absolute;
+      max-width: none;
+      max-height: none;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .lookbook-back-face {
+      position: absolute;
+      inset: 0;
+      background: var(--panel-plum);
+      color: var(--card-cream);
+      border: 3px solid var(--accent-yellow);
+      padding: 14px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      z-index: 5;
+    }
+
+    .lookbook-crop-frame.flipped .lookbook-back-face {
+      display: flex;
+    }
+
+    .spec-list {
+      margin: 8px 0;
+      padding-left: 16px;
+      font-size: 0.72rem;
+      line-height: 1.5;
+    }
+
+    .flip-hint-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--accent-orange);
+      text-transform: uppercase;
+    }
+
+    .reading-content h2 {
+      margin: 4px 0 8px 0;
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.3rem, 2vw, 1.75rem);
+      font-weight: 900;
+      color: var(--ink-dark);
+    }
+
+    .soundtrack-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--panel-plum);
+      color: var(--accent-yellow);
+      border: 2px solid var(--ink-dark);
+      padding: 6px 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .reading-summary-box {
+      background: var(--card-light);
+      border-left: 5px solid var(--accent-purple);
+      border-top: 1.5px solid var(--ink-dark);
+      border-right: 1.5px solid var(--ink-dark);
+      border-bottom: 1.5px solid var(--ink-dark);
+      padding: 14px;
+      font-size: 0.81rem;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    .preview-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .reading-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* ==========================================================================
+       9. SECTION 03: DIGITAL AD MOCKUPS SHOWCASE
+       ========================================================================== */
+    .digital-showcase-panel {
+      background-color: #23170F;
+      color: #F3EAD8;
+      border: 4px solid var(--accent-yellow);
+      box-shadow:
+        0 0 0 4px var(--ink-dark),
+        0 0 0 8px var(--accent-orange),
+        14px 14px 0px rgba(15, 8, 5, 0.85);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .digital-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(243, 234, 216, 0.24);
+    }
+
+    .digital-display-title {
+      font-family: var(--font-condensed);
+      font-weight: 400;
+      font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+      line-height: 0.98;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: #F3EAD8;
+    }
+
+    .digital-display-title span {
+      color: #D96B27;
+    }
+
+    .digital-lead {
+      font-family: var(--font-display);
+      font-size: 1.18rem;
+      color: #CBBBA6;
+      max-width: 640px;
+      margin-top: 10px;
+    }
+
+    .digital-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .digital-spec-card {
+      background-color: #1B110B;
+      border: 1px solid rgba(243, 234, 216, 0.24);
+      padding: 18px 20px;
+    }
+
+    .digital-spec-tag {
+      display: inline-block;
+      background-color: #D96B27;
+      color: #23170F;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.64rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      margin-bottom: 10px;
+    }
+
+    .digital-spec-card h3 {
+      font-family: var(--font-condensed);
+      font-weight: 400;
+      font-size: 1.35rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #F3EAD8;
+      margin-bottom: 4px;
+    }
+
+    .digital-spec-card p {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      color: #CBBBA6;
+    }
+
+    .browser-mockup {
+      width: 100%;
+      border: 1px solid rgba(243, 234, 216, 0.28);
+      background-color: #1B110B;
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.5);
+    }
+
+    .browser-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background-color: #2B1D14;
+      border-bottom: 1px solid rgba(243, 234, 216, 0.24);
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(243, 234, 216, 0.3);
+    }
+
+    .browser-dot.orange { background-color: #D96B27; border-color: #D96B27; }
+    .browser-dot.cream { background-color: #F3EAD8; border-color: #F3EAD8; }
+
+    .browser-url-bar {
+      flex: 1;
+      min-width: 200px;
+      padding: 5px 12px;
+      background-color: #1B110B;
+      border: 1px solid rgba(243, 234, 216, 0.22);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #CBBBA6;
+      text-align: center;
+    }
+
+    .browser-badge {
+      background-color: #D96B27;
+      color: #23170F;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.64rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+    }
+
+    .browser-screen {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      position: relative;
+      background: #0F0906;
+    }
+
+    .browser-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .phone-marquee-viewport {
+      width: 100%;
+      overflow: hidden;
+      background-color: #1B110B;
+      border: 1px solid rgba(243, 234, 216, 0.24);
+      padding: 36px 0;
+      position: relative;
+    }
+
+    .phone-marquee-track {
+      display: flex;
+      gap: 32px;
+      width: max-content;
+      animation: scrollPhoneMarquee 34s linear infinite;
+    }
+
+    .phone-marquee-viewport:hover .phone-marquee-track,
+    .phone-marquee-track.is-paused {
+      animation-play-state: paused;
+    }
+
+    @keyframes scrollPhoneMarquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .phone-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 280px;
+      flex-shrink: 0;
+    }
+
+    .iphone-chassis {
+      width: 270px;
+      height: 560px;
+      background: #120C08;
+      border: 2.5px solid rgba(243, 234, 216, 0.32);
+      border-radius: 42px;
+      padding: 10px;
+      position: relative;
+      box-shadow: 0 22px 44px rgba(0, 0, 0, 0.55);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 200ms ease;
+    }
+
+    .phone-card:hover .iphone-chassis {
+      border-color: #D96B27;
+    }
+
+    .iphone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      background: #0A0604;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dynamic-island-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 34px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
+    }
+
+    .dynamic-island-pill {
+      width: 88px;
+      height: 22px;
+      background: #000000;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 8px;
+      margin-top: 6px;
+    }
+
+    .island-lens {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #161C24;
+      border: 1px solid rgba(217, 107, 39, 0.55);
+    }
+
+    .iphone-screen img,
+    .iphone-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 98px;
+      height: 4px;
+      border-radius: 4px;
+      background: rgba(243, 234, 216, 0.78);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .phone-caption {
+      width: 100%;
+      background-color: #2B1D14;
+      border: 1px solid rgba(243, 234, 216, 0.24);
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .phone-caption-title {
+      font-family: var(--font-condensed);
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #F3EAD8;
+      margin-bottom: 2px;
+    }
+
+    .phone-caption-sub {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      color: #D96B27;
+    }
+
+    /* ==========================================================================
+       10. SECTION 04: PRINT & OUT-OF-HOME CAMPAIGN TAKEOVER
+       ========================================================================== */
+    .ooh-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .ooh-filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .ooh-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .ooh-card {
+      background: var(--card-cream);
+      color: var(--ink-dark);
+      border: 3px solid var(--ink-dark);
+      box-shadow: 6px 6px 0px var(--accent-yellow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ooh-card.featured {
+      grid-column: span 12;
+    }
+
+    .ooh-card.half {
+      grid-column: span 6;
+    }
+
+    .ooh-img-wrap {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      cursor: zoom-in;
+      border-bottom: 3px solid var(--ink-dark);
+      background: #0B0912;
+    }
+
+    .ooh-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 300ms ease;
+    }
+
+    .ooh-card:hover .ooh-img-wrap img {
+      transform: scale(1.02);
+    }
+
+    .ooh-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--ink-dark);
+      border: 2px solid var(--accent-yellow);
+      color: var(--accent-yellow);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+    }
+
+    .ooh-meta {
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .ooh-meta h3 {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--ink-dark);
+      margin-bottom: 4px;
+    }
+
+    .ooh-meta p {
+      font-size: 0.78rem;
+      color: #3A2218;
+    }
+
+    /* ==========================================================================
+       11. SECTION 05: ARCHIVAL SCRAPBOOK & PALETTE SWATCHES
+       ========================================================================== */
+    .scrapbook-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .scrap-plate {
+      background: var(--card-light);
+      border: 3px solid var(--ink-dark);
+      padding: 10px 10px 14px;
+      box-shadow: 5px 5px 0px var(--accent-orange);
+    }
+
+    .scrap-plate:nth-child(odd) { transform: rotate(-1deg); }
+    .scrap-plate:nth-child(even) { transform: rotate(1deg); }
+
+    .scrap-plate img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 8px;
+      border: 2px solid var(--ink-dark);
+    }
+
+    .scrap-caption {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .swatch-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .swatch-chip {
+      border: 3px solid var(--ink-dark);
+      background: var(--card-light);
+      cursor: pointer;
+    }
+
+    .swatch-fill {
+      height: 46px;
+      width: 100%;
+      border-bottom: 2px solid var(--ink-dark);
+    }
+
+    .swatch-label {
+      padding: 6px 8px;
+      font-size: 0.66rem;
+      font-weight: 700;
+      color: var(--ink-dark);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       12. LIGHTBOX MODAL & FOOTER
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 8, 5, 0.94);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      z-index: 250;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-backdrop img {
+      max-height: 76vh;
+      max-width: 94vw;
+      border: 4px solid var(--accent-yellow);
+      object-fit: contain;
+    }
+
+    .modal-bar {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      gap: 16px;
+    }
+
+    footer {
+      background: var(--ink-dark);
+      border-top: 4px solid var(--accent-yellow);
+      padding: 32px 24px;
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--card-cream);
+      letter-spacing: 0.1em;
+    }
+
+    /* ==========================================================================
+       13. RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 980px) {
+      .digital-specs-grid,
+      .scrapbook-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .manifesto-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .prompt-and-meter,
+      .reading-table,
+      .finale-panel.open {
+        grid-template-columns: 1fr;
+      }
+      .ooh-card.half {
+        grid-column: span 12;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .spread-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .digital-specs-grid,
+      .scrapbook-grid,
+      .swatch-strip {
+        grid-template-columns: 1fr;
+      }
+      .nav-links a:not(.nav-index-btn) {
+        display: none;
+      }
+      .launch-hero {
+        height: 68vh;
+        min-height: 440px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <nav class="campaign-nav">
+    <div class="nav-brand">Free People // Summer of Love 1969</div>
+    <div class="nav-links">
+      <a href="#manifesto">Manifesto</a>
+      <a href="#tarot-jukebox">Tarot &amp; Jukebox</a>
+      <a href="#digital-ads">Digital Ads</a>
+      <a href="#placements">Print &amp; OOH</a>
+      <a href="#archive">Archive</a>
+      <a href="index.html" class="nav-index-btn">&larr; ART 3041 Index</a>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       HERO SECTION: LIVE SLICED-PUZZLE ENGINE
+       - Background behind text: Brick Desert Ochre (#C18244)
+       - Headline text: Deep Brown (#2B1710) in Cinzel Decorative
+       - Stamps scatter wide on loop & hover to reveal the headline underneath
+       ======================================================================== -->
+  <header class="launch-hero" id="hero-stage">
+    <!-- Stacked Cinzel Decorative Headline in Deep Brown over Brick Desert Ochre -->
+    <div class="hero-typography-layer">
+      <div class="hero-stacked-line">Free People</div>
+      <div class="hero-stacked-line">Summer</div>
+      <div class="hero-stacked-line">Of Love</div>
+      <div class="hero-stacked-line">1969</div>
+    </div>
+
+    <!-- Subtle Atmospheric Overlay -->
+    <div class="hero-overlay"></div>
+
+    <!-- Interactive Postage Stamp Slices Container (IN FRONT OF TEXT) -->
+    <div class="stamps-matrix-container" id="stamps-container"></div>
+
+    <!-- Subtle Editorial Bar at Base of Hero -->
+    <div class="hero-caption-bar">
+      <span class="hero-pill">Fall / Winter 1969 Capsule &bull; Route 66 to Manhattan</span>
+      <span class="hero-pill">Hover Cursor Over Stamps to Reveal Title</span>
+    </div>
+  </header>
+
+  <!-- Continuous Scrolling 1970s Marquee Ticker -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-track">
+      FREE PEOPLE &bull; SUMMER OF LOVE 1969 &bull; ROUTE 66 TO CHELSEA HOTEL &bull; LIMITED CAPSULE DROP &bull; DARK ROMANCE WITH A RAZOR&rsquo;S EDGE &bull;
+      FREE PEOPLE &bull; SUMMER OF LOVE 1969 &bull; ROUTE 66 TO CHELSEA HOTEL &bull; LIMITED CAPSULE DROP &bull; DARK ROMANCE WITH A RAZOR&rsquo;S EDGE &bull;
+    </div>
+  </div>
+
+  <main class="container">
+
+    <!-- ======================================================================
+         SECTION 01: UNBOXED CAMPAIGN MANIFESTO & HERITAGE ORIGIN CREST
+         Sits freely directly on the Brick Desert Ochre background
+         ====================================================================== -->
+    <section class="section-block" id="manifesto">
+      <div class="manifesto-grid">
+        <div class="manifesto-copy">
+          <div class="tape-label">Campaign Manifesto &bull; Fall 1969</div>
+          <h2 class="manifesto-heading-cinzel">Dark Romance With a Razor&rsquo;s Edge</h2>
+          <p class="lead-quote">
+            &ldquo;When the golden haze of California flower power breaks, turns feral, and hits the wet midnight pavement of Manhattan.&rdquo;
+          </p>
+          <p>
+            <strong>Summer of Love 1969</strong> is Free People&rsquo;s nocturnal subversion of commercial bohemianism. Moving beyond sun-washed festival clich&eacute;s, the collection lives in the electric friction between two icons: the sweeping, ritualistic silk chiffon of Stevie Nicks and the razor-sharp, androgynous tailoring of Patti Smith inside the Chelsea Hotel.
+          </p>
+          <p>
+            Floor-grazing crushed oxblood velvet dusters drape over shredded muslin slips; battered cowhide fringe meets low-rise raw denim; hand-hammered Navajo silver and turquoise amulets catch the glare of oncoming headlights along Route 66.
+          </p>
+
+          <div class="capsule-specs">
+            <div class="spec-item">
+              <strong>Key Silhouettes</strong>
+              <span>Shearling Tapestry Coats, Flared Corduroy, Muslin Slips</span>
+            </div>
+            <div class="spec-item">
+              <strong>Hardware &amp; Trim</strong>
+              <span>Bone Chokers, Turquoise Inlays, Antique Brass</span>
+            </div>
+            <div class="spec-item">
+              <strong>Staging Canvas</strong>
+              <span>Route 66 Motels, W 4th St Platform, Chelsea Hotel</span>
+            </div>
+            <div class="spec-item">
+              <strong>Creative Direction</strong>
+              <span>Aliou Diallo &bull; ART 3041 Fall 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Heritage Origin Badge -->
+        <aside class="crest-card">
+          <img src="Summer of Love_ California 1969.png" alt="Free People Summer of Love California 1969 Heritage Origin Badge" />
+          <div class="crest-caption">
+            Official Campaign Insignia &bull; Embroidered Lining &amp; Denim Patch
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 02: EXPERIMENTAL PIECE — THE 1969 TAROT & JUKEBOX
+         ====================================================================== -->
+    <section class="section-block" id="tarot-jukebox">
+      <div class="tarot-parlor">
+        <div class="corner-bracket cb-tl"></div>
+        <div class="corner-bracket cb-tr"></div>
+        <div class="corner-bracket cb-bl"></div>
+        <div class="corner-bracket cb-br"></div>
+
+        <!-- HEADER & TABLETOP 45RPM JUKEBOX -->
+        <header class="parlor-header">
+          <div>
+            <div class="brand-sub">EXPERIMENTAL CAMPAIGN PIECE // INTERACTIVE ORACLE</div>
+            <h2 class="brand-title">THE 1969 TAROT &amp; JUKEBOX</h2>
+          </div>
+
+          <!-- Spinning 45rpm Vinyl Turntable -->
+          <div class="turntable-box">
+            <div class="vinyl-stage" onclick="toggleJukebox()" title="Click Vinyl to Play/Pause">
+              <div id="vinylDisc" class="vinyl-disc">
+                <div class="vinyl-label"><div class="vinyl-spindle"></div></div>
+              </div>
+              <div id="tonearm" class="tonearm"></div>
+            </div>
+            <div>
+              <div style="font-size:0.65rem; color:var(--accent-yellow); font-weight:700;">1969 JUKEBOX 45RPM</div>
+              <div id="nowSpinningText" style="font-size:0.74rem; font-weight:700;">READY TO SPIN</div>
+            </div>
+            <div id="eqBars" class="eq-bars">
+              <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+            </div>
+          </div>
+
+          <div class="jukebox-controls">
+            <button id="audioToggleBtn" class="btn-1969" onclick="toggleJukebox()">&#9835; SPIN / PAUSE</button>
+            <button class="btn-1969" onclick="instantDestiny()">&#9889; INSTANT PULL</button>
+            <button class="btn-1969" onclick="resetDeck()">NEW READING</button>
+          </div>
+        </header>
+
+        <!-- ACTIVE PROMPT BANNER + LIVE VIBE METER -->
+        <div class="prompt-and-meter">
+          <div class="prompt-banner">
+            <div class="prompt-top-row">
+              <span id="promptStepTag" class="prompt-step-tag">CARD I OF V</span>
+              <span style="font-size:0.74rem; font-weight:700;">CARDS DRAWN: <span id="drawnCountText">0 / 5</span></span>
+            </div>
+            <h3 id="promptQuestion" class="prompt-question">I. The Opening Credits of Your 1969 Movie</h3>
+            <div id="promptHint" class="prompt-hint">Shuffle or click the celestial deck to draw your first card...</div>
+          </div>
+
+          <!-- Live 4-Genre Vibe Meter -->
+          <div class="vibe-meter-card">
+            <div class="vibe-meter-title">LIVE 1969 VIBE METER</div>
+            <div class="meter-row">
+              <span class="meter-label">DESERT NOIR</span>
+              <div class="meter-track"><div id="meter-noir" class="meter-fill" style="background:#6A3360;"></div></div>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">70S ROCK</span>
+              <div class="meter-track"><div id="meter-rock" class="meter-fill" style="background:#A84B24;"></div></div>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">CANYON FOLK</span>
+              <div class="meter-track"><div id="meter-folk" class="meter-fill" style="background:#5B7A3A;"></div></div>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">DISCO FEVER</span>
+              <div class="meter-track"><div id="meter-disco" class="meter-fill" style="background:#E5A922;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DECK + 5-CARD SPREAD TABLE -->
+        <div id="readingTable" class="reading-table">
+          <div class="deck-station">
+            <div id="deckStack" class="tarot-deck-stack" onclick="drawNextCard()" title="Click to Draw a Card">
+              <svg viewBox="0 0 160 250" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <rect width="160" height="250" fill="#231521" stroke="#E5A922" stroke-width="5"/>
+                <rect x="10" y="10" width="140" height="230" fill="none" stroke="#A84B24" stroke-width="2.5"/>
+                <rect x="16" y="16" width="128" height="218" fill="none" stroke="#ECE4D0" stroke-width="1" stroke-dasharray="4 3"/>
+                <polygon points="26,20 28,25 33,26 28,28 26,33 24,28 19,26 24,25" fill="#E5A922"/>
+                <polygon points="134,20 136,25 141,26 136,28 134,33 132,28 127,26 132,25" fill="#E5A922"/>
+                <polygon points="26,217 28,222 33,223 28,225 26,230 24,225 19,223 24,222" fill="#E5A922"/>
+                <polygon points="134,217 136,222 141,223 136,225 134,230 132,225 127,223 132,222" fill="#E5A922"/>
+                <circle cx="80" cy="112" r="38" fill="none" stroke="#E5A922" stroke-width="2" stroke-dasharray="3 2"/>
+                <circle cx="80" cy="112" r="26" fill="#A84B24" stroke="#ECE4D0" stroke-width="1.5"/>
+                <path d="M84 95 A17 17 0 1 0 84 129 A13 13 0 1 1 84 95 Z" fill="#E5A922"/>
+                <line x1="80" y1="58" x2="80" y2="70" stroke="#E5A922" stroke-width="2"/>
+                <line x1="80" y1="154" x2="80" y2="166" stroke="#E5A922" stroke-width="2"/>
+                <line x1="26" y1="112" x2="38" y2="112" stroke="#E5A922" stroke-width="2"/>
+                <line x1="122" y1="112" x2="134" y2="112" stroke="#E5A922" stroke-width="2"/>
+                <text x="80" y="194" text-anchor="middle" font-family="'Cinzel Decorative', serif" font-size="11" font-weight="bold" fill="#E5A922">DRAW FATE</text>
+                <text x="80" y="210" text-anchor="middle" font-family="'Space Mono', monospace" font-size="8" fill="#ECE4D0">1969 ARCANA</text>
+              </svg>
+            </div>
+            <div class="deck-btn-row">
+              <button class="btn-1969" onclick="shuffleDeckVisual()" title="Shuffle Deck">&#8635; SHUFFLE</button>
+              <button id="drawBtn" class="draw-cta" onclick="drawNextCard()">DRAW I</button>
+            </div>
+          </div>
+
+          <div id="spreadGrid" class="spread-grid">
+            <div class="spread-slot active-target" id="slot-0"><div class="slot-placeholder">I.<br/>OPENING SCENE</div></div>
+            <div class="spread-slot" id="slot-1"><div class="slot-placeholder">II.<br/>ROAD TRIP</div></div>
+            <div class="spread-slot" id="slot-2"><div class="slot-placeholder">III.<br/>CONCERT PASS</div></div>
+            <div class="spread-slot" id="slot-3"><div class="slot-placeholder">IV.<br/>70S LOVE LIFE</div></div>
+            <div class="spread-slot" id="slot-4"><div class="slot-placeholder">V.<br/>TALISMAN</div></div>
+          </div>
+        </div>
+
+        <!-- GRAND FINALE: FLIPPABLE LOOKBOOK CARD + SONG + AI READING + PNG DOWNLOAD -->
+        <div id="finalePanel" class="finale-panel">
+          <div class="lookbook-flip-wrapper">
+            <div id="lookbookFlipCard" class="lookbook-crop-frame" onclick="toggleLookbookFlip()" title="Click Card to Flip & Inspect Garments">
+              <img id="finalLookbookImg" src="lookbook-cards.jpeg" onerror="this.onerror=null;this.src='lookbook-cards.jpg';" alt="Your 1969 Lookbook Destiny" />
+              <div class="lookbook-back-face">
+                <div>
+                  <div style="font-size:0.65rem; color:var(--accent-yellow); font-weight:700;">1969 GARMENT BREAKDOWN</div>
+                  <div id="backCardTitle" style="font-family:'Cinzel Decorative', serif; font-size:0.95rem; font-weight:900; margin-top:4px; border-bottom:1px solid var(--accent-orange); padding-bottom:4px;">DESERT NOIR</div>
+                  <ul id="backGarmentList" class="spec-list"></ul>
+                </div>
+                <div style="font-size:0.65rem; color:var(--accent-yellow); text-align:center;">CLICK TO FLIP BACK TO FRONT</div>
+              </div>
+            </div>
+            <span class="flip-hint-tag">&#8634; CLICK CARD TO FLIP FOR OUTFIT SPECS</span>
+          </div>
+
+          <div class="reading-content">
+            <span class="prompt-step-tag">YOUR 1969 DESTINY &amp; LOOKBOOK</span>
+            <h2 id="finalArchetypeTitle">THE DESERT NOIR MYSTIC</h2>
+            <div class="soundtrack-badge">
+              <span>&#9835; NOW SPINNING:</span>
+              <span id="finalSongTitle">"FEMME FATALE" — THE VELVET UNDERGROUND</span>
+            </div>
+            <div id="aiReadingSummary" class="reading-summary-box"></div>
+
+            <div class="preview-switcher">
+              <span>PREVIEW ALL 4 LOOKS:</span>
+              <button class="btn-1969" onclick="applyLookbookOutcome('noir')">DESERT NOIR</button>
+              <button class="btn-1969" onclick="applyLookbookOutcome('rock')">SUNSET ROCK</button>
+              <button class="btn-1969" onclick="applyLookbookOutcome('folk')">CANYON FOLK</button>
+              <button class="btn-1969" onclick="applyLookbookOutcome('disco')">DISCO FEVER</button>
+            </div>
+
+            <div class="reading-actions">
+              <button class="btn-1969 active" onclick="downloadSouvenirPass()">&#8595; DOWNLOAD 1969 PASS (PNG)</button>
+              <button class="btn-1969" onclick="resetDeck()">NEW 5-CARD SPREAD</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 03: DIGITAL AD MOCKUPS SHOWCASE
+         ====================================================================== -->
+    <section class="section-block" id="digital-ads">
+      <div class="digital-showcase-panel">
+
+        <div class="digital-header-row">
+          <div>
+            <div class="tape-label" style="margin-bottom: 12px;">Digital &amp; Social Campaign &bull; Fall 1969</div>
+            <h2 class="digital-display-title">
+              California <span>Dreamin&rsquo;</span> &amp; Digital <span>Campaign</span>
+            </h2>
+            <p class="digital-lead">
+              Multi-platform digital and social campaign placements pairing 1970s desert noir motion pieces with desktop web hero, Spotify 35mm contact sheet, TikTok, and Instagram Story formats.
+            </p>
+          </div>
+
+          <div class="ooh-filter-group">
+            <button type="button" class="btn-1969 active" data-digital-filter="all">All Digital (5)</button>
+            <button type="button" class="btn-1969" data-digital-filter="web">Web Hero (1)</button>
+            <button type="button" class="btn-1969" data-digital-filter="mobile">Mobile Social (4)</button>
+          </div>
+        </div>
+
+        <!-- Animated Deliverables Overview Strip -->
+        <div class="digital-specs-grid">
+          <div class="digital-spec-card">
+            <span class="digital-spec-tag">01 &bull; Animated 16:9 Web Banner</span>
+            <h3>Route 66 Horizon</h3>
+            <p>Widescreen desktop header loop (<code>route-66.gif</code>) with drifting desert dust and coyote motion.</p>
+          </div>
+          <div class="digital-spec-card">
+            <span class="digital-spec-tag">02 &bull; Animated 9:16 Video Reel</span>
+            <h3>Camper Sanctuary</h3>
+            <p>10-second atmospheric motion reel (<code>animated-reel.mp4</code>) inside a vintage wood-paneled trailer.</p>
+          </div>
+          <div class="digital-spec-card">
+            <span class="digital-spec-tag">03 &bull; Animated 9:16 In-App</span>
+            <h3>35mm Contact Sheet</h3>
+            <p>Grease-pencil analog contact sheet animation (<code>spotify-campaign.gif</code>) for Spotify &amp; mobile.</p>
+          </div>
+        </div>
+
+        <!-- Part 1: Dynamic Widescreen Desktop Hero Banner Mockup (16:9) -->
+        <div id="digital-web-hero" style="display: flex; flex-direction: column; gap: 14px;">
+          <div>
+            <span class="section-kicker" style="color: #D96B27;">Digital Placement 01 &bull; Widescreen Web Editorial</span>
+            <h3 class="digital-display-title" style="font-size: 1.85rem;">Desktop Hero Banner (16:9)</h3>
+          </div>
+
+          <div class="browser-mockup">
+            <div class="browser-toolbar">
+              <div class="browser-dots">
+                <span class="browser-dot orange"></span>
+                <span class="browser-dot cream"></span>
+                <span class="browser-dot"></span>
+              </div>
+              <div class="browser-url-bar">freepeople.com / california-dreamin-1969</div>
+              <span class="browser-badge">Digital Web &bull; Animated GIF</span>
+            </div>
+            <div class="browser-screen">
+              <img src="route-66.gif" alt="Free People Summer of Love California Dreamin animated Route 66 desktop banner" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Part 2: Auto-Scrolling Dynamic Island Mobile Showcase (9:16) -->
+        <div id="digital-mobile-marquee" style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <span class="section-kicker" style="color: #D96B27;">Digital Placements 02&ndash;05 &bull; Auto-Scrolling Mobile Carousel</span>
+              <h3 class="digital-display-title" style="font-size: 1.85rem;">Dynamic Island Social &amp; In-App Showcase</h3>
+            </div>
+            <button type="button" id="toggle-phone-marquee-btn" class="btn-1969">Pause Scroll</button>
+          </div>
+
+          <div class="phone-marquee-viewport">
+            <div class="phone-marquee-track" id="phone-marquee-track">
+
+              <!-- SET 1: Original 4 Vertical Mobile Ads -->
+              <article class="phone-card">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <video class="reel-video" autoplay loop muted playsinline preload="auto">
+                      <source src="animated-reel.mp4" type="video/mp4" />
+                      <source src="video_1.mp4" type="video/mp4" />
+                    </video>
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">IG Reel / Story (10s Motion)</div>
+                  <div class="phone-caption-sub">animated-reel.mp4 &bull; 9:16</div>
+                </div>
+              </article>
+
+              <article class="phone-card">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <img src="spotify-campaign.gif" alt="Free People Summer of Love 1969 animated 35mm contact sheet ad" />
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">Spotify / In-App Animated</div>
+                  <div class="phone-caption-sub">spotify-campaign.gif &bull; 9:16</div>
+                </div>
+              </article>
+
+              <article class="phone-card">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <img src="tiktok-story-reel.jpeg" alt="Free People Summer of Love 1969 desert adobe ruins TikTok Story ad" />
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">TikTok Full-Screen Story</div>
+                  <div class="phone-caption-sub">tiktok-story-reel.jpeg &bull; 9:16</div>
+                </div>
+              </article>
+
+              <article class="phone-card">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <img src="insta-reel-campaig.jpeg" alt="Free People Summer of Love 1969 vintage motel vanity Instagram ad" />
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">Instagram Story Placement</div>
+                  <div class="phone-caption-sub">insta-reel-campaig.jpeg &bull; 9:16</div>
+                </div>
+              </article>
+
+              <!-- SET 2: Duplicate Set for Seamless Infinite Loop -->
+              <article class="phone-card" aria-hidden="true">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <video class="reel-video" autoplay loop muted playsinline preload="auto">
+                      <source src="animated-reel.mp4" type="video/mp4" />
+                      <source src="video_1.mp4" type="video/mp4" />
+                    </video>
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">IG Reel / Story (10s Motion)</div>
+                  <div class="phone-caption-sub">animated-reel.mp4 &bull; 9:16</div>
+                </div>
+              </article>
+
+              <article class="phone-card" aria-hidden="true">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <img src="spotify-campaign.gif" alt="" />
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">Spotify / In-App Animated</div>
+                  <div class="phone-caption-sub">spotify-campaign.gif &bull; 9:16</div>
+                </div>
+              </article>
+
+              <article class="phone-card" aria-hidden="true">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <img src="tiktok-story-reel.jpeg" alt="" />
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">TikTok Full-Screen Story</div>
+                  <div class="phone-caption-sub">tiktok-story-reel.jpeg &bull; 9:16</div>
+                </div>
+              </article>
+
+              <article class="phone-card" aria-hidden="true">
+                <div class="iphone-chassis">
+                  <div class="iphone-screen">
+                    <div class="dynamic-island-bar">
+                      <div class="dynamic-island-pill"><span class="island-lens"></span></div>
+                    </div>
+                    <img src="insta-reel-campaig.jpeg" alt="" />
+                    <div class="home-indicator"></div>
+                  </div>
+                </div>
+                <div class="phone-caption">
+                  <div class="phone-caption-title">Instagram Story Placement</div>
+                  <div class="phone-caption-sub">insta-reel-campaig.jpeg &bull; 9:16</div>
+                </div>
+              </article>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 04: PRINT & OUT-OF-HOME CAMPAIGN TAKEOVER
+         ====================================================================== -->
+    <section class="section-block" id="placements">
+      <div class="parlor-box">
+        <div class="ooh-header-row">
+          <div>
+            <div class="section-kicker">04 // Citywide Rollout</div>
+            <h2 class="section-heading" style="margin-bottom: 0;">Print &amp; Out-of-Home Takeover</h2>
+          </div>
+
+          <div class="ooh-filter-group" role="group" aria-label="Filter campaign placements">
+            <button class="btn-1969 active" data-ooh="all">All Placements (5)</button>
+            <button class="btn-1969" data-ooh="print">Print OOH (3)</button>
+            <button class="btn-1969" data-ooh="digital">Digital OOH (2)</button>
+          </div>
+        </div>
+
+        <div class="ooh-grid">
+          <article class="ooh-card featured" data-ooh-cat="digital">
+            <div class="ooh-img-wrap" onclick="openLightbox('ts-billboard-campaign.jpeg', '01 / Times Square Spectacular Billboard — California Dreamin' (Digital OOH)')">
+              <span class="ooh-badge">Digital OOH &bull; Times Square LED</span>
+              <img src="ts-billboard-campaign.jpeg" alt="Times Square billboard featuring Free People California Dreamin' desert ensemble" />
+            </div>
+            <div class="ooh-meta">
+              <div>
+                <h3>Broadway &amp; 7th Ave Spectacular</h3>
+                <p>Monumental desert key visual (&ldquo;California Dreamin&rsquo;&rdquo;) illuminating Times Square at dusk with the full Fall &rsquo;69 cast.</p>
+              </div>
+              <button class="btn-1969" onclick="openLightbox('ts-billboard-campaign.jpeg', '01 / Times Square Spectacular Billboard — California Dreamin' (Digital OOH)')">Inspect</button>
+            </div>
+          </article>
+
+          <article class="ooh-card half" data-ooh-cat="print">
+            <div class="ooh-img-wrap" onclick="openLightbox('subwy-campaign.jpeg', '02 / W 4th St Subway Platform Frame — California Dreamin' (Print OOH)')">
+              <span class="ooh-badge">Print OOH &bull; MTA Transit</span>
+              <img src="subwy-campaign.jpeg" alt="W 4th St subway platform poster showing crystal ball portrait" />
+            </div>
+            <div class="ooh-meta">
+              <div>
+                <h3>W 4th St Subway Platform Frame</h3>
+                <p>Backlit station tile installation bringing crystal-ball mysticism to downtown commuters.</p>
+              </div>
+              <button class="btn-1969" onclick="openLightbox('subwy-campaign.jpeg', '02 / W 4th St Subway Platform Frame — California Dreamin' (Print OOH)')">Inspect</button>
+            </div>
+          </article>
+
+          <article class="ooh-card half" data-ooh-cat="digital">
+            <div class="ooh-img-wrap" onclick="openLightbox('taxi-cab-campaign.jpeg', '03 / Fifth Ave Taxi Top Display — Seeking Dreamers (Digital OOH)')">
+              <span class="ooh-badge">Digital OOH &bull; Mobile Transit</span>
+              <img src="taxi-cab-campaign.jpeg" alt="NYC yellow cab rooftop screen displaying Seeking Dreamers tarot dashboard" />
+            </div>
+            <div class="ooh-meta">
+              <div>
+                <h3>Fifth Ave Yellow Cab Rooftop Screen</h3>
+                <p>Golden-hour dashboard tarot visual (&ldquo;Seeking Dreamers&rdquo;) roving through Midtown traffic.</p>
+              </div>
+              <button class="btn-1969" onclick="openLightbox('taxi-cab-campaign.jpeg', '03 / Fifth Ave Taxi Top Display — Seeking Dreamers (Digital OOH)')">Inspect</button>
+            </div>
+          </article>
+
+          <article class="ooh-card half" data-ooh-cat="print">
+            <div class="ooh-img-wrap" onclick="openLightbox('bus-pole-campaign_2.jpeg', '04 / Street Pole Wild Posting — Seeking Dreamers (Print OOH)')">
+              <span class="ooh-badge">Print OOH &bull; Guerrilla Wheatpaste</span>
+              <img src="bus-pole-campaign_2.jpeg" alt="NYC bus stop utility pole wrapped with weathered Seeking Dreamers wheatpaste poster" />
+            </div>
+            <div class="ooh-meta">
+              <div>
+                <h3>East Village Bus Pole Wild Posting</h3>
+                <p>Weathered wheatpaste poster wrapped onto street-level steel poles in the spirit of 1969 rock handbills.</p>
+              </div>
+              <button class="btn-1969" onclick="openLightbox('bus-pole-campaign_2.jpeg', '04 / Street Pole Wild Posting — Seeking Dreamers (Print OOH)')">Inspect</button>
+            </div>
+          </article>
+
+          <article class="ooh-card half" data-ooh-cat="print">
+            <div class="ooh-img-wrap" onclick="openLightbox('back-of-truck-campaign.jpeg', '05 / Commercial Box Truck Rear Wrap — Seeking Dreamers (Print OOH)')">
+              <span class="ooh-badge">Print OOH &bull; Fleet Wrap</span>
+              <img src="back-of-truck-campaign.jpeg" alt="Commercial box truck rear panel displaying Seeking Dreamers vertical portrait" />
+            </div>
+            <div class="ooh-meta">
+              <div>
+                <h3>Midtown Box Truck Rear Panel</h3>
+                <p>Large-format vinyl fleet wrap turning city delivery routes into moving gallery walls.</p>
+              </div>
+              <button class="btn-1969" onclick="openLightbox('back-of-truck-campaign.jpeg', '05 / Commercial Box Truck Rear Wrap — Seeking Dreamers (Print OOH)')">Inspect</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 05: ARCHIVAL SCRAPBOOK & BRAND COLOR SYSTEM
+         ====================================================================== -->
+    <section class="section-block" id="archive">
+      <div class="cream-box">
+        <div class="section-kicker">05 // Archival Research &amp; Color Architecture</div>
+        <h2 class="section-heading">Laurel Canyon Scrapbook &amp; Palette</h2>
+        <p style="font-size: 0.86rem; color: #2B1710; max-width: 740px;">
+          Selected plates from our 22-image visual research dossier alongside the five core brand swatches. Click any swatch to copy its hex value.
+        </p>
+
+        <div class="scrapbook-grid" id="moodboard-strip"></div>
+
+        <div class="swatch-strip">
+          <div class="swatch-chip" onclick="copyBrandHex('#23151D', this)">
+            <div class="swatch-fill" style="background: #23151D;"></div>
+            <div class="swatch-label"><span>Nocturne Plum</span><span>#23151D</span></div>
+          </div>
+          <div class="swatch-chip" onclick="copyBrandHex('#E06B73', this)">
+            <div class="swatch-fill" style="background: #E06B73;"></div>
+            <div class="swatch-label"><span>Desert Coral</span><span>#E06B73</span></div>
+          </div>
+          <div class="swatch-chip" onclick="copyBrandHex('#4DA5B7', this)">
+            <div class="swatch-fill" style="background: #4DA5B7;"></div>
+            <div class="swatch-label"><span>Turquoise Hwy</span><span>#4DA5B7</span></div>
+          </div>
+          <div class="swatch-chip" onclick="copyBrandHex('#A05526', this)">
+            <div class="swatch-fill" style="background: #A05526;"></div>
+            <div class="swatch-label"><span>Raw Sienna</span><span>#A05526</span></div>
+          </div>
+          <div class="swatch-chip" onclick="copyBrandHex('#F5EFEB', this)">
+            <div class="swatch-fill" style="background: #F5EFEB;"></div>
+            <div class="swatch-label"><span>Bleached Muslin</span><span>#F5EFEB</span></div>
+          </div>
+        </div>
+
+        <div style="margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px;">
+          <a href="style-guide.html" class="btn-1969 active" style="text-decoration:none;">OPEN BRAND STYLE GUIDE &rarr;</a>
+          <a href="creative-director-pt5.html" class="btn-1969" style="text-decoration:none;">OPEN DIGITAL ADS PAGE &rarr;</a>
+          <a href="campaign-mockups.html" class="btn-1969" style="text-decoration:none;">OPEN PRINT/OOH PAGE &rarr;</a>
+          <a href="index.html" class="btn-1969" style="text-decoration:none;">&larr; BACK TO ART 3041 INDEX</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Aliou Diallo &bull; ART 3041: A.I. for Designers &bull; Free People &ldquo;Summer of Love 1969&rdquo; Campaign Launch
+  </footer>
+
+  <!-- Fullscreen Lightbox Modal -->
+  <div class="modal-backdrop" id="lightbox" onclick="closeModal('lightbox', event)">
+    <img id="lightbox-img" src="" alt="Expanded Campaign Mockup" />
+    <div class="modal-bar">
+      <span id="lightbox-caption" style="font-size: 0.85rem; color: var(--card-cream);"></span>
+      <button class="btn-1969 active" onclick="closeModal('lightbox', event, true)">CLOSE [ESC]</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       1. HARDCODED 22 ARCHIVAL MOODBOARD ASSETS (FROM DYNAMIC HERO STUDIO)
+       ========================================================================== */
+    function createProceduralArtworks() {
+      const presets = [
+        { id: 1, label: "Sea & Sun Motel", render: (ctx, w, h) => {
+          const g = ctx.createLinearGradient(0, 0, 0, h);
+          g.addColorStop(0, '#5C748C'); g.addColorStop(0.5, '#BA7A56'); g.addColorStop(1, '#6F3E22');
+          ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#483020'; ctx.beginPath();
+          ctx.moveTo(0, h * 0.7); ctx.lineTo(w * 0.45, h * 0.28); ctx.lineTo(w, h * 0.75); ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.fill();
+          ctx.fillStyle = '#22150C'; ctx.fillRect(w * 0.1, h * 0.12, w * 0.45, h * 0.22);
+          ctx.strokeStyle = '#EAC086'; ctx.lineWidth = 3; ctx.strokeRect(w * 0.1, h * 0.12, w * 0.45, h * 0.22);
+          ctx.fillStyle = '#EAC086'; ctx.font = 'bold 24px serif'; ctx.fillText('SEA & SUN', w * 0.14, h * 0.20);
+          ctx.font = 'bold 34px sans-serif'; ctx.fillText('MOTEL', w * 0.14, h * 0.28);
+          ctx.fillStyle = '#C23A80'; ctx.fillRect(w * 0.15, h * 0.36, w * 0.35, h * 0.08);
+          ctx.fillStyle = '#FFF'; ctx.font = 'bold 16px sans-serif'; ctx.fillText('COLOR TV by RCA', w * 0.17, h * 0.41);
+        }},
+        { id: 2, label: "NBK Barn Interior", render: (ctx, w, h) => { ctx.fillStyle = '#080506'; ctx.fillRect(0, 0, w, h); }},
+        { id: 3, label: "Stevie Nicks (White)", render: (ctx, w, h) => {
+          const g = ctx.createRadialGradient(w/2, h/2, 20, w/2, h/2, h*0.6);
+          g.addColorStop(0, '#1D1C34'); g.addColorStop(1, '#07060F');
+          ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#EDE6D6'; ctx.beginPath();
+          ctx.ellipse(w * 0.52, h * 0.52, w * 0.16, h * 0.38, -0.05, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = 'rgba(237, 230, 214, 0.5)'; ctx.beginPath();
+          ctx.moveTo(w * 0.4, h * 0.36); ctx.lineTo(w * 0.2, h * 0.85); ctx.lineTo(w * 0.55, h * 0.65); ctx.fill();
+        }},
+        { id: 4, label: "Sunburst California", render: (ctx, w, h) => {
+          const g = ctx.createLinearGradient(0, 0, 0, h);
+          g.addColorStop(0, '#537895'); g.addColorStop(0.4, '#C23A80'); g.addColorStop(0.7, '#E7717D'); g.addColorStop(1, '#DDA15E');
+          ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; ctx.beginPath();
+          ctx.arc(w * 0.5, h * 0.22, 65, 0, Math.PI * 2); ctx.fill();
+          for (let i = 0; i < 36; i++) {
+            const rad = (i / 36) * Math.PI * 2;
+            ctx.strokeStyle = 'rgba(255, 255, 230, 0.22)'; ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(w * 0.5, h * 0.22);
+            ctx.lineTo(w * 0.5 + Math.cos(rad) * w, h * 0.22 + Math.sin(rad) * h); ctx.stroke();
+          }
+        }},
+        { id: 5, label: "Desert Gloom Coyote", render: (ctx, w, h) => { ctx.fillStyle = '#D4B895'; ctx.fillRect(0, 0, w, h); }},
+        { id: 6, label: "NBK Red Car Hood", render: (ctx, w, h) => {
+          ctx.fillStyle = '#4EA8DE'; ctx.fillRect(0, 0, w, h * 0.55);
+          ctx.fillStyle = '#E63946'; ctx.beginPath();
+          ctx.moveTo(0, h * 0.65); ctx.lineTo(w, h * 0.60); ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.fill();
+          ctx.fillStyle = '#1D3557'; ctx.fillRect(w * 0.15, h * 0.38, w * 0.25, h * 0.35);
+          ctx.fillStyle = '#E63946'; ctx.fillRect(w * 0.42, h * 0.36, w * 0.20, h * 0.36);
+        }},
+        { id: 7, label: "Patti Smith (Horses)", render: (ctx, w, h) => { ctx.fillStyle = '#ECECEC'; ctx.fillRect(0, 0, w, h); }},
+        { id: 8, label: "Patti & Mapplethorpe", render: (ctx, w, h) => {
+          ctx.fillStyle = '#0E0E12'; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#333'; ctx.fillRect(0, 0, w * 0.48, h);
+          ctx.fillStyle = '#CFCFCF'; ctx.beginPath();
+          ctx.arc(w * 0.22, h * 0.36, 50, 0, Math.PI * 2);
+          ctx.arc(w * 0.65, h * 0.32, 58, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#D8DCE6'; ctx.font = 'bold 22px serif'; ctx.fillText('ROBERT & PATTI', w * 0.38, h * 0.88);
+        }},
+        { id: 9, label: "Route 66 Classic", render: (ctx, w, h) => {
+          const g = ctx.createLinearGradient(0, 0, 0, h);
+          g.addColorStop(0, '#DDA15E'); g.addColorStop(0.5, '#BC6C25'); g.addColorStop(1, '#283618');
+          ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#333'; ctx.beginPath();
+          ctx.moveTo(w * 0.46, h * 0.35); ctx.lineTo(w * 0.54, h * 0.35); ctx.lineTo(w * 0.75, h); ctx.lineTo(w * 0.25, h); ctx.fill();
+          ctx.strokeStyle = '#FFF'; ctx.lineWidth = 4; ctx.strokeText('ROUTE 66', w * 0.42, h * 0.72);
+        }},
+        { id: 10, label: "Stevie Nicks (Black)", render: (ctx, w, h) => { ctx.fillStyle = '#9E978E'; ctx.fillRect(0, 0, w, h); }},
+        { id: 11, label: "Fleetwood Mac Rumours", render: (ctx, w, h) => {
+          ctx.fillStyle = '#F4F1DE'; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#0F0E17'; ctx.beginPath();
+          ctx.arc(w * 0.32, h * 0.22, 38, 0, Math.PI * 2); ctx.fill();
+          ctx.fillRect(w * 0.26, h * 0.28, w * 0.14, h * 0.65);
+          ctx.fillStyle = '#222'; ctx.font = 'bold 28px serif'; ctx.fillText('FLEETWOOD MAC', w * 0.42, h * 0.18);
+          ctx.font = 'italic 34px serif'; ctx.fillText('RUMOURS', w * 0.52, h * 0.26);
+        }},
+        { id: 12, label: "Gloomy Fog Desert", render: (ctx, w, h) => { ctx.fillStyle = '#A8A7A7'; ctx.fillRect(0, 0, w, h); }},
+        { id: 13, label: "The Love Witch Tarot", render: (ctx, w, h) => {
+          ctx.fillStyle = '#C23A80'; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#1D1322'; ctx.beginPath();
+          ctx.arc(w * 0.48, h * 0.35, 75, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#FFF'; ctx.fillRect(w * 0.55, h * 0.48, w * 0.22, h * 0.32);
+          ctx.strokeStyle = '#DDA15E'; ctx.lineWidth = 3; ctx.strokeRect(w * 0.55, h * 0.48, w * 0.22, h * 0.32);
+          ctx.fillStyle = '#E63946'; ctx.font = 'bold 16px sans-serif'; ctx.fillText('XIII - DEATH', w * 0.57, h * 0.64);
+        }},
+        { id: 14, label: "70s Motel Room", render: (ctx, w, h) => { ctx.fillStyle = '#784E2D'; ctx.fillRect(0, 0, w, h); }},
+        { id: 15, label: "NBK Demon (Original)", render: (ctx, w, h) => { ctx.fillStyle = '#1A120B'; ctx.fillRect(0, 0, w, h); }},
+        { id: 16, label: "70s Modernist Interior", render: (ctx, w, h) => {
+          ctx.fillStyle = '#E9D8A6'; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#CA6702'; ctx.fillRect(w * 0.5, h * 0.65, w * 0.45, h * 0.25);
+          ctx.fillStyle = '#2D6A4F'; ctx.beginPath();
+          ctx.ellipse(w * 0.15, h * 0.72, 45, 70, 0.4, 0, Math.PI * 2); ctx.fill();
+          for (let i = 0; i < 6; i++) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; ctx.fillRect(i * (w / 6), 0, 4, h);
+          }
+        }},
+        { id: 17, label: "Know Your Power Poster", render: (ctx, w, h) => {
+          ctx.fillStyle = '#264653'; ctx.fillRect(0, 0, w, h);
+          ctx.strokeStyle = '#E76F51'; ctx.lineWidth = 6; ctx.strokeRect(12, 12, w - 24, h - 24);
+          ctx.fillStyle = '#F4A261'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.5, 60, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#E76F51'; ctx.font = 'bold 24px serif'; ctx.textAlign = 'center';
+          ctx.fillText('KNOW YOUR POWER', w * 0.5, h * 0.20);
+        }},
+        { id: 18, label: "Desert Canyon Muscle Car", render: (ctx, w, h) => { ctx.fillStyle = '#E76F51'; ctx.fillRect(0, 0, w, h); }},
+        { id: 19, label: "70s Street Glam Rock", render: (ctx, w, h) => { ctx.fillStyle = '#495057'; ctx.fillRect(0, 0, w, h); }},
+        { id: 20, label: "Warm Retro Living Room", render: (ctx, w, h) => {
+          ctx.fillStyle = '#C25920'; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#E07A5F'; ctx.fillRect(w * 0.2, h * 0.3, w * 0.6, h * 0.4);
+          ctx.fillStyle = '#81B29A'; ctx.beginPath(); ctx.arc(w * 0.5, h * 0.38, 45, 0, Math.PI * 2); ctx.fill();
+        }},
+        { id: 21, label: "Western Motel Route 66", render: (ctx, w, h) => {
+          ctx.fillStyle = '#E9C46A'; ctx.fillRect(0, 0, w, h * 0.45);
+          ctx.fillStyle = '#264653'; ctx.fillRect(0, h * 0.45, w, h * 0.55);
+          ctx.fillStyle = '#F4A261'; ctx.fillRect(w * 0.62, h * 0.14, w * 0.32, h * 0.30);
+          ctx.fillStyle = '#111'; ctx.font = '900 18px serif'; ctx.fillText('WESTERN MOTEL', w * 0.64, h * 0.26);
+        }},
+        { id: 22, label: "Eve Babitz Book Cover", render: (ctx, w, h) => {
+          ctx.fillStyle = '#C23A80'; ctx.fillRect(0, 0, w, h);
+          ctx.fillStyle = '#0B0912'; ctx.fillRect(w * 0.25, h * 0.25, w * 0.5, h * 0.45);
+          ctx.strokeStyle = '#D8DCE6'; ctx.lineWidth = 2; ctx.strokeRect(w * 0.25, h * 0.25, w * 0.5, h * 0.45);
+          ctx.fillStyle = '#D8DCE6'; ctx.font = 'bold 15px sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText('SLOW DAYS, FAST COMPANY', w * 0.5, h * 0.36);
+          ctx.fillText('EVE BABITZ', w * 0.5, h * 0.52);
+        }}
+      ];
+
+      return presets.map(p => {
+        const c = document.createElement('canvas');
+        c.width = 720;
+        c.height = 500;
+        const ctx = c.getContext('2d');
+        p.render(ctx, c.width, c.height);
+        return { id: p.id, label: p.label, src: c.toDataURL('image/jpeg', 0.88) };
+      });
+    }
+
+    const ALL_PRESETS = createProceduralArtworks();
+
+    // Requested 12-Image Looping Sequence: [1, 3, 4, 6, 8, 9, 11, 13, 16, 17, 20, 21]
+    const HERO_SEQUENCE_IDS = [1, 3, 4, 6, 8, 9, 11, 13, 16, 17, 20, 21];
+    const HERO_SEQUENCE = HERO_SEQUENCE_IDS.map(id => ALL_PRESETS.find(p => p.id === id));
+
+    /* ==========================================================================
+       2. SLICED PUZZLE + WIDER SCATTER-SWAP HERO ENGINE
+       ========================================================================== */
+    const heroStage = document.getElementById('hero-stage');
+    const stampsContainer = document.getElementById('stamps-container');
+    let stampElements = [];
+    let currentSequenceIndex = 0;
+    let wasScattered = false;
+    let cycleTime = 0;
+    let mouse = { x: -9999, y: -9999, isInside: false };
+    let dragTarget = null;
+    let dragOffset = { x: 0, y: 0 };
+
+    heroStage.addEventListener('mousemove', (e) => {
+      const rect = heroStage.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.isInside = true;
+    });
+
+    heroStage.addEventListener('mouseleave', () => {
+      mouse.isInside = false;
+    });
+
+    function applySequenceImageToStamps(asset) {
+      const stageW = heroStage.clientWidth;
+      const stageH = heroStage.clientHeight;
+      stampElements.forEach((s) => {
+        const inner = s.element.querySelector('.stamp-inner');
+        const bottomTag = s.element.querySelector('.stamp-postmark-bottom');
+        inner.style.backgroundImage = `url('${asset.src}')`;
+        inner.style.backgroundSize = `${stageW}px ${stageH}px`;
+        inner.style.backgroundPosition = `-${s.baseX}px -${s.baseY}px`;
+        bottomTag.textContent = asset.label.substring(0, 15);
+      });
+    }
+
+    function buildSlicedPuzzleHero() {
+      stampsContainer.innerHTML = '';
+      stampElements = [];
+
+      const stageW = heroStage.clientWidth;
+      const stageH = heroStage.clientHeight;
+      const rows = 3;
+      const cols = 3;
+      const cellW = stageW / cols;
+      const cellH = stageH / rows;
+      const activeAsset = HERO_SEQUENCE[currentSequenceIndex];
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const tile = document.createElement('div');
+          tile.className = 'stamp-tile';
+
+          const baseX = c * cellW;
+          const baseY = r * cellH;
+
+          tile.style.width = `${cellW}px`;
+          tile.style.height = `${cellH}px`;
+          tile.style.left = `${baseX}px`;
+          tile.style.top = `${baseY}px`;
+
+          const inner = document.createElement('div');
+          inner.className = 'stamp-inner';
+          inner.style.backgroundImage = `url('${activeAsset.src}')`;
+          inner.style.backgroundSize = `${stageW}px ${stageH}px`;
+          inner.style.backgroundPosition = `-${baseX}px -${baseY}px`;
+
+          const postmarkTop = document.createElement('div');
+          postmarkTop.className = 'stamp-postmark-top';
+          postmarkTop.textContent = 'ROUTE 66 // 1969';
+
+          const postmarkBottom = document.createElement('div');
+          postmarkBottom.className = 'stamp-postmark-bottom';
+          postmarkBottom.textContent = activeAsset.label.substring(0, 15);
+
+          inner.appendChild(postmarkTop);
+          inner.appendChild(postmarkBottom);
+          tile.appendChild(inner);
+          stampsContainer.appendChild(tile);
+
+          const centerX = stageW / 2;
+          const centerY = stageH / 2;
+          const tileCenterX = baseX + cellW / 2;
+          const tileCenterY = baseY + cellH / 2;
+          let diffX = tileCenterX - centerX;
+          let diffY = tileCenterY - centerY;
+
+          if (Math.hypot(diffX, diffY) < 10) {
+            diffX = (Math.random() > 0.5 ? 1 : -1) * 140;
+            diffY = (Math.random() > 0.5 ? 1 : -1) * 110;
+          }
+
+          const angle = Math.atan2(diffY, diffX) + (Math.random() - 0.5) * 0.25;
+          const distX = stageW * 0.34;
+          const distY = stageH * 0.34;
+
+          const stampData = {
+            element: tile,
+            baseX,
+            baseY,
+            currentX: 0,
+            currentY: 0,
+            targetX: 0,
+            targetY: 0,
+            currentRot: 0,
+            targetRot: 0,
+            scatterTargetX: Math.cos(angle) * distX,
+            scatterTargetY: Math.sin(angle) * distY,
+            scatterRotation: (Math.random() - 0.5) * 42,
+            isDragging: false
+          };
+
+          tile.addEventListener('mousedown', (e) => {
+            dragTarget = stampData;
+            stampData.isDragging = true;
+            dragOffset.x = e.clientX - (baseX + stampData.currentX);
+            dragOffset.y = e.clientY - (baseY + stampData.currentY);
+            e.stopPropagation();
+          });
+
+          stampElements.push(stampData);
+        }
+      }
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (dragTarget && dragTarget.isDragging) {
+        dragTarget.targetX = e.clientX - dragOffset.x - dragTarget.baseX;
+        dragTarget.targetY = e.clientY - dragOffset.y - dragTarget.baseY;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (dragTarget) {
+        dragTarget.isDragging = false;
+        dragTarget = null;
+      }
+    });
+
+    function animateHeroLoop() {
+      cycleTime += 0.016;
+      const loopDuration = 6.6;
+      const progress = cycleTime % loopDuration;
+      const isScatteredPhase = progress > 2.4 && progress < 5.4;
+
+      if (isScatteredPhase && !wasScattered) {
+        wasScattered = true;
+        setTimeout(() => {
+          currentSequenceIndex = (currentSequenceIndex + 1) % HERO_SEQUENCE.length;
+          applySequenceImageToStamps(HERO_SEQUENCE[currentSequenceIndex]);
+        }, 700);
+      } else if (!isScatteredPhase && wasScattered) {
+        wasScattered = false;
+      }
+
+      stampElements.forEach((s) => {
+        if (s.isDragging) {
+          s.currentX += (s.targetX - s.currentX) * 0.35;
+          s.currentY += (s.targetY - s.currentY) * 0.35;
+          s.element.style.transform = `translate(${s.currentX}px, ${s.currentY}px) rotate(${s.currentRot}deg) scale(1.04)`;
+          return;
+        }
+
+        if (mouse.isInside) {
+          const stampCenterX = s.baseX + (s.element.clientWidth / 2) + s.currentX;
+          const stampCenterY = s.baseY + (s.element.clientHeight / 2) + s.currentY;
+          const dx = stampCenterX - mouse.x;
+          const dy = stampCenterY - mouse.y;
+          const dist = Math.hypot(dx, dy);
+
+          const repelRange = 320;
+          if (dist < repelRange) {
+            const force = (1 - dist / repelRange) * 260;
+            const angle = Math.atan2(dy, dx);
+            s.targetX = Math.cos(angle) * force;
+            s.targetY = Math.sin(angle) * force;
+            s.targetRot = (dx > 0 ? 1 : -1) * 18;
+          } else {
+            s.targetX = s.scatterTargetX * 0.45;
+            s.targetY = s.scatterTargetY * 0.45;
+            s.targetRot = s.scatterRotation * 0.3;
+          }
+        } else if (!isScatteredPhase) {
+          s.targetX = 0;
+          s.targetY = 0;
+          s.targetRot = 0;
+        } else {
+          s.targetX = s.scatterTargetX + Math.sin(cycleTime * 1.4 + s.baseX) * 10;
+          s.targetY = s.scatterTargetY + Math.cos(cycleTime * 1.4 + s.baseY) * 10;
+          s.targetRot = s.scatterRotation + Math.sin(cycleTime) * 4;
+        }
+
+        s.currentX += (s.targetX - s.currentX) * 0.085;
+        s.currentY += (s.targetY - s.currentY) * 0.085;
+        s.currentRot += (s.targetRot - s.currentRot) * 0.085;
+
+        s.element.style.transform = `translate(${s.currentX}px, ${s.currentY}px) rotate(${s.currentRot}deg)`;
+      });
+
+      requestAnimationFrame(animateHeroLoop);
+    }
+
+    /* ==========================================================================
+       3. EXPERIMENTAL PIECE: THE 1969 TAROT & JUKEBOX ENGINE
+       ========================================================================== */
+    const ARCHETYPE_SEALS = {
+      noir: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#231521"/>
+          <circle cx="55" cy="55" r="46" fill="none" stroke="#E5A922" stroke-width="1" stroke-dasharray="2 3"/>
+          <polygon points="0,95 25,74 45,86 78,70 110,95 110,110 0,110" fill="#A84B24" stroke="#1B0F0A" stroke-width="1.5"/>
+          <path d="M62 18 A24 24 0 1 0 62 66 A18 18 0 1 1 62 18 Z" fill="#E5A922" stroke="#1B0F0A" stroke-width="2"/>
+          <polygon points="78,28 80,33 85,34 80,36 78,41 76,36 71,34 76,33" fill="#ECE4D0"/>
+          <circle cx="70" cy="52" r="2" fill="#ECE4D0"/>
+          <path d="M26 98 L26 62 M26 74 L16 74 L16 64 M26 68 L36 68 L36 58" stroke="#5B7A3A" stroke-width="4.5" stroke-linecap="square" fill="none"/>
+        </svg>`,
+      rock: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#A84B24"/>
+          <circle cx="55" cy="55" r="45" fill="#231521" stroke="#E5A922" stroke-width="2"/>
+          <rect x="28" y="34" width="54" height="22" fill="#1B0F0A" stroke="#ECE4D0" stroke-width="1.5"/>
+          <rect x="28" y="58" width="54" height="32" fill="#1B0F0A" stroke="#ECE4D0" stroke-width="1.5"/>
+          <line x1="34" y1="45" x2="76" y2="45" stroke="#E5A922" stroke-width="2"/>
+          <polygon points="62,14 38,54 54,54 46,96 76,48 58,48" fill="#E5A922" stroke="#1B0F0A" stroke-width="2"/>
+        </svg>`,
+      folk: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#5B7A3A"/>
+          <circle cx="55" cy="44" r="22" fill="#E5A922" stroke="#1B0F0A" stroke-width="2"/>
+          <line x1="55" y1="10" x2="55" y2="18" stroke="#ECE4D0" stroke-width="2.5"/>
+          <line x1="25" y1="44" x2="17" y2="44" stroke="#ECE4D0" stroke-width="2.5"/>
+          <line x1="85" y1="44" x2="93" y2="44" stroke="#ECE4D0" stroke-width="2.5"/>
+          <line x1="32" y1="21" x2="38" y2="27" stroke="#ECE4D0" stroke-width="2"/>
+          <line x1="78" y1="21" x2="72" y2="27" stroke="#ECE4D0" stroke-width="2"/>
+          <path d="M0 86 Q35 66 65 84 T110 78 L110 110 L0 110 Z" fill="#A84B24" stroke="#1B0F0A" stroke-width="2"/>
+          <circle cx="30" cy="92" r="4" fill="#ECE4D0"/><circle cx="55" cy="96" r="4" fill="#E5A922"/><circle cx="82" cy="90" r="4" fill="#ECE4D0"/>
+        </svg>`,
+      disco: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#6A3360"/>
+          <polygon points="55,54 0,15 0,45" fill="rgba(229,169,34,0.22)"/>
+          <polygon points="55,54 110,15 110,45" fill="rgba(229,169,34,0.22)"/>
+          <line x1="55" y1="4" x2="55" y2="26" stroke="#ECE4D0" stroke-width="2"/>
+          <circle cx="55" cy="54" r="28" fill="#ECE4D0" stroke="#1B0F0A" stroke-width="2.5"/>
+          <line x1="27" y1="54" x2="83" y2="54" stroke="#1B0F0A" stroke-width="1.5"/>
+          <line x1="55" y1="26" x2="55" y2="82" stroke="#1B0F0A" stroke-width="1.5"/>
+          <ellipse cx="55" cy="54" rx="14" ry="28" fill="none" stroke="#1B0F0A" stroke-width="1.5"/>
+          <polygon points="88,20 91,27 98,30 91,33 88,40 85,33 78,30 85,27" fill="#E5A922"/>
+          <polygon points="20,72 22,77 27,79 22,81 20,86 18,81 13,79 18,77" fill="#E5A922"/>
+        </svg>`
+    };
+
+    const TAROT_PROMPTS = [
+      {
+        numeral: "I",
+        shortLabel: "OPENING SCENE",
+        question: "I. The Opening Credits of Your 1969 Movie",
+        hint: "Shuffle or click the celestial deck to reveal how your 16mm film begins...",
+        draws: [
+          { genre: "noir",  title: "Joshua Tree at Dusk",     summaryFrag: "an opening scene bathed in blood-orange Joshua Tree twilight" },
+          { genre: "rock",  title: "Sunset Strip Feedback",   summaryFrag: "a high-voltage opening shot outside a smoky Sunset Strip club" },
+          { genre: "folk",  title: "Laurel Canyon Porch",     summaryFrag: "sun-drenched Laurel Canyon mornings filled with acoustic harmonies" },
+          { genre: "disco", title: "Mirrored VIP Booth",      summaryFrag: "a glittering midnight entrance beneath a spinning Studio 54 disco ball" }
+        ]
+      },
+      {
+        numeral: "II",
+        shortLabel: "ROAD TRIP",
+        question: "II. What Your Desert Road Trip Entails",
+        hint: "Draw Card II to pack the trunk of your 1969 convertible...",
+        draws: [
+          { genre: "noir",  title: "Silver Airstream & Tarot",  summaryFrag: "a nomadic silver Airstream trail stocked with Polaroids and tarot decks" },
+          { genre: "rock",  title: "Vinyl Crates & Diner Coffee", summaryFrag: "late-night highway runs fueled by vinyl crates and neon diner coffee" },
+          { genre: "folk",  title: "Woven Blankets & Wildflowers", summaryFrag: "a carefree caravan bound for muddy festival fields and wildflower meadows" },
+          { genre: "disco", title: "Sequined Garment Bags",    summaryFrag: "a coast-to-coast glamour tour packed with liquid-gold separates" }
+        ]
+      },
+      {
+        numeral: "III",
+        shortLabel: "CONCERT PASS",
+        question: "III. Your Midnight Concert Destiny",
+        hint: "Draw Card III to see which backstage pass is tucked in your pocket...",
+        draws: [
+          { genre: "noir",  title: "Underground Psych Ritual", summaryFrag: "a hypnotic candlelit psych-rock ritual deep in the desert" },
+          { genre: "rock",  title: "Sold-Out Rock Riot",      summaryFrag: "front-row backstage access to a loud, untamed Sunset Strip rock show" },
+          { genre: "folk",  title: "Redwood Acoustic Jam",    summaryFrag: "an intimate acoustic sing-along under the stars" },
+          { genre: "disco", title: "All-Night Champagne Jam", summaryFrag: "an endless dancefloor celebration where the bassline never stops" }
+        ]
+      },
+      {
+        numeral: "IV",
+        shortLabel: "70S LOVE LIFE",
+        question: "IV. What's Next in Your 1970s Love Life",
+        hint: "Draw the Lovers card to read your romantic horizon...",
+        draws: [
+          { genre: "noir",  title: "Neon Motel Pool Encounter", summaryFrag: "a mysterious, slow-burning romance sparked beside a midnight motel pool" },
+          { genre: "rock",  title: "Tour-Bus Whirlwind",      summaryFrag: "an electric tour-bus romance written in backstage setlists" },
+          { genre: "folk",  title: "Sunrise Porch Slow-Dance", summaryFrag: "a warm, free-spirited love rooted in sunrise coffee and shared records" },
+          { genre: "disco", title: "Eyes Across the Mirrorball", summaryFrag: "a dazzling, head-turning romance born under mirrorball lights" }
+        ]
+      },
+      {
+        numeral: "V",
+        shortLabel: "TALISMAN",
+        question: "V. Your Backstage Dressing Room Talisman",
+        hint: "Draw the final card to seal your 1969 lookbook style...",
+        draws: [
+          { genre: "noir",  title: "Crescent Moon Amulets",   summaryFrag: "layered silver crescent amulets and moody bohemian tailoring" },
+          { genre: "rock",  title: "Rose Tattoos & Oval Shades", summaryFrag: "rebellious rose tattoos, dark oval shades, and shearling rock-and-roll layers" },
+          { genre: "folk",  title: "Turquoise & Straw Hat",   summaryFrag: "handcrafted patchwork, turquoise beads, and effortless canyon textures" },
+          { genre: "disco", title: "Rhinestone Turban & Hoops", summaryFrag: "high-shine rhinestone glamour, gold hoops, and Studio 54 sparkle" }
+        ]
+      }
+    ];
+
+    const LOOKBOOK_OUTCOMES = {
+      noir: {
+        archetype: "THE DESERT NOIR MYSTIC",
+        shortTitle: "DESERT NOIR",
+        songLabel: '"FEMME FATALE" — THE VELVET UNDERGROUND',
+        src: "femme-fatale.mp3",
+        tempo: 92,
+        notes: [220, 261.63, 329.63, 293.66],
+        crop: { rx: 0.022, ry: 0.182, rw: 0.228, rh: 0.785 },
+        garments: [
+          "Olive Wide-Brim Felt Hat",
+          "Plum Lace-Up Bell-Sleeve Blouse",
+          "High-Waisted Rust Corduroy Flares",
+          "Brass Concho Hip Belt",
+          "Layered Silver Crescent Amulets"
+        ],
+        stylingNote: "Your signature uniform pairs a wide-brim desert hat, plum lace-up blouse, rust corduroy flares, and layered crescent moon amulets—built for twilight drives through Joshua Tree."
+      },
+      rock: {
+        archetype: "THE SUNSET STRIP ROCKER",
+        shortTitle: "SUNSET STRIP ROCK",
+        songLabel: '"SEASON OF THE WITCH" — DONOVAN',
+        src: "season-of-the-witch.mp3",
+        tempo: 104,
+        notes: [196, 233.08, 261.63, 293.66],
+        crop: { rx: 0.264, ry: 0.182, rw: 0.232, rh: 0.785 },
+        garments: [
+          "Plush Shearling-Trimmed Midnight Coat",
+          "Distressed 1969 Rose Graphic Tee",
+          "Chocolate Leather Flared Trousers",
+          "Narrow Dark Oval Sunglasses",
+          "Vintage Rose & Cross Tattoo Decals"
+        ],
+        stylingNote: "Your signature uniform pairs narrow dark oval sunglasses, a vintage graphic band tee, dark leather flares, and a plush shearling-trimmed coat—effortless backstage rebellion."
+      },
+      folk: {
+        archetype: "THE LAUREL CANYON MUSE",
+        shortTitle: "CANYON FOLK",
+        songLabel: '"DREAMS" — FLEETWOOD MAC',
+        src: "dreams.mp3",
+        tempo: 120,
+        notes: [349.23, 440, 392, 329.63],
+        crop: { rx: 0.506, ry: 0.182, rw: 0.232, rh: 0.785 },
+        garments: [
+          "Quilted Patchwork Fringe Jacket",
+          "Ivory Embroidered Peasant Blouse",
+          "70s Patchwork Denim Bellbottoms",
+          "Braided Straw Sun Hat & Rose Shades",
+          "Silver Concho Belt & Turquoise Beads"
+        ],
+        stylingNote: "Your signature uniform pairs a braided straw sun hat, rose-tinted round frames, a fringed patchwork coat, concho belt, and patchwork denim bells—pure 1969 golden-hour freedom."
+      },
+      disco: {
+        archetype: "THE STUDIO 54 ICON",
+        shortTitle: "DISCO FEVER",
+        songLabel: '"SATURDAY NIGHT FEVER" — THE BEE GEES',
+        src: "saturday-night-fever.mp3",
+        tempo: 108,
+        notes: [261.63, 311.13, 349.23, 466.16],
+        crop: { rx: 0.748, ry: 0.182, rw: 0.230, rh: 0.785 },
+        garments: [
+          "Royal-Purple Velvet Evening Duster",
+          "Draped Liquid-Gold Cowl Halter",
+          "High-Waisted Burgundy Sequin Flares",
+          "Sparkling Rhinestone Disco Turban",
+          "Oversized Gold Hoops & Diamond Choker"
+        ],
+        stylingNote: "Your signature uniform pairs a sparkling rhinestone turban, liquid-gold cowl halter, burgundy sequin flares, and a royal-purple velvet coat—made for midnight spotlights."
+      }
+    };
+
+    let currentStep = 0;
+    let drawnCards = [];
+    let activeGenre = "noir";
+
+    function updatePromptUI() {
+      const countEl = document.getElementById("drawnCountText");
+      const drawBtn = document.getElementById("drawBtn");
+      const deckEl  = document.getElementById("deckStack");
+
+      countEl.textContent = `${drawnCards.length} / 5`;
+
+      for (let i = 0; i < 5; i++) {
+        document.getElementById("slot-" + i).classList.toggle("active-target", i === currentStep);
+      }
+
+      if (currentStep < TAROT_PROMPTS.length) {
+        const p = TAROT_PROMPTS[currentStep];
+        document.getElementById("promptStepTag").textContent = `CARD ${p.numeral} OF V`;
+        document.getElementById("promptQuestion").textContent = p.question;
+        document.getElementById("promptHint").textContent = p.hint;
+        drawBtn.textContent = `DRAW ${p.numeral}`;
+        drawBtn.disabled = false;
+        deckEl.classList.remove("disabled");
+      } else {
+        document.getElementById("promptStepTag").textContent = "READING COMPLETE";
+        document.getElementById("promptQuestion").textContent = "Your 5-Card 1969 Destiny Has Been Dealt";
+        document.getElementById("promptHint").textContent = "Flip your Lookbook card below to inspect garments or download your 1969 pass.";
+        drawBtn.textContent = "COMPLETE";
+        drawBtn.disabled = true;
+        deckEl.classList.add("disabled");
+      }
+    }
+
+    function updateVibeMeters() {
+      const counts = { noir: 0, rock: 0, folk: 0, disco: 0 };
+      drawnCards.forEach(c => counts[c.genre]++);
+      ["noir", "rock", "folk", "disco"].forEach(g => {
+        const pct = Math.min(100, 12 + counts[g] * 22);
+        document.getElementById("meter-" + g).style.width = pct + "%";
+      });
+    }
+
+    function shuffleDeckVisual() {
+      const deckEl = document.getElementById("deckStack");
+      deckEl.classList.remove("shuffling");
+      void deckEl.offsetWidth;
+      deckEl.classList.add("shuffling");
+      playShuffleRiffle();
+    }
+
+    function drawNextCard() {
+      if (currentStep >= TAROT_PROMPTS.length) return;
+
+      const promptObj = TAROT_PROMPTS[currentStep];
+      const chosenDraw = promptObj.draws[Math.floor(Math.random() * promptObj.draws.length)];
+      drawnCards.push({ numeral: promptObj.numeral, ...chosenDraw });
+
+      const slotEl = document.getElementById("slot-" + currentStep);
+      slotEl.innerHTML = `
+        <div class="drawn-card">
+          <div class="card-numeral">
+            <span>${promptObj.numeral}</span>
+            <span>${promptObj.shortLabel}</span>
+            <span>${promptObj.numeral}</span>
+          </div>
+          <div class="card-arch">${ARCHETYPE_SEALS[chosenDraw.genre]}</div>
+          <div>
+            <div class="card-fortune-title">${chosenDraw.title}</div>
+            <div class="card-vibe-pill">${chosenDraw.genre}</div>
+          </div>
+        </div>
+      `;
+
+      playCardClack();
+      currentStep++;
+      updatePromptUI();
+      updateVibeMeters();
+
+      if (currentStep === TAROT_PROMPTS.length) {
+        setTimeout(revealFinale, 380);
+      }
+    }
+
+    function instantDestiny() {
+      resetDeck();
+      shuffleDeckVisual();
+      for (let i = 0; i < 5; i++) {
+        drawNextCard();
+      }
+    }
+
+    function revealFinale() {
+      const tally = { noir: 0, rock: 0, folk: 0, disco: 0 };
+      drawnCards.forEach(c => { tally[c.genre]++; });
+
+      let winner = drawnCards[4].genre;
+      let maxCount = -1;
+      ["noir", "rock", "folk", "disco"].forEach(g => {
+        if (tally[g] > maxCount) {
+          maxCount = tally[g];
+          winner = g;
+        }
+      });
+
+      applyLookbookOutcome(winner, true);
+
+      const finaleEl = document.getElementById("finalePanel");
+      finaleEl.classList.add("open");
+      finaleEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      if (!radioOn) toggleJukebox();
+      else startTrack(activeGenre);
+    }
+
+    function applyLookbookOutcome(genreKey, isInitial = false) {
+      activeGenre = genreKey;
+      const outcome = LOOKBOOK_OUTCOMES[genreKey];
+
+      document.getElementById("lookbookFlipCard").classList.remove("flipped");
+
+      const imgEl = document.getElementById("finalLookbookImg");
+      const { rx, ry, rw, rh } = outcome.crop;
+      imgEl.style.width  = (100 / rw) + "%";
+      imgEl.style.height = (100 / rh) + "%";
+      imgEl.style.left   = (-rx / rw * 100) + "%";
+      imgEl.style.top    = (-ry / rh * 100) + "%";
+
+      document.getElementById("backCardTitle").textContent = outcome.shortTitle;
+      document.getElementById("backGarmentList").innerHTML = outcome.garments
+        .map(g => `<li>${g}</li>`)
+        .join("");
+
+      document.getElementById("finalArchetypeTitle").textContent = outcome.archetype;
+      document.getElementById("finalSongTitle").textContent = outcome.songLabel;
+
+      if (drawnCards.length === 5) {
+        document.getElementById("aiReadingSummary").innerHTML = `
+          <strong>WHAT THE 1969 CARDS REVEAL:</strong> Your spread opens with ${drawnCards[0].summaryFrag}, leading directly into ${drawnCards[1].summaryFrag}. 
+          Under the midnight sky, the cards point you toward ${drawnCards[2].summaryFrag}, while the Lovers arcana foretells ${drawnCards[3].summaryFrag}. 
+          Sealed by your talisman of ${drawnCards[4].summaryFrag}, your 1969 alter-ego is <strong>${outcome.archetype}</strong>. ${outcome.stylingNote}
+        `;
+      }
+
+      if (!isInitial && radioOn) {
+        startTrack(genreKey);
+      }
+      playCardClack();
+    }
+
+    function toggleLookbookFlip() {
+      document.getElementById("lookbookFlipCard").classList.toggle("flipped");
+      playCardClack();
+    }
+
+    function downloadSouvenirPass() {
+      const outcome = LOOKBOOK_OUTCOMES[activeGenre];
+      const canvas = document.createElement("canvas");
+      canvas.width = 600;
+      canvas.height = 820;
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#231521";
+      ctx.fillRect(0, 0, 600, 820);
+      ctx.strokeStyle = "#E5A922";
+      ctx.lineWidth = 12;
+      ctx.strokeRect(14, 14, 572, 792);
+      ctx.strokeStyle = "#A84B24";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(26, 26, 548, 768);
+
+      ctx.fillStyle = "#ECE4D0";
+      ctx.font = "bold 16px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("FREE PEOPLE // CALIFORNIA DREAMIN' 1969", 300, 66);
+
+      ctx.fillStyle = "#E5A922";
+      ctx.font = "bold 28px serif";
+      ctx.fillText(outcome.archetype, 300, 108);
+
+      const sourceImg = document.getElementById("finalLookbookImg");
+      try {
+        const sx = outcome.crop.rx * sourceImg.naturalWidth;
+        const sy = outcome.crop.ry * sourceImg.naturalHeight;
+        const sw = outcome.crop.rw * sourceImg.naturalWidth;
+        const sh = outcome.crop.rh * sourceImg.naturalHeight;
+        ctx.drawImage(sourceImg, sx, sy, sw, sh, 175, 132, 250, 415);
+      } catch (e) {
+        ctx.fillStyle = "#ECE4D0";
+        ctx.fillRect(175, 132, 250, 415);
+      }
+      ctx.strokeStyle = "#E5A922";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(175, 132, 250, 415);
+
+      ctx.fillStyle = "#A84B24";
+      ctx.fillRect(54, 572, 492, 42);
+      ctx.fillStyle = "#F7F1E3";
+      ctx.font = "bold 15px monospace";
+      ctx.fillText("SOUNDTRACK: " + outcome.songLabel, 300, 598);
+
+      ctx.fillStyle = "#ECE4D0";
+      ctx.font = "13px monospace";
+      const pullLine = drawnCards.map(c => `${c.numeral}: ${c.title}`).join("  |  ");
+      ctx.fillText(pullLine.slice(0, 62), 300, 650);
+      ctx.fillText(pullLine.slice(62), 300, 672);
+
+      ctx.fillStyle = "#E5A922";
+      ctx.font = "bold 14px monospace";
+      ctx.fillText("ADMIT ONE — 1969 BACKSTAGE PASS", 300, 754);
+
+      try {
+        const link = document.createElement("a");
+        link.download = `1969-tarot-pass-${activeGenre}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } catch (err) {
+        alert("To enable one-click PNG export on Chrome, run via GitHub Pages or VS Code Live Server!");
+      }
+    }
+
+    function resetDeck() {
+      currentStep = 0;
+      drawnCards = [];
+      const labels = ["OPENING SCENE", "ROAD TRIP", "CONCERT PASS", "70S LOVE LIFE", "TALISMAN"];
+      const numerals = ["I", "II", "III", "IV", "V"];
+      for (let i = 0; i < 5; i++) {
+        document.getElementById("slot-" + i).innerHTML = `<div class="slot-placeholder">${numerals[i]}.<br/>${labels[i]}</div>`;
+      }
+      document.getElementById("finalePanel").classList.remove("open");
+      updatePromptUI();
+      updateVibeMeters();
+    }
+
+    let audioCtx = null;
+    let radioOn = false;
+    let loopTimer = null;
+    const mp3Player = new Audio();
+    mp3Player.loop = true;
+
+    function ensureAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    }
+
+    function playCardClack() {
+      ensureAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(540, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(135, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.16, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.085);
+    }
+
+    function playShuffleRiffle() {
+      ensureAudio();
+      [0, 0.05, 0.1, 0.15, 0.2].forEach((offset, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(300 + idx * 45, audioCtx.currentTime + offset);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + offset + 0.04);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + offset);
+        osc.stop(audioCtx.currentTime + offset + 0.045);
+      });
+    }
+
+    function toggleJukebox() {
+      radioOn = !radioOn;
+      const btn = document.getElementById("audioToggleBtn");
+      const disc = document.getElementById("vinylDisc");
+      const arm = document.getElementById("tonearm");
+      const eq = document.getElementById("eqBars");
+
+      if (radioOn) {
+        btn.classList.add("active");
+        disc.classList.add("spinning");
+        arm.classList.add("engaged");
+        eq.classList.add("active");
+        startTrack(activeGenre);
+      } else {
+        btn.classList.remove("active");
+        disc.classList.remove("spinning");
+        arm.classList.remove("engaged");
+        eq.classList.remove("active");
+        document.getElementById("nowSpinningText").textContent = "PAUSED";
+        stopTrack();
+      }
+    }
+
+    function stopTrack() {
+      if (loopTimer) clearInterval(loopTimer);
+      mp3Player.pause();
+    }
+
+    function startTrack(genre) {
+      stopTrack();
+      const track = LOOKBOOK_OUTCOMES[genre];
+      document.getElementById("nowSpinningText").textContent = track.songLabel.split("—")[0].trim();
+      mp3Player.src = track.src;
+      mp3Player.play().catch(() => {
+        ensureAudio();
+        let step = 0;
+        const stepMs = (60 / track.tempo) * 500;
+        loopTimer = setInterval(() => {
+          if (!radioOn) return;
+          const note = track.notes[step % track.notes.length];
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = genre === "disco" ? "sawtooth" : "sine";
+          osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.055, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.36);
+          step++;
+        }, stepMs);
+      });
+    }
+
+    /* ==========================================================================
+       4. DIGITAL AD MOCKUPS CONTROLS (FILTERS, PHONE MARQUEE TOGGLE & VIDEO)
+       ========================================================================== */
+    const digitalFilterBtns = document.querySelectorAll('[data-digital-filter]');
+    const digitalWebSection = document.getElementById('digital-web-hero');
+    const digitalMobileSection = document.getElementById('digital-mobile-marquee');
+
+    digitalFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        digitalFilterBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-digital-filter');
+        if (filter === 'all') {
+          digitalWebSection.style.display = 'flex';
+          digitalMobileSection.style.display = 'flex';
+        } else if (filter === 'web') {
+          digitalWebSection.style.display = 'flex';
+          digitalMobileSection.style.display = 'none';
+        } else if (filter === 'mobile') {
+          digitalWebSection.style.display = 'none';
+          digitalMobileSection.style.display = 'flex';
+        }
+      });
+    });
+
+    const phoneTrack = document.getElementById('phone-marquee-track');
+    const togglePhoneBtn = document.getElementById('toggle-phone-marquee-btn');
+    let phoneMarqueePaused = false;
+
+    togglePhoneBtn.addEventListener('click', () => {
+      phoneMarqueePaused = !phoneMarqueePaused;
+      if (phoneMarqueePaused) {
+        phoneTrack.classList.add('is-paused');
+        togglePhoneBtn.textContent = 'Resume Scroll';
+      } else {
+        phoneTrack.classList.remove('is-paused');
+        togglePhoneBtn.textContent = 'Pause Scroll';
+      }
+    });
+
+    /* ==========================================================================
+       5. SCRAPBOOK MOODBOARD, OOH FILTERS & LIGHTBOX
+       ========================================================================== */
+    function renderMoodboardStrip() {
+      const strip = document.getElementById('moodboard-strip');
+      const featuredIds = [3, 8, 17, 22];
+      featuredIds.forEach((id, index) => {
+        const asset = ALL_PRESETS.find(p => p.id === id);
+        if (!asset) return;
+        const tile = document.createElement('div');
+        tile.className = 'scrap-plate';
+        tile.innerHTML = `
+          <img src="${asset.src}" alt="${asset.label}" />
+          <div class="scrap-caption">
+            <span>Plate 0${index + 1}</span>
+            <span>${asset.label}</span>
+          </div>
+        `;
+        strip.appendChild(tile);
+      });
+    }
+
+    function copyBrandHex(hex, el) {
+      navigator.clipboard.writeText(hex);
+      const labelSpan = el.querySelector('.swatch-label span:last-child');
+      const orig = labelSpan.textContent;
+      labelSpan.textContent = 'COPIED!';
+      setTimeout(() => { labelSpan.textContent = orig; }, 1100);
+    }
+
+    const oohBtns = document.querySelectorAll('[data-ooh]');
+    const oohCards = document.querySelectorAll('.ooh-card');
+
+    oohBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        oohBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-ooh');
+        oohCards.forEach((card) => {
+          const cat = card.getAttribute('data-ooh-cat');
+          card.style.display = (filter === 'all' || cat === filter) ? 'flex' : 'none';
+        });
+      });
+    });
+
+    function openLightbox(src, caption) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').textContent = caption;
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function closeModal(modalId, event, force = false) {
+      if (force || event.target.id === modalId) {
+        document.getElementById(modalId).classList.remove('open');
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.getElementById('lightbox').classList.remove('open');
+      }
+    });
+
+    // Initialize Hero, Tarot Jukebox, Reel Videos, and Scrapbook Strip
+    window.addEventListener('DOMContentLoaded', () => {
+      buildSlicedPuzzleHero();
+      animateHeroLoop();
+      renderMoodboardStrip();
+      updatePromptUI();
+      updateVibeMeters();
+
+      document.querySelectorAll('.reel-video').forEach((video) => {
+        video.muted = true;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            document.addEventListener('click', () => video.play(), { once: true });
+          });
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      buildSlicedPuzzleHero();
+    });
+  </script>
+</body>
+</html>
