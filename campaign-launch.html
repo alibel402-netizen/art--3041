@@ -2404,47 +2404,14 @@
         }}
       ];
 
-      return presets.map(p => {
-        const c = document.createElement('canvas');
-        c.width = 720;
-        c.height = 500;
-        const ctx = c.getContext('2d');
-        p.render(ctx, c.width, c.height);
-        return { id: p.id, label: p.label, src: c.toDataURL('image/jpeg', 0.88) };
-      });
+      return presets;
     }
 
     const ALL_PRESETS = createProceduralArtworks();
 
     // Requested 12-Image Looping Sequence: [1, 3, 4, 6, 8, 9, 11, 13, 16, 17, 20, 21]
     const HERO_SEQUENCE_IDS = [1, 3, 4, 6, 8, 9, 11, 13, 16, 17, 20, 21];
-    const HERO_SEQUENCE = HERO_SEQUENCE_IDS.map(id => ALL_PRESETS.find(p => p.id === id));
-
-    /* ==========================================================================
-       2. SLICED PUZZLE + WIDER SCATTER-SWAP HERO ENGINE
-       ========================================================================== */
-    const heroStage = document.getElementById('hero-stage');
-    const stampsContainer = document.getElementById('stamps-container');
-    let stampElements = [];
-    let currentSequenceIndex = 0;
-    let wasScattered = false;
-    let cycleTime = 0;
-    let mouse = { x: -9999, y: -9999, isInside: false };
-    let dragTarget = null;
-    let dragOffset = { x: 0, y: 0 };
-
-    heroStage.addEventListener('mousemove', (e) => {
-      const rect = heroStage.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-      mouse.isInside = true;
-    });
-
-    heroStage.addEventListener('mouseleave', () => {
-      mouse.isInside = false;
-    });
-
-    function applySequenceImageToStamps(asset) {
+    const HERO_SEQUENCE = HERO_SEQUENCE_IDS.map(id => ALL_PRESETS.find(p => p.id === id));    function applySequenceImageToStamps(asset) {
       const stageW = heroStage.clientWidth;
       const stageH = heroStage.clientHeight;
       stampElements.forEach((s) => {
@@ -3180,22 +3147,796 @@
     /* ==========================================================================
        5. SCRAPBOOK MOODBOARD, OOH FILTERS & LIGHTBOX
        ========================================================================== */
+    function drawAssetOnCanvas(canvas, asset, fullStageW, fullStageH, offsetX, offsetY, tileW, tileH) {
+      const dpr = window.devicePixelRatio || 1;
+      const w = tileW || canvas.clientWidth || fullStageW || 300;
+      const h = tileH || canvas.clientHeight || fullStageH || 180;
+      canvas.width = Math.max(1, Math.floor(w * dpr));
+      canvas.height = Math.max(1, Math.floor(h * dpr));
+      const ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      if (typeof offsetX === 'number' && typeof offsetY === 'number') {
+        ctx.translate(-offsetX, -offsetY);
+        asset.render(ctx, fullStageW || w, fullStageH || h);
+      } else {
+        asset.render(ctx, w, h);
+      }
+      ctx.restore();
+    }
+
+    function applySequenceImageToStamps(asset) {
+      const stageW = heroStage.clientWidth;
+      const stageH = heroStage.clientHeight;
+      stampElements.forEach((s) => {
+        if (s.canvas) {
+          drawAssetOnCanvas(s.canvas, asset, stageW, stageH, s.baseX, s.baseY, s.element.clientWidth, s.element.clientHeight);
+        }
+        if (s.bottomTag) {
+          s.bottomTag.textContent = asset.label.substring(0, 15);
+        }
+      });
+    }
+
+    function buildSlicedPuzzleHero() {
+      stampsContainer.innerHTML = '';
+      stampElements = [];
+
+      const stageW = heroStage.clientWidth;
+      const stageH = heroStage.clientHeight;
+      const rows = 3;
+      const cols = 3;
+      const cellW = stageW / cols;
+      const cellH = stageH / rows;
+      const activeAsset = HERO_SEQUENCE[currentSequenceIndex];
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const tile = document.createElement('div');
+          tile.className = 'stamp-tile';
+
+          const baseX = c * cellW;
+          const baseY = r * cellH;
+
+          tile.style.width = `${cellW}px`;
+          tile.style.height = `${cellH}px`;
+          tile.style.left = `${baseX}px`;
+          tile.style.top = `${baseY}px`;
+
+          const inner = document.createElement('div');
+          inner.className = 'stamp-inner';
+
+          const stampCanvas = document.createElement('canvas');
+          stampCanvas.width = Math.max(1, Math.floor(cellW));
+          stampCanvas.height = Math.max(1, Math.floor(cellH));
+          stampCanvas.style.width = '100%';
+          stampCanvas.style.height = '100%';
+          stampCanvas.style.display = 'block';
+          inner.appendChild(stampCanvas);
+
+          const postmarkTop = document.createElement('div');
+          postmarkTop.className = 'stamp-postmark-top';
+          postmarkTop.textContent = 'ROUTE 66 // 1969';
+
+          const postmarkBottom = document.createElement('div');
+          postmarkBottom.className = 'stamp-postmark-bottom';
+          postmarkBottom.textContent = activeAsset.label.substring(0, 15);
+
+          inner.appendChild(postmarkTop);
+          inner.appendChild(postmarkBottom);
+          tile.appendChild(inner);
+          stampsContainer.appendChild(tile);
+
+          drawAssetOnCanvas(stampCanvas, activeAsset, stageW, stageH, baseX, baseY, cellW, cellH);
+          requestAnimationFrame(() => drawAssetOnCanvas(stampCanvas, activeAsset, stageW, stageH, baseX, baseY, cellW, cellH));
+
+          const centerX = stageW / 2;
+          const centerY = stageH / 2;
+          const tileCenterX = baseX + cellW / 2;
+          const tileCenterY = baseY + cellH / 2;
+          let diffX = tileCenterX - centerX;
+          let diffY = tileCenterY - centerY;
+
+          if (Math.hypot(diffX, diffY) < 10) {
+            diffX = (Math.random() > 0.5 ? 1 : -1) * 140;
+            diffY = (Math.random() > 0.5 ? 1 : -1) * 110;
+          }
+
+          const angle = Math.atan2(diffY, diffX) + (Math.random() - 0.5) * 0.25;
+          const distX = stageW * 0.34;
+          const distY = stageH * 0.34;
+
+          const stampData = {
+            element: tile,
+            canvas: stampCanvas,
+            bottomTag: postmarkBottom,
+            baseX,
+            baseY,
+            currentX: 0,
+            currentY: 0,
+            targetX: 0,
+            targetY: 0,
+            currentRot: 0,
+            targetRot: 0,
+            scatterTargetX: Math.cos(angle) * distX,
+            scatterTargetY: Math.sin(angle) * distY,
+            scatterRotation: (Math.random() - 0.5) * 42,
+            isDragging: false
+          };
+
+          tile.addEventListener('mousedown', (e) => {
+            dragTarget = stampData;
+            stampData.isDragging = true;
+            dragOffset.x = e.clientX - (baseX + stampData.currentX);
+            dragOffset.y = e.clientY - (baseY + stampData.currentY);
+            e.stopPropagation();
+          });
+
+          stampElements.push(stampData);
+        }
+      }
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (dragTarget && dragTarget.isDragging) {
+        dragTarget.targetX = e.clientX - dragOffset.x - dragTarget.baseX;
+        dragTarget.targetY = e.clientY - dragOffset.y - dragTarget.baseY;
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (dragTarget) {
+        dragTarget.isDragging = false;
+        dragTarget = null;
+      }
+    });
+
+    function animateHeroLoop() {
+      cycleTime += 0.016;
+      const loopDuration = 6.6;
+      const progress = cycleTime % loopDuration;
+      const isScatteredPhase = progress > 2.4 && progress < 5.4;
+
+      if (isScatteredPhase && !wasScattered) {
+        wasScattered = true;
+        setTimeout(() => {
+          currentSequenceIndex = (currentSequenceIndex + 1) % HERO_SEQUENCE.length;
+          applySequenceImageToStamps(HERO_SEQUENCE[currentSequenceIndex]);
+        }, 700);
+      } else if (!isScatteredPhase && wasScattered) {
+        wasScattered = false;
+      }
+
+      stampElements.forEach((s) => {
+        if (s.isDragging) {
+          s.currentX += (s.targetX - s.currentX) * 0.35;
+          s.currentY += (s.targetY - s.currentY) * 0.35;
+          s.element.style.transform = `translate(${s.currentX}px, ${s.currentY}px) rotate(${s.currentRot}deg) scale(1.04)`;
+          return;
+        }
+
+        if (mouse.isInside) {
+          const stampCenterX = s.baseX + (s.element.clientWidth / 2) + s.currentX;
+          const stampCenterY = s.baseY + (s.element.clientHeight / 2) + s.currentY;
+          const dx = stampCenterX - mouse.x;
+          const dy = stampCenterY - mouse.y;
+          const dist = Math.hypot(dx, dy);
+
+          const repelRange = 320;
+          if (dist < repelRange) {
+            const force = (1 - dist / repelRange) * 260;
+            const angle = Math.atan2(dy, dx);
+            s.targetX = Math.cos(angle) * force;
+            s.targetY = Math.sin(angle) * force;
+            s.targetRot = (dx > 0 ? 1 : -1) * 18;
+          } else {
+            s.targetX = s.scatterTargetX * 0.45;
+            s.targetY = s.scatterTargetY * 0.45;
+            s.targetRot = s.scatterRotation * 0.3;
+          }
+        } else if (!isScatteredPhase) {
+          s.targetX = 0;
+          s.targetY = 0;
+          s.targetRot = 0;
+        } else {
+          s.targetX = s.scatterTargetX + Math.sin(cycleTime * 1.4 + s.baseX) * 10;
+          s.targetY = s.scatterTargetY + Math.cos(cycleTime * 1.4 + s.baseY) * 10;
+          s.targetRot = s.scatterRotation + Math.sin(cycleTime) * 4;
+        }
+
+        s.currentX += (s.targetX - s.currentX) * 0.085;
+        s.currentY += (s.targetY - s.currentY) * 0.085;
+        s.currentRot += (s.targetRot - s.currentRot) * 0.085;
+
+        s.element.style.transform = `translate(${s.currentX}px, ${s.currentY}px) rotate(${s.currentRot}deg)`;
+      });
+
+      requestAnimationFrame(animateHeroLoop);
+    }
+
+    /* ==========================================================================
+       3. EXPERIMENTAL PIECE: THE 1969 TAROT & JUKEBOX ENGINE
+       ========================================================================== */
+    const ARCHETYPE_SEALS = {
+      noir: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#231521"/>
+          <circle cx="55" cy="55" r="46" fill="none" stroke="#E5A922" stroke-width="1" stroke-dasharray="2 3"/>
+          <polygon points="0,95 25,74 45,86 78,70 110,95 110,110 0,110" fill="#A84B24" stroke="#1B0F0A" stroke-width="1.5"/>
+          <path d="M62 18 A24 24 0 1 0 62 66 A18 18 0 1 1 62 18 Z" fill="#E5A922" stroke="#1B0F0A" stroke-width="2"/>
+          <polygon points="78,28 80,33 85,34 80,36 78,41 76,36 71,34 76,33" fill="#ECE4D0"/>
+          <circle cx="70" cy="52" r="2" fill="#ECE4D0"/>
+          <path d="M26 98 L26 62 M26 74 L16 74 L16 64 M26 68 L36 68 L36 58" stroke="#5B7A3A" stroke-width="4.5" stroke-linecap="square" fill="none"/>
+        </svg>`,
+      rock: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#A84B24"/>
+          <circle cx="55" cy="55" r="45" fill="#231521" stroke="#E5A922" stroke-width="2"/>
+          <rect x="28" y="34" width="54" height="22" fill="#1B0F0A" stroke="#ECE4D0" stroke-width="1.5"/>
+          <rect x="28" y="58" width="54" height="32" fill="#1B0F0A" stroke="#ECE4D0" stroke-width="1.5"/>
+          <line x1="34" y1="45" x2="76" y2="45" stroke="#E5A922" stroke-width="2"/>
+          <polygon points="62,14 38,54 54,54 46,96 76,48 58,48" fill="#E5A922" stroke="#1B0F0A" stroke-width="2"/>
+        </svg>`,
+      folk: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#5B7A3A"/>
+          <circle cx="55" cy="44" r="22" fill="#E5A922" stroke="#1B0F0A" stroke-width="2"/>
+          <line x1="55" y1="10" x2="55" y2="18" stroke="#ECE4D0" stroke-width="2.5"/>
+          <line x1="25" y1="44" x2="17" y2="44" stroke="#ECE4D0" stroke-width="2.5"/>
+          <line x1="85" y1="44" x2="93" y2="44" stroke="#ECE4D0" stroke-width="2.5"/>
+          <line x1="32" y1="21" x2="38" y2="27" stroke="#ECE4D0" stroke-width="2"/>
+          <line x1="78" y1="21" x2="72" y2="27" stroke="#ECE4D0" stroke-width="2"/>
+          <path d="M0 86 Q35 66 65 84 T110 78 L110 110 L0 110 Z" fill="#A84B24" stroke="#1B0F0A" stroke-width="2"/>
+          <circle cx="30" cy="92" r="4" fill="#ECE4D0"/><circle cx="55" cy="96" r="4" fill="#E5A922"/><circle cx="82" cy="90" r="4" fill="#ECE4D0"/>
+        </svg>`,
+      disco: `
+        <svg viewBox="0 0 110 110" width="94" height="94" xmlns="http://www.w3.org/2000/svg">
+          <rect width="110" height="110" fill="#6A3360"/>
+          <polygon points="55,54 0,15 0,45" fill="rgba(229,169,34,0.22)"/>
+          <polygon points="55,54 110,15 110,45" fill="rgba(229,169,34,0.22)"/>
+          <line x1="55" y1="4" x2="55" y2="26" stroke="#ECE4D0" stroke-width="2"/>
+          <circle cx="55" cy="54" r="28" fill="#ECE4D0" stroke="#1B0F0A" stroke-width="2.5"/>
+          <line x1="27" y1="54" x2="83" y2="54" stroke="#1B0F0A" stroke-width="1.5"/>
+          <line x1="55" y1="26" x2="55" y2="82" stroke="#1B0F0A" stroke-width="1.5"/>
+          <ellipse cx="55" cy="54" rx="14" ry="28" fill="none" stroke="#1B0F0A" stroke-width="1.5"/>
+          <polygon points="88,20 91,27 98,30 91,33 88,40 85,33 78,30 85,27" fill="#E5A922"/>
+          <polygon points="20,72 22,77 27,79 22,81 20,86 18,81 13,79 18,77" fill="#E5A922"/>
+        </svg>`
+    };
+
+    const TAROT_PROMPTS = [
+      {
+        numeral: "I",
+        shortLabel: "OPENING SCENE",
+        question: "I. The Opening Credits of Your 1969 Movie",
+        hint: "Shuffle or click the celestial deck to reveal how your 16mm film begins...",
+        draws: [
+          { genre: "noir",  title: "Joshua Tree at Dusk",     summaryFrag: "an opening scene bathed in blood-orange Joshua Tree twilight" },
+          { genre: "rock",  title: "Sunset Strip Feedback",   summaryFrag: "a high-voltage opening shot outside a smoky Sunset Strip club" },
+          { genre: "folk",  title: "Laurel Canyon Porch",     summaryFrag: "sun-drenched Laurel Canyon mornings filled with acoustic harmonies" },
+          { genre: "disco", title: "Mirrored VIP Booth",      summaryFrag: "a glittering midnight entrance beneath a spinning Studio 54 disco ball" }
+        ]
+      },
+      {
+        numeral: "II",
+        shortLabel: "ROAD TRIP",
+        question: "II. What Your Desert Road Trip Entails",
+        hint: "Draw Card II to pack the trunk of your 1969 convertible...",
+        draws: [
+          { genre: "noir",  title: "Silver Airstream & Tarot",  summaryFrag: "a nomadic silver Airstream trail stocked with Polaroids and tarot decks" },
+          { genre: "rock",  title: "Vinyl Crates & Diner Coffee", summaryFrag: "late-night highway runs fueled by vinyl crates and neon diner coffee" },
+          { genre: "folk",  title: "Woven Blankets & Wildflowers", summaryFrag: "a carefree caravan bound for muddy festival fields and wildflower meadows" },
+          { genre: "disco", title: "Sequined Garment Bags",    summaryFrag: "a coast-to-coast glamour tour packed with liquid-gold separates" }
+        ]
+      },
+      {
+        numeral: "III",
+        shortLabel: "CONCERT PASS",
+        question: "III. Your Midnight Concert Destiny",
+        hint: "Draw Card III to see which backstage pass is tucked in your pocket...",
+        draws: [
+          { genre: "noir",  title: "Underground Psych Ritual", summaryFrag: "a hypnotic candlelit psych-rock ritual deep in the desert" },
+          { genre: "rock",  title: "Sold-Out Rock Riot",      summaryFrag: "front-row backstage access to a loud, untamed Sunset Strip rock show" },
+          { genre: "folk",  title: "Redwood Acoustic Jam",    summaryFrag: "an intimate acoustic sing-along under the stars" },
+          { genre: "disco", title: "All-Night Champagne Jam", summaryFrag: "an endless dancefloor celebration where the bassline never stops" }
+        ]
+      },
+      {
+        numeral: "IV",
+        shortLabel: "70S LOVE LIFE",
+        question: "IV. What's Next in Your 1970s Love Life",
+        hint: "Draw the Lovers card to read your romantic horizon...",
+        draws: [
+          { genre: "noir",  title: "Neon Motel Pool Encounter", summaryFrag: "a mysterious, slow-burning romance sparked beside a midnight motel pool" },
+          { genre: "rock",  title: "Tour-Bus Whirlwind",      summaryFrag: "an electric tour-bus romance written in backstage setlists" },
+          { genre: "folk",  title: "Sunrise Porch Slow-Dance", summaryFrag: "a warm, free-spirited love rooted in sunrise coffee and shared records" },
+          { genre: "disco", title: "Eyes Across the Mirrorball", summaryFrag: "a dazzling, head-turning romance born under mirrorball lights" }
+        ]
+      },
+      {
+        numeral: "V",
+        shortLabel: "TALISMAN",
+        question: "V. Your Backstage Dressing Room Talisman",
+        hint: "Draw the final card to seal your 1969 lookbook style...",
+        draws: [
+          { genre: "noir",  title: "Crescent Moon Amulets",   summaryFrag: "layered silver crescent amulets and moody bohemian tailoring" },
+          { genre: "rock",  title: "Rose Tattoos & Oval Shades", summaryFrag: "rebellious rose tattoos, dark oval shades, and shearling rock-and-roll layers" },
+          { genre: "folk",  title: "Turquoise & Straw Hat",   summaryFrag: "handcrafted patchwork, turquoise beads, and effortless canyon textures" },
+          { genre: "disco", title: "Rhinestone Turban & Hoops", summaryFrag: "high-shine rhinestone glamour, gold hoops, and Studio 54 sparkle" }
+        ]
+      }
+    ];
+
+    const LOOKBOOK_OUTCOMES = {
+      noir: {
+        archetype: "THE DESERT NOIR MYSTIC",
+        shortTitle: "DESERT NOIR",
+        songLabel: '"FEMME FATALE" — THE VELVET UNDERGROUND',
+        src: "femme-fatale.mp3",
+        tempo: 92,
+        notes: [220, 261.63, 329.63, 293.66],
+        crop: { rx: 0.022, ry: 0.182, rw: 0.228, rh: 0.785 },
+        garments: [
+          "Olive Wide-Brim Felt Hat",
+          "Plum Lace-Up Bell-Sleeve Blouse",
+          "High-Waisted Rust Corduroy Flares",
+          "Brass Concho Hip Belt",
+          "Layered Silver Crescent Amulets"
+        ],
+        stylingNote: "Your signature uniform pairs a wide-brim desert hat, plum lace-up blouse, rust corduroy flares, and layered crescent moon amulets—built for twilight drives through Joshua Tree."
+      },
+      rock: {
+        archetype: "THE SUNSET STRIP ROCKER",
+        shortTitle: "SUNSET STRIP ROCK",
+        songLabel: '"SEASON OF THE WITCH" — DONOVAN',
+        src: "season-of-the-witch.mp3",
+        tempo: 104,
+        notes: [196, 233.08, 261.63, 293.66],
+        crop: { rx: 0.264, ry: 0.182, rw: 0.232, rh: 0.785 },
+        garments: [
+          "Plush Shearling-Trimmed Midnight Coat",
+          "Distressed 1969 Rose Graphic Tee",
+          "Chocolate Leather Flared Trousers",
+          "Narrow Dark Oval Sunglasses",
+          "Vintage Rose & Cross Tattoo Decals"
+        ],
+        stylingNote: "Your signature uniform pairs narrow dark oval sunglasses, a vintage graphic band tee, dark leather flares, and a plush shearling-trimmed coat—effortless backstage rebellion."
+      },
+      folk: {
+        archetype: "THE LAUREL CANYON MUSE",
+        shortTitle: "CANYON FOLK",
+        songLabel: '"DREAMS" — FLEETWOOD MAC',
+        src: "dreams.mp3",
+        tempo: 120,
+        notes: [349.23, 440, 392, 329.63],
+        crop: { rx: 0.506, ry: 0.182, rw: 0.232, rh: 0.785 },
+        garments: [
+          "Quilted Patchwork Fringe Jacket",
+          "Ivory Embroidered Peasant Blouse",
+          "70s Patchwork Denim Bellbottoms",
+          "Braided Straw Sun Hat & Rose Shades",
+          "Silver Concho Belt & Turquoise Beads"
+        ],
+        stylingNote: "Your signature uniform pairs a braided straw sun hat, rose-tinted round frames, a fringed patchwork coat, concho belt, and patchwork denim bells—pure 1969 golden-hour freedom."
+      },
+      disco: {
+        archetype: "THE STUDIO 54 ICON",
+        shortTitle: "DISCO FEVER",
+        songLabel: '"SATURDAY NIGHT FEVER" — THE BEE GEES',
+        src: "saturday-night-fever.mp3",
+        tempo: 108,
+        notes: [261.63, 311.13, 349.23, 466.16],
+        crop: { rx: 0.748, ry: 0.182, rw: 0.230, rh: 0.785 },
+        garments: [
+          "Royal-Purple Velvet Evening Duster",
+          "Draped Liquid-Gold Cowl Halter",
+          "High-Waisted Burgundy Sequin Flares",
+          "Sparkling Rhinestone Disco Turban",
+          "Oversized Gold Hoops & Diamond Choker"
+        ],
+        stylingNote: "Your signature uniform pairs a sparkling rhinestone turban, liquid-gold cowl halter, burgundy sequin flares, and a royal-purple velvet coat—made for midnight spotlights."
+      }
+    };
+
+    let currentStep = 0;
+    let drawnCards = [];
+    let activeGenre = "noir";
+
+    function updatePromptUI() {
+      const countEl = document.getElementById("drawnCountText");
+      const drawBtn = document.getElementById("drawBtn");
+      const deckEl  = document.getElementById("deckStack");
+
+      countEl.textContent = `${drawnCards.length} / 5`;
+
+      for (let i = 0; i < 5; i++) {
+        document.getElementById("slot-" + i).classList.toggle("active-target", i === currentStep);
+      }
+
+      if (currentStep < TAROT_PROMPTS.length) {
+        const p = TAROT_PROMPTS[currentStep];
+        document.getElementById("promptStepTag").textContent = `CARD ${p.numeral} OF V`;
+        document.getElementById("promptQuestion").textContent = p.question;
+        document.getElementById("promptHint").textContent = p.hint;
+        drawBtn.textContent = `DRAW ${p.numeral}`;
+        drawBtn.disabled = false;
+        deckEl.classList.remove("disabled");
+      } else {
+        document.getElementById("promptStepTag").textContent = "READING COMPLETE";
+        document.getElementById("promptQuestion").textContent = "Your 5-Card 1969 Destiny Has Been Dealt";
+        document.getElementById("promptHint").textContent = "Flip your Lookbook card below to inspect garments or download your 1969 pass.";
+        drawBtn.textContent = "COMPLETE";
+        drawBtn.disabled = true;
+        deckEl.classList.add("disabled");
+      }
+    }
+
+    function updateVibeMeters() {
+      const counts = { noir: 0, rock: 0, folk: 0, disco: 0 };
+      drawnCards.forEach(c => counts[c.genre]++);
+      ["noir", "rock", "folk", "disco"].forEach(g => {
+        const pct = Math.min(100, 12 + counts[g] * 22);
+        document.getElementById("meter-" + g).style.width = pct + "%";
+      });
+    }
+
+    function shuffleDeckVisual() {
+      const deckEl = document.getElementById("deckStack");
+      deckEl.classList.remove("shuffling");
+      void deckEl.offsetWidth;
+      deckEl.classList.add("shuffling");
+      playShuffleRiffle();
+    }
+
+    function drawNextCard() {
+      if (currentStep >= TAROT_PROMPTS.length) return;
+
+      const promptObj = TAROT_PROMPTS[currentStep];
+      const chosenDraw = promptObj.draws[Math.floor(Math.random() * promptObj.draws.length)];
+      drawnCards.push({ numeral: promptObj.numeral, ...chosenDraw });
+
+      const slotEl = document.getElementById("slot-" + currentStep);
+      slotEl.innerHTML = `
+        <div class="drawn-card">
+          <div class="card-numeral">
+            <span>${promptObj.numeral}</span>
+            <span>${promptObj.shortLabel}</span>
+            <span>${promptObj.numeral}</span>
+          </div>
+          <div class="card-arch">${ARCHETYPE_SEALS[chosenDraw.genre]}</div>
+          <div>
+            <div class="card-fortune-title">${chosenDraw.title}</div>
+            <div class="card-vibe-pill">${chosenDraw.genre}</div>
+          </div>
+        </div>
+      `;
+
+      playCardClack();
+      currentStep++;
+      updatePromptUI();
+      updateVibeMeters();
+
+      if (currentStep === TAROT_PROMPTS.length) {
+        setTimeout(revealFinale, 380);
+      }
+    }
+
+    function instantDestiny() {
+      resetDeck();
+      shuffleDeckVisual();
+      for (let i = 0; i < 5; i++) {
+        drawNextCard();
+      }
+    }
+
+    function revealFinale() {
+      const tally = { noir: 0, rock: 0, folk: 0, disco: 0 };
+      drawnCards.forEach(c => { tally[c.genre]++; });
+
+      let winner = drawnCards[4].genre;
+      let maxCount = -1;
+      ["noir", "rock", "folk", "disco"].forEach(g => {
+        if (tally[g] > maxCount) {
+          maxCount = tally[g];
+          winner = g;
+        }
+      });
+
+      applyLookbookOutcome(winner, true);
+
+      const finaleEl = document.getElementById("finalePanel");
+      finaleEl.classList.add("open");
+      finaleEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+      if (!radioOn) toggleJukebox();
+      else startTrack(activeGenre);
+    }
+
+    function applyLookbookOutcome(genreKey, isInitial = false) {
+      activeGenre = genreKey;
+      const outcome = LOOKBOOK_OUTCOMES[genreKey];
+
+      document.getElementById("lookbookFlipCard").classList.remove("flipped");
+
+      const imgEl = document.getElementById("finalLookbookImg");
+      const { rx, ry, rw, rh } = outcome.crop;
+      imgEl.style.width  = (100 / rw) + "%";
+      imgEl.style.height = (100 / rh) + "%";
+      imgEl.style.left   = (-rx / rw * 100) + "%";
+      imgEl.style.top    = (-ry / rh * 100) + "%";
+
+      document.getElementById("backCardTitle").textContent = outcome.shortTitle;
+      document.getElementById("backGarmentList").innerHTML = outcome.garments
+        .map(g => `<li>${g}</li>`)
+        .join("");
+
+      document.getElementById("finalArchetypeTitle").textContent = outcome.archetype;
+      document.getElementById("finalSongTitle").textContent = outcome.songLabel;
+
+      if (drawnCards.length === 5) {
+        document.getElementById("aiReadingSummary").innerHTML = `
+          <strong>WHAT THE 1969 CARDS REVEAL:</strong> Your spread opens with ${drawnCards[0].summaryFrag}, leading directly into ${drawnCards[1].summaryFrag}. 
+          Under the midnight sky, the cards point you toward ${drawnCards[2].summaryFrag}, while the Lovers arcana foretells ${drawnCards[3].summaryFrag}. 
+          Sealed by your talisman of ${drawnCards[4].summaryFrag}, your 1969 alter-ego is <strong>${outcome.archetype}</strong>. ${outcome.stylingNote}
+        `;
+      }
+
+      if (!isInitial && radioOn) {
+        startTrack(genreKey);
+      }
+      playCardClack();
+    }
+
+    function toggleLookbookFlip() {
+      document.getElementById("lookbookFlipCard").classList.toggle("flipped");
+      playCardClack();
+    }
+
+    function downloadSouvenirPass() {
+      const outcome = LOOKBOOK_OUTCOMES[activeGenre];
+      const canvas = document.createElement("canvas");
+      canvas.width = 600;
+      canvas.height = 820;
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#231521";
+      ctx.fillRect(0, 0, 600, 820);
+      ctx.strokeStyle = "#E5A922";
+      ctx.lineWidth = 12;
+      ctx.strokeRect(14, 14, 572, 792);
+      ctx.strokeStyle = "#A84B24";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(26, 26, 548, 768);
+
+      ctx.fillStyle = "#ECE4D0";
+      ctx.font = "bold 16px monospace";
+      ctx.textAlign = "center";
+      ctx.fillText("FREE PEOPLE // CALIFORNIA DREAMIN' 1969", 300, 66);
+
+      ctx.fillStyle = "#E5A922";
+      ctx.font = "bold 28px serif";
+      ctx.fillText(outcome.archetype, 300, 108);
+
+      const sourceImg = document.getElementById("finalLookbookImg");
+      try {
+        const sx = outcome.crop.rx * sourceImg.naturalWidth;
+        const sy = outcome.crop.ry * sourceImg.naturalHeight;
+        const sw = outcome.crop.rw * sourceImg.naturalWidth;
+        const sh = outcome.crop.rh * sourceImg.naturalHeight;
+        ctx.drawImage(sourceImg, sx, sy, sw, sh, 175, 132, 250, 415);
+      } catch (e) {
+        ctx.fillStyle = "#ECE4D0";
+        ctx.fillRect(175, 132, 250, 415);
+      }
+      ctx.strokeStyle = "#E5A922";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(175, 132, 250, 415);
+
+      ctx.fillStyle = "#A84B24";
+      ctx.fillRect(54, 572, 492, 42);
+      ctx.fillStyle = "#F7F1E3";
+      ctx.font = "bold 15px monospace";
+      ctx.fillText("SOUNDTRACK: " + outcome.songLabel, 300, 598);
+
+      ctx.fillStyle = "#ECE4D0";
+      ctx.font = "13px monospace";
+      const pullLine = drawnCards.map(c => `${c.numeral}: ${c.title}`).join("  |  ");
+      ctx.fillText(pullLine.slice(0, 62), 300, 650);
+      ctx.fillText(pullLine.slice(62), 300, 672);
+
+      ctx.fillStyle = "#E5A922";
+      ctx.font = "bold 14px monospace";
+      ctx.fillText("ADMIT ONE — 1969 BACKSTAGE PASS", 300, 754);
+
+      try {
+        const link = document.createElement("a");
+        link.download = `1969-tarot-pass-${activeGenre}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      } catch (err) {
+        alert("To enable one-click PNG export on Chrome, run via GitHub Pages or VS Code Live Server!");
+      }
+    }
+
+    function resetDeck() {
+      currentStep = 0;
+      drawnCards = [];
+      const labels = ["OPENING SCENE", "ROAD TRIP", "CONCERT PASS", "70S LOVE LIFE", "TALISMAN"];
+      const numerals = ["I", "II", "III", "IV", "V"];
+      for (let i = 0; i < 5; i++) {
+        document.getElementById("slot-" + i).innerHTML = `<div class="slot-placeholder">${numerals[i]}.<br/>${labels[i]}</div>`;
+      }
+      document.getElementById("finalePanel").classList.remove("open");
+      updatePromptUI();
+      updateVibeMeters();
+    }
+
+    let audioCtx = null;
+    let radioOn = false;
+    let loopTimer = null;
+    const mp3Player = new Audio();
+    mp3Player.loop = true;
+
+    function ensureAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+    }
+
+    function playCardClack() {
+      ensureAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(540, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(135, audioCtx.currentTime + 0.08);
+      gain.gain.setValueAtTime(0.16, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.085);
+    }
+
+    function playShuffleRiffle() {
+      ensureAudio();
+      [0, 0.05, 0.1, 0.15, 0.2].forEach((offset, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(300 + idx * 45, audioCtx.currentTime + offset);
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime + offset);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + offset + 0.04);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + offset);
+        osc.stop(audioCtx.currentTime + offset + 0.045);
+      });
+    }
+
+    function toggleJukebox() {
+      radioOn = !radioOn;
+      const btn = document.getElementById("audioToggleBtn");
+      const disc = document.getElementById("vinylDisc");
+      const arm = document.getElementById("tonearm");
+      const eq = document.getElementById("eqBars");
+
+      if (radioOn) {
+        btn.classList.add("active");
+        disc.classList.add("spinning");
+        arm.classList.add("engaged");
+        eq.classList.add("active");
+        startTrack(activeGenre);
+      } else {
+        btn.classList.remove("active");
+        disc.classList.remove("spinning");
+        arm.classList.remove("engaged");
+        eq.classList.remove("active");
+        document.getElementById("nowSpinningText").textContent = "PAUSED";
+        stopTrack();
+      }
+    }
+
+    function stopTrack() {
+      if (loopTimer) clearInterval(loopTimer);
+      mp3Player.pause();
+    }
+
+    function startTrack(genre) {
+      stopTrack();
+      const track = LOOKBOOK_OUTCOMES[genre];
+      document.getElementById("nowSpinningText").textContent = track.songLabel.split("—")[0].trim();
+      mp3Player.src = track.src;
+      mp3Player.play().catch(() => {
+        ensureAudio();
+        let step = 0;
+        const stepMs = (60 / track.tempo) * 500;
+        loopTimer = setInterval(() => {
+          if (!radioOn) return;
+          const note = track.notes[step % track.notes.length];
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = genre === "disco" ? "sawtooth" : "sine";
+          osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.055, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.36);
+          step++;
+        }, stepMs);
+      });
+    }
+
+    /* ==========================================================================
+       4. DIGITAL AD MOCKUPS CONTROLS (FILTERS, PHONE MARQUEE TOGGLE & VIDEO)
+       ========================================================================== */
+    const digitalFilterBtns = document.querySelectorAll('[data-digital-filter]');
+    const digitalWebSection = document.getElementById('digital-web-hero');
+    const digitalMobileSection = document.getElementById('digital-mobile-marquee');
+
+    digitalFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        digitalFilterBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-digital-filter');
+        if (filter === 'all') {
+          digitalWebSection.style.display = 'flex';
+          digitalMobileSection.style.display = 'flex';
+        } else if (filter === 'web') {
+          digitalWebSection.style.display = 'flex';
+          digitalMobileSection.style.display = 'none';
+        } else if (filter === 'mobile') {
+          digitalWebSection.style.display = 'none';
+          digitalMobileSection.style.display = 'flex';
+        }
+      });
+    });
+
+    const phoneTrack = document.getElementById('phone-marquee-track');
+    const togglePhoneBtn = document.getElementById('toggle-phone-marquee-btn');
+    let phoneMarqueePaused = false;
+
+    togglePhoneBtn.addEventListener('click', () => {
+      phoneMarqueePaused = !phoneMarqueePaused;
+      if (phoneMarqueePaused) {
+        phoneTrack.classList.add('is-paused');
+        togglePhoneBtn.textContent = 'Resume Scroll';
+      } else {
+        phoneTrack.classList.remove('is-paused');
+        togglePhoneBtn.textContent = 'Pause Scroll';
+      }
+    });
+
+    /* ==========================================================================
+       5. SCRAPBOOK MOODBOARD, OOH FILTERS & LIGHTBOX
+       ========================================================================== */
     function renderMoodboardStrip() {
       const strip = document.getElementById('moodboard-strip');
+      strip.innerHTML = '';
       const featuredIds = [3, 8, 17, 22];
       featuredIds.forEach((id, index) => {
         const asset = ALL_PRESETS.find(p => p.id === id);
         if (!asset) return;
         const tile = document.createElement('div');
         tile.className = 'scrap-plate';
-        tile.innerHTML = `
-          <img src="${asset.src}" alt="${asset.label}" />
-          <div class="scrap-caption">
-            <span>Plate 0${index + 1}</span>
-            <span>${asset.label}</span>
-          </div>
-        `;
+
+        const plateCanvas = document.createElement('canvas');
+        plateCanvas.style.width = '100%';
+        plateCanvas.style.aspectRatio = '4 / 3';
+        plateCanvas.style.display = 'block';
+        plateCanvas.style.marginBottom = '8px';
+        plateCanvas.style.border = '2px solid #1B0F0A';
+
+        const caption = document.createElement('div');
+        caption.className = 'scrap-caption';
+        caption.innerHTML = `<span>Plate 0${index + 1}</span><span>${asset.label}</span>`;
+
+        tile.appendChild(plateCanvas);
+        tile.appendChild(caption);
         strip.appendChild(tile);
+
+        requestAnimationFrame(() => drawAssetOnCanvas(plateCanvas, asset));
       });
     }
 
